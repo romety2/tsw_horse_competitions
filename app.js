@@ -2,14 +2,20 @@
 var path = require('path');
 var express = require('express');
 var http = require('http');
-var port = process.env.PORT || 3000;
-
 var app = express();
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+//app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.set('port', process.env.PORT || 3000);
 
-app.listen(port, function () {
-    console.log("Serwer nasłuchuje na porcie " + port);
+var routes = require('./routes');
+
+app.get('/', routes.index);
+
+app.use(require('body-parser').urlencoded({ extended: true }));
+
+//app.use(express.static(path.join(__dirname, 'public')));
+
+app.listen(app.get('port'), function () {
+    console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });
