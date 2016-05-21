@@ -3,9 +3,10 @@
 Pobranie zależności:
 
     npm install
-	npm install -g nodemon //w Windows
-	npm install -g bower //w Windows
 	bower install
+    //w przypadku wystąpienia błędu spróbować poniższe polecenia
+    npm install -g nodemon 
+	npm install -g bower 
 
 Uruchomienie serwera:
 
