@@ -1,0 +1,45 @@
+// out: ../../public/css/styl.css, compress: true
+
+.pozycjaF(@l: auto, @t: auto,  @r: auto, @b: auto){
+    position: fixed;
+    left: @l;
+    top: @t;
+    right: @r;
+    bottom: @b;
+}
+
+.forma(@pl: auto, @pt: auto, @pr: auto, @pb: auto){
+    padding-left: @pl;
+    padding-top: @pt;
+    padding-right:@pr;
+    padding-bottom: @pb;
+}
+
+.rozmiar(@w: auto, @h: auto){
+    width:@w;
+    height:@h;
+}
+
+.img-center(){
+    display: block;
+    margin: auto;
+}
+
+.stopka{
+    .pozycjaF(0, auto, 0, 0);
+    .forma(5px, 5px, 0, 10px);
+    width: 30%;
+}
+
+.text-justify{
+    text-align: justify;
+}
+
+.obrazek-kon{
+    .rozmiar(300px, 220px);
+    .img-center()
+}
+
+.none-padding{
+    padding: 0;
+}
