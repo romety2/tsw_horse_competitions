@@ -12,6 +12,7 @@ var routes = require('./routes');
 
 app.get('/', routes.index);
 
+app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
