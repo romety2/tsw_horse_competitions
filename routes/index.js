@@ -7,3 +7,12 @@ exports.index = function (req, res) {
 exports.kontakt = function (req, res) {
     res.render('kontakt');    
 };
+
+exports.zgloszenie = function (req, res) {
+    res.render('zgloszenie');    
+};
+
+exports.pobierzZg =  function (req, res) {
+    res.download(__dirname + '/../public/file/zgloszenie.pdf');
+};
+

@@ -60,7 +60,7 @@
 }
 
 .styl-kontakt{
-    .flex(auto, center)
+    .flex(auto, center);
 }
 
 .styl-kontakt ul{
@@ -71,12 +71,20 @@
   margin-bottom: 10px;
 }
 
+.mapa{
+    .rozmiar(600px, 380px);
+    .obj-center();
+}
+
+.icon{
+    .rozmiar(35px, 35px);
+}
+
 @media screen and (min-width: 1201px){
     .menu{
         .forma-padding(0, 10px, 0, auto);
         .pozycjaF(0, 0, 0, 0);
-        width: 13%;
-        height: 100%;
+        .rozmiar(13%, 100%);
         box-shadow: 5px 0  5px @cien;
     }
     body{

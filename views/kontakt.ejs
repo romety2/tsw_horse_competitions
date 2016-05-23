@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <% include partials/head %>
+   <head>
+        <% include partials/head %>
+        <script src="http://maps.googleapis.com/maps/api/js"></script>
+        <script>
+            var myLatLng = {lat: 54.394216, lng: 18.5673373};    
+            function initialize() {
+              var mapProp = {
+                center: new google.maps.LatLng(myLatLng),
+                zoom:15,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+              };
+              var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+              });
+            }
+            
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+    </head>
     <body>
         <% include partials/menu %>
         <div class="text-center">
@@ -17,5 +38,6 @@
                 </ul>
             </h3>
         </div>
+        <div id="googleMap" class="mapa"></div>
     </body>
 </html>
