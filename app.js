@@ -2,7 +2,6 @@
 var path = require('path');
 var express = require('express');
 var http = require('http');
-var fs = require('fs');
 var app = express();
 
 //app.set('views', __dirname + '/views');
@@ -15,14 +14,7 @@ app.get('/', routes.index);
 app.get('/kontakt', routes.kontakt);
 app.get('/zgloszenie', routes.zgloszenie);
 app.get('/pobierzZas', routes.pobierzZg);
-app.get('/file', function (req, res) {
-        var filePath = "/public/zd10.pdf";
-
-        fs.readFile(__dirname + filePath , function (err,data){
-            res.contentType("application/pdf");
-            res.send(data);
-        });
-    });
+app.get('/Regulamin', routes.regulamin);
 
 app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
 app.use(require('body-parser').urlencoded({ extended: true }));
