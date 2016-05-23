@@ -11,6 +11,7 @@ app.set('port', process.env.PORT || 3000);
 var routes = require('./routes');
 
 app.get('/', routes.index);
+app.get('/kontakt', routes.kontakt);
 
 app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
 app.use(require('body-parser').urlencoded({ extended: true }));

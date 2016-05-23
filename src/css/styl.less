@@ -1,4 +1,6 @@
 // out: ../../public/css/styl.css, compress: true
+@cien: #888888;
+@czarny: #FFFFFF;
 
 .pozycjaF(@l: auto, @t: auto,  @r: auto, @b: auto){
     position: fixed;
@@ -8,7 +10,7 @@
     bottom: @b;
 }
 
-.forma(@pl: auto, @pt: auto, @pr: auto, @pb: auto){
+.forma-padding(@pl: auto, @pt: auto, @pr: auto, @pb: auto){
     padding-left: @pl;
     padding-top: @pt;
     padding-right:@pr;
@@ -16,19 +18,21 @@
 }
 
 .rozmiar(@w: auto, @h: auto){
-    width:@w;
-    height:@h;
+    width: @w;
+    height: @h;
 }
 
-.img-center(){
+.obj-center(){
     display: block;
     margin: auto;
 }
 
-.stopka{
-    .pozycjaF(0, auto, 0, 0);
-    .forma(5px, 5px, 0, 10px);
-    width: 30%;
+.flex(@fd: auto, @jc: auto, @ai: auto, @as: auto){
+    display: flex;
+    flex-direction: @fd;
+    justify-content: @jc;
+    align-items: @ai;
+    align-self: @as;
 }
 
 .text-justify{
@@ -37,9 +41,55 @@
 
 .obrazek-kon{
     .rozmiar(300px, 220px);
-    .img-center()
+    .obj-center()
 }
 
 .none-padding{
     padding: 0;
+}
+
+.menu-nav li a{
+    color: black;
+}
+
+.opis{
+    width: 90%;
+    border-radius: 20px;
+    padding: 10px;
+    .obj-center()
+}
+
+.styl-kontakt{
+    .flex(auto, center)
+}
+
+.styl-kontakt ul{
+    list-style-type: none;
+}
+
+.styl-kontakt ul li{
+  margin-bottom: 10px;
+}
+
+@media screen and (min-width: 1201px){
+    .menu{
+        .forma-padding(0, 10px, 0, auto);
+        .pozycjaF(0, 0, 0, 0);
+        width: 13%;
+        height: 100%;
+        box-shadow: 5px 0  5px @cien;
+    }
+    body{
+        margin-left: 13%;
+    }
+}
+
+
+@media screen and (max-width: 1200px){
+    .menu{
+        box-shadow: 5px 0  5px @cien;
+    }
+    .text-menu{
+        display: none;
+    }
 }
