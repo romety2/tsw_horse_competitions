@@ -8,7 +8,7 @@ var routes = require('./routes');
 
 const options = {
   key: fs.readFileSync('certifications/key.pem'),
-  cert: fs.readFileSync('certifications/server.crt')
+  cert: fs.readFileSync('certifications/cert.crt')
 };
 
 //app.set('views', __dirname + '/views');
