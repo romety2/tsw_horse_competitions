@@ -2,7 +2,7 @@
 @cien: #888888;
 @czarny: #FFFFFF;
 
-.pozycjaF(@l: auto, @t: auto,  @r: auto, @b: auto){
+.pozycja-fixed(@l: auto, @t: auto,  @r: auto, @b: auto){
     position: fixed;
     left: @l;
     top: @t;
@@ -56,7 +56,7 @@
     width: 90%;
     border-radius: 20px;
     padding: 10px;
-    .obj-center()
+    .obj-center();
 }
 
 .styl-kontakt{
@@ -68,7 +68,7 @@
 }
 
 .styl-kontakt ul li{
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .mapa{
@@ -83,9 +83,16 @@
 @media screen and (min-width: 1201px){
     .menu{
         .forma-padding(0, 10px, 0, auto);
-        .pozycjaF(0, 0, 0, 0);
+        .pozycja-fixed(0, 0, 0, 0);
         .rozmiar(13%, 100%);
         box-shadow: 5px 0  5px @cien;
+    }
+    .menu
+    .text-menu{
+        display: inline;
+    }
+    .obrazek-logo{
+        display: inline;
     }
     body{
         margin-left: 13%;
@@ -96,8 +103,24 @@
 @media screen and (max-width: 1200px){
     .menu{
         box-shadow: 5px 0  5px @cien;
+        .rozmiar(100%, auto);
     }
+
     .text-menu{
         display: none;
+    }
+    .obrazek-logo{
+        display: none;
+    }
+    .menu-nav{
+        .flex(row);
+    }
+}
+
+@media screen and (max-width: 400px){
+    .menu{
+        box-shadow: 5px 0  5px red;
+        .rozmiar(inherit, auto);
+        margin: 0;
     }
 }
