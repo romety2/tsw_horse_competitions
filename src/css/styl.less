@@ -48,6 +48,7 @@
     padding: 0;
 }
 
+
 .menu-nav li a{
     color: black;
 }
@@ -83,44 +84,117 @@
 @media screen and (min-width: 1201px){
     .menu{
         .forma-padding(0, 10px, 0, auto);
-        .pozycja-fixed(0, 0, 0, 0);
+        .pozycja-fixed(-10%, 0, 0, 0);
         .rozmiar(13%, 100%);
         box-shadow: 5px 0  5px @cien;
     }
-    .menu
+    
     .text-menu{
         display: inline;
     }
+    
     .obrazek-logo{
         display: inline;
     }
-    body{
+    
+    .menu-nav{
+        .flex(column);
+    }
+
+    .menu-hide, .menu-show, .body-hide, .body-show{
+        transition: margin-left .2s ease-in;
+    }
+    
+    .tab-hide, .tab-show{
+        transition: left .2s ease-in;
+    }
+    
+    .tab-hide{
+        .pozycja-fixed(0, 0, 0, auto);
+        padding: 3px;
+        margin-top: 0;
+    }
+    
+    .tab-show{
+        .pozycja-fixed(13%, 0, 0, auto);
+        padding: 3px;
+        margin-top: 0;
+    }
+
+    .menu-hide{
+        margin-left:-100px;
+    }
+
+    .menu-show{
+        margin-left:10%;
+    }
+    
+    .body-hide{
+        margin: 0;
+        margin-left: 0;
+    }
+    
+    .body-show{
+        margin: 0;
         margin-left: 13%;
     }
 }
 
-
 @media screen and (max-width: 1200px){
     .menu{
+        .forma-padding(0, 5px, 0, auto);
+        .pozycja-fixed(0, 0, 0, 0);
+        .rozmiar(100%, 0);
         box-shadow: 5px 0  5px @cien;
-        .rozmiar(100%, auto);
     }
 
     .text-menu{
         display: none;
     }
+    
     .obrazek-logo{
         display: none;
     }
+    
+    
     .menu-nav{
         .flex(row);
     }
-}
 
-@media screen and (max-width: 400px){
-    .menu{
-        box-shadow: 5px 0  5px red;
-        .rozmiar(inherit, auto);
-        margin: 0;
+    .menu-hide, .menu-show, .body-hide, .body-show{
+        transition: margin-top .2s ease-in;
     }
+    
+    .tab-hide, .tab-show{
+        transition: top .2s ease-in;
+    }
+    
+    .tab-hide{
+        .pozycja-fixed(0, 0, 0, auto);
+        padding: 0;
+    }
+    
+    .tab-show{
+        .pozycja-fixed(0, 50px, 0, auto);
+        padding: 0;
+    }
+
+    .menu-hide{
+        margin-top:-100px;
+    }
+
+    .menu-show{
+        margin-top:0;
+    }
+    
+    .body-hide{
+        margin: 0;
+        margin-top: 0;
+    }
+    
+    .body-show{
+        margin: 0;
+        margin-top: 90px;
+    }
+    
 }
