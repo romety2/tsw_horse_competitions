@@ -5,11 +5,11 @@ exports.index = function (req, res) {
 };
 
 exports.kontakt = function (req, res) {
-    res.render('kontakt');    
+    res.render('pages/kontakt');    
 };
 
 exports.zgloszenie = function (req, res) {
-    res.render('zgloszenie');    
+    res.render('pages/zgloszenie');    
 };
 
 exports.pobierzZg =  function (req, res) {
