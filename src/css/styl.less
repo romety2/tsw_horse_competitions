@@ -1,6 +1,8 @@
 // out: ../../public/css/styl.css, compress: true
 @cien: #888888;
 @czarny: #000000;
+@bialy: #FFFFFF;
+@menu-szary: #EEEEEE;
 
 .pozycja-fixed(@l: auto, @t: auto,  @r: auto, @b: auto){
     position: fixed;
@@ -15,6 +17,13 @@
     padding-top: @pt;
     padding-right:@pr;
     padding-bottom: @pb;
+}
+
+.forma-margin(@pl: auto, @pt: auto, @pr: auto, @pb: auto){
+    margin-left: @pl;
+    margin-top: @pt;
+    margin-right:@pr;
+    margin-bottom: @pb;
 }
 
 .rozmiar(@w: auto, @h: auto){
@@ -81,15 +90,8 @@
     .rozmiar(35px, 35px);
 }
 
-.dropdown{
-    display: none;
-}
-    
-.dropdown a{
-    color: @czarny;
-    .forma-padding(40px, 5px, auto, 5px);
-    text-decoration: none;
-    display: block;
+.nav .nav hr{
+    margin: 0;
 }
 
 @media screen and (min-width: 1201px){
@@ -100,8 +102,8 @@
         box-shadow: 5px 0  5px @cien;
     }
     
-    .text-menu{
-        display: inline;
+    .nav{
+        font-size: 15px;
     }
     
     .obrazek-logo{
@@ -149,6 +151,10 @@
         margin: 0;
         margin-left: 13%;
     }
+    
+    .nav .dropdown li a{
+        .forma-padding(40px);
+    }
 }
 
 @media screen and (max-width: 1200px){
@@ -159,8 +165,8 @@
         box-shadow: 5px 0  5px @cien;
     }
 
-    .text-menu{
-        display: none;
+    .nav{
+        font-size: 10px;
     }
     
     .obrazek-logo{
@@ -191,7 +197,7 @@
     }
 
     .menu-hide{
-        margin-top:-100px;
+        margin-top:-200px;
     }
 
     .menu-show{
@@ -207,4 +213,26 @@
         margin: 0;
         margin-top: 90px;
     }
+        
+    .nav .dropdown li a{
+        .forma-padding(0);
+        margin: 0;
+    }
+    
+    .nav .dropdown li a:link{
+        background: @bialy;
+    }
+    
+    .nav .dropdown li a:hover{
+        background: @menu-szary;
+    }
+    
+    .text-menu .ukryj{
+        display: none;
+    }
+        
+    .dropdown{
+        display: block;
+    }
+
 }

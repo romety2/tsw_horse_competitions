@@ -24,7 +24,7 @@ $(() => {
     
     var dropdown= function()
     {
-        var dd = this.nextElementSibling;
+        var dd = this.firstElementChild.nextElementSibling;
         if(dd.style.display === "none")
             dd.style.display = "block";
         else
@@ -32,8 +32,12 @@ $(() => {
     };
     
     var t = document.getElementById('tab');
-    var dd = document.querySelectorAll(".drop");
+    var dd = document.querySelectorAll(".dropdown");
     t.addEventListener('click', toggleMenu, false);
     for(let i = 0; i < dd.length; i++)
-        dd[i].addEventListener('click', dropdown, false);
+    {
+        dd[i].firstElementChild.nextElementSibling.style.display = "none";
+        dd[i].addEventListener('click', dropdown, false);   
+    }
+        
 });
