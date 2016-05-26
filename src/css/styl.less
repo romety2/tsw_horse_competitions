@@ -1,6 +1,6 @@
 // out: ../../public/css/styl.css, compress: true
 @cien: #888888;
-@czarny: #FFFFFF;
+@czarny: #000000;
 
 .pozycja-fixed(@l: auto, @t: auto,  @r: auto, @b: auto){
     position: fixed;
@@ -79,6 +79,17 @@
 
 .icon{
     .rozmiar(35px, 35px);
+}
+
+.dropdown{
+    display: none;
+}
+    
+.dropdown a{
+    color: @czarny;
+    .forma-padding(40px, 5px, auto, 5px);
+    text-decoration: none;
+    display: block;
 }
 
 @media screen and (min-width: 1201px){
@@ -196,5 +207,4 @@
         margin: 0;
         margin-top: 90px;
     }
-    
 }

@@ -22,10 +22,18 @@ $(() => {
         }
     };
     
-    function delay(elem, src, delayTime){
-        window.setTimeout(function() {elem.setAttribute("src", src);}, delayTime);
-    }
+    var dropdown= function()
+    {
+        var dd = this.nextElementSibling;
+        if(dd.style.display === "none")
+            dd.style.display = "block";
+        else
+            dd.style.display = "none";
+    };
     
     var t = document.getElementById('tab');
+    var dd = document.querySelectorAll(".drop");
     t.addEventListener('click', toggleMenu, false);
+    for(let i = 0; i < dd.length; i++)
+        dd[i].addEventListener('click', dropdown, false);
 });
