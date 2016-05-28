@@ -1,9 +1,9 @@
-/* jshint browser: true, esnext: true, jquery: true */
+/* jshint browser: true, esnext: true, node: true, jquery: true */
 
 $(() => {
     var modalDodaj = document.getElementById('dodaj-modal');
     var buttonDodaj = document.getElementById("dodaj-button");
-    var close = document.getElementsByClassName("close")[0];
+    var back = document.getElementsByClassName("back");
 
     var oknoDodajPokaz = () => {
         modalDodaj.style.display = "block";
@@ -18,8 +18,9 @@ $(() => {
             modalDodaj.style.display = "none";
     };
 
-    
+    console.log(close);
     buttonDodaj.addEventListener('click', oknoDodajPokaz, false);
-    close.addEventListener('click', oknoDodajSchowaj, false);
+    back[0].addEventListener('click', oknoDodajSchowaj, false);
+    back[1].addEventListener('click', oknoDodajSchowaj, false);
     window.addEventListener('click', oknoDodajSchowaj2, false);
 });

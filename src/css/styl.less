@@ -103,7 +103,7 @@
 
 .modal-content {
     animation-name: animatecrud;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
 }
 
 .close {
@@ -263,6 +263,18 @@
         display: block;
     }
 
+}
+
+@media screen and (max-height: 500px){
+     .modal .modal-content {
+        overflow-x: auto;
+        overflow-y: auto;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
 }
 
 @keyframes animatecrud {
