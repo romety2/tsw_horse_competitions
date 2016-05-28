@@ -1,4 +1,4 @@
-/* jshint browser: true, esnext: true, jquery: true */
+/* jshint browser: true, esnext: true, jquery: true, node: true */
 
 $(() => {
     var toggleMenu = () =>
@@ -31,7 +31,8 @@ $(() => {
     };
     
     var t = document.getElementById('tab');
-    var dd = document.querySelectorAll(".dropdown");
+    var dd = document.getElementsByClassName('dropdown');
+    console.log(dd);
     t.addEventListener('click', toggleMenu, false);
     for(let i = 0; i < dd.length; i++)
     {

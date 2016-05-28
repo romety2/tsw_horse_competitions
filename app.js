@@ -23,6 +23,8 @@ app.get('/zawodnicy', routes.admzaw);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/Regulamin', routes.regulamin);
 
+app.post(/^\/add\/player\/.+\//, routes.addPlayer);
+
 app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));

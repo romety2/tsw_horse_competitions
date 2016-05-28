@@ -1,30 +1,37 @@
-/* jshint node: true */
+/* jshint node: true, esnext: true */
 
-exports.index = function (req, res) {
+exports.index = (req, res) => {
     res.render('index');    
 };
 
-exports.kontakt = function (req, res) {
+exports.kontakt = (req, res) =>  {
     res.render('pages/kontakt');    
 };
 
-exports.zgloszenie = function (req, res) {
+exports.zgloszenie = (req, res) =>  {
     res.render('pages/zgloszenie');    
 };
 
-exports.admzaw = function (req, res) {
+exports.admzaw = (req, res) =>  {
     res.render('pages/zawodnicy');    
 };
 
-exports.pobierzZg =  function (req, res) {
+exports.pobierzZg = (req, res) =>  {
     res.download(__dirname + '/../public/file/zgloszenie.pdf');
 };
 
-exports.regulamin =  function (req, res) {
+exports.regulamin = (req, res) =>  {
     var fs = require('fs');
     var filePath = "/../public/file/regulamin.pdf";
     fs.readFile(__dirname + filePath , function (err,data){
         res.contentType("application/pdf");
         res.send(data);
     });
+};
+
+exports.addPlayer = (req, res) => {
+    var mongoose = require('mongoose');
+    var db = mongoose.connection;
+    
+    mongoose.connect('mongodb://localhost/tsw');  
 };

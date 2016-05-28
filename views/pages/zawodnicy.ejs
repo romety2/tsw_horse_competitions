@@ -3,8 +3,8 @@
    <head>
         <% include ../partials/head %>
         <% include ../partials/date %>
-        <script src="/js/crud.js"></script>
-        <script src="/js/data.js"></script>
+        <script src="/js/showModal.js"></script>
+        <script src="/js/date.js"></script>
     </head>
     <body id="body" class="body-show">
         <% include ../partials/menu %>
@@ -14,7 +14,6 @@
                 <a id="dodaj-button" class="btn btn-success" role="button", title="Nowy zawodnik"><span class="glyphicon glyphicon-plus"></span></a>
             </div>
             <br/>
-
             <table id="tabela" class="table table-striped">
                 <tr>
                     <th>Hodowca</th>
@@ -29,29 +28,29 @@
                 <span class="back close"><span class="glyphicon glyphicon-remove"></span></span>
                 <h2 class="text-center">Nowy zawodnik</h2>
                     <br>
-                    <div data-toggle="validator" class="form-horizontal">
+                    <form data-toggle="validator" method="post" action="/zawodnicy" class="form-horizontal">
                         <div class="form-group">
                             <label  class="col-sm-2">Imię hodowcy:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" min="2" id="imie" class="form-control" required/>
+                                <input type="text" min="2" id="imie" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$"  required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Nazwisko hodowcy:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" min="2" id="nazwisko" class="form-control" required/>
+                                <input type="text" min="2" id="nazwisko" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2" >Nazwa konia:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" min="2" id="nazwa" class="form-control" required/>
+                                <input type="text" min="2" id="nazwa" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Data urodzenia konia:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="date" name="data" id="data" class="form-control" placeholder="rrrr-mm-dd" required/>
+                                <input type="text" id="data" class="form-control" placeholder="rrrr-mm-dd" required/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -66,14 +65,14 @@
                         <div class="form-group">
                             <label class="col-sm-2" >Email:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" min="2" id="email" class="form-control" required/>
+                                <input type="text" id="email" class="form-control" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required/>
                             </div>
                         </div>
                         <div class="form-group text-center">
-                                <button id="dodaj" type="submit" class="btn btn-success" title="Dodaj"><span class="glyphicon glyphicon-ok"></span></button>
-                                <button class="back btn btn-default" class="close" title="Wróć"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                            <button id="zapisz-button" type="submit" class="btn btn-success" title="Zapisz"><span class="glyphicon glyphicon-ok"></span></button>
+                            <a class="back btn btn-default" class="close" title="Wróć" type="button"><span class="glyphicon glyphicon-arrow-left"></span></a>
                         </div>
-                        </div>
+                    </form>
               </div>
         </div>
     </body>
