@@ -12,6 +12,10 @@ exports.zgloszenie = function (req, res) {
     res.render('pages/zgloszenie');    
 };
 
+exports.admzaw = function (req, res) {
+    res.render('pages/zawodnicy');    
+};
+
 exports.pobierzZg =  function (req, res) {
     res.download(__dirname + '/../public/file/zgloszenie.pdf');
 };

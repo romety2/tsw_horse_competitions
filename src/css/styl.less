@@ -2,6 +2,7 @@
 @cien: #888888;
 @czarny: #000000;
 @bialy: #FFFFFF;
+@close-szary: #222222;
 @menu-szary: #EEEEEE;
 
 .pozycja-fixed(@l: auto, @t: auto,  @r: auto, @b: auto){
@@ -94,6 +95,33 @@
     margin: 0;
 }
 
+.modal {
+    padding-top: 2%;
+    background-color: rgba(0,0,0,0.5);
+    transition: top .2s ease-in;
+}
+
+.modal-content {
+    animation-name: animatecrud;
+    animation-duration: 0.4s
+}
+
+.close {
+    color: @close-szary;
+    font-size: 20px;
+}
+
+.close:hover
+{
+    color: @czarny;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.pole-col{
+    width: 80%;
+}
+
 @media screen and (min-width: 1201px){
     .menu{
         .forma-padding(0, 10px, 0, auto);
@@ -115,11 +143,11 @@
     }
 
     .menu-hide, .menu-show, .body-hide, .body-show{
-        transition: margin-left .2s ease-in;
+        transition: margin-left .2s;
     }
     
     .tab-hide, .tab-show{
-        transition: left .2s ease-in;
+        transition: left .2s;
     }
     
     .tab-hide{
@@ -179,11 +207,11 @@
     }
 
     .menu-hide, .menu-show, .body-hide, .body-show{
-        transition: margin-top .2s ease-in;
+        transition: margin-top .2s;
     }
     
     .tab-hide, .tab-show{
-        transition: top .2s ease-in;
+        transition: top .2s;
     }
     
     .tab-hide{
@@ -235,4 +263,9 @@
         display: block;
     }
 
+}
+
+@keyframes animatecrud {
+    to {top:0; opacity:1}
+    from {top:-100px; opacity:0}
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <% include ../partials/head %>
+        <script src="/js/crud.js"></script>
+    </head>
+    <body id="body" class="body-show">
+        <% include ../partials/menu %>
+        <h1 class="text-center">Zawodnicy</h1>
+        <div class="opis">
+            <div>
+                <a id="dodaj-button" class="btn btn-success" role="button", title="Nowy zawodnik"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
+            <br/>
+
+            <table id="tabela" class="table table-striped">
+                <tr>
+                    <th>Hodowca</th>
+                    <th>Koń</th>
+                    <th>Płeć konia</th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+        <div id="dodaj-modal" class="modal">
+            <div class="container modal-content">
+                <span class="close"><span class="glyphicon glyphicon-remove"></span></span>
+                <h2 class="text-center">Nowy zawodnik</h2>
+                    <br>
+                    <form data-toggle="validator" method="post" class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="data" class="col-sm-2">Hodowca:</label>
+                        <div class="col-sm-1 pole-col">
+                            <input type="text" min="2" id="opis" class="form-control" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="data" class="col-sm-2">Data:</label>
+                        <div class="col-sm-1 pole-col">
+                            <input type="date" name="data" id="data" class="form-control" placeholder="rrrr-mm-dd" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cena" class="col-sm-2" >Koń:</label>
+                        <div class="col-sm-1 pole-col">
+                            <input type="text" min="2" id="opis" class="form-control" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="opis" class="col-sm-2">Płeć konia:</label>
+                        <div class="col-sm-1 pole-col">
+                            <input type="text" min="2" id="opis" class="form-control" required/>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                            <button id="dodaj" type="submit" class="btn btn-success" title="Dodaj"><span class="glyphicon glyphicon-ok"></span></button>
+                    </div>
+
+                    </form>
+              </div>
+        </div>
+    </body>
+</html>

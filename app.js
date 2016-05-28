@@ -18,6 +18,7 @@ app.set('port', process.env.PORT || 3000);
 app.get('/', routes.index);
 app.get('/kontakt', routes.kontakt);
 app.get('/zgloszenie', routes.zgloszenie);
+app.get('/zawodnicy', routes.admzaw);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/Regulamin', routes.regulamin);
 

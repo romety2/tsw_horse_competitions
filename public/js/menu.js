@@ -1,13 +1,12 @@
-/* jshint browser: true, esnext: true, devel: true, jquery: true */
+/* jshint browser: true, esnext: true, jquery: true */
 
 $(() => {
-    var toggleMenu = function()
+    var toggleMenu = () =>
     {
         var m = document.getElementById('menu');
         var c = m.getAttribute("class");
         var b = document.getElementById('body');
         var t = document.getElementById('tab');
-        console.log(c);
         if(c === "navbar navbar-default menu menu-show") 
         {
             m.setAttribute("class", "navbar navbar-default menu menu-hide");
