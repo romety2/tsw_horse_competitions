@@ -4,6 +4,7 @@ var express = require('express');
 var fs = require('fs');
 var https = require('https');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var app = express();
 var routes = require('./routes');
@@ -14,6 +15,7 @@ var options = {
 };
 
 app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -26,9 +28,13 @@ app.get('/kontakt', routes.kontakt);
 app.get('/zgloszenie', routes.zgloszenie);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/Regulamin', routes.regulamin);
-app.get('/zawodnicy', routes.pobierzZaw);
+app.get('/zawodnicy', routes.zawodnicy);
+
+app.get('/pobierzWZaw', routes.pobierzWZaw);
 
 app.post('/zawodnicy', routes.dodajZaw);
+
+mongoose.connect('mongodb://localhost/Zawody'); 
 
 
 https.createServer(options, app).listen(app.get('port'), function () {
