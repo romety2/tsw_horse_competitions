@@ -12,7 +12,7 @@ exports.zgloszenie = (req, res) =>  {
     res.render('pages/zgloszenie');    
 };
 
-exports.admzaw = (req, res) =>  {
+exports.pobierzZaw = (req, res) =>  {
     res.render('pages/zawodnicy');    
 };
 
@@ -29,9 +29,13 @@ exports.regulamin = (req, res) =>  {
     });
 };
 
-exports.addPlayer = (req, res) => {
+exports.dodajZaw = (req, res) => {
     var mongoose = require('mongoose');
+        mongoose.connect('mongodb://localhost/Zawody'); 
     var db = mongoose.connection;
-    
-    mongoose.connect('mongodb://localhost/tsw');  
+    var Player = require('../models/player.js');
+    var player = new Player(req.body);
+    player.save();
+    db.close();
+    res.redirect('/zawodnicy');
 };

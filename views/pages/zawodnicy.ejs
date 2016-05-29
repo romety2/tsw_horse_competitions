@@ -32,40 +32,40 @@
                         <div class="form-group">
                             <label  class="col-sm-2">Imię hodowcy:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" min="2" id="imie" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$"  required/>
+                                <input type="text" id="imie" name="imie" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$"  required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Nazwisko hodowcy:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" min="2" id="nazwisko" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                                <input type="text" id="nazwisko" name="nazwisko" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2" >Nazwa konia:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" min="2" id="nazwa" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                                <input type="text" id="nazwa" name="nazwa" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Data urodzenia konia:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" id="data" class="form-control" placeholder="rrrr-mm-dd" required/>
+                                <input type="text" id="dataUr" name="dataUr" class="form-control" placeholder="rrrr-mm-dd" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Płeć konia:</label>
                             <div class="col-sm-1 pole-col">
-                                 <select type="text" id="plec" class="form-control" required>
-                                    <option value="ogier">Ogier</option>
-                                    <option value="klacz">Klacz</option>
+                                 <select type="text" id="plec" name="plec" class="form-control" required>
+                                    <option value="Ogier">Ogier</option>
+                                    <option value="Klacz">Klacz</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2" >Email:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" id="email" class="form-control" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required/>
+                                <input type="text" id="email" name="email" class="form-control" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required/>
                             </div>
                         </div>
                         <div class="form-group text-center">

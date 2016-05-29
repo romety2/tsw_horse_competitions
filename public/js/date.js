@@ -1,7 +1,7 @@
 /* jshint esnext: true, jquery: true */
 $(() => {
     {
-        $( "#data" ).datepicker
+        $( "#dataUr" ).datepicker
         (
             {
 				changeMonth: true,

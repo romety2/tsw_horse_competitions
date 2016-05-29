@@ -32,7 +32,6 @@ $(() => {
     
     var t = document.getElementById('tab');
     var dd = document.getElementsByClassName('dropdown');
-    console.log(dd);
     t.addEventListener('click', toggleMenu, false);
     for(let i = 0; i < dd.length; i++)
     {

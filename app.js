@@ -3,14 +3,19 @@ var path = require('path');
 var express = require('express');
 var fs = require('fs');
 var https = require('https');
+var bodyParser = require('body-parser');
 
 var app = express();
 var routes = require('./routes');
 
-const options = {
+var options = {
   key: fs.readFileSync('certifications/key.pem'),
   cert: fs.readFileSync('certifications/cert.crt')
 };
+
+app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -19,15 +24,11 @@ app.set('port', process.env.PORT || 3000);
 app.get('/', routes.index);
 app.get('/kontakt', routes.kontakt);
 app.get('/zgloszenie', routes.zgloszenie);
-app.get('/zawodnicy', routes.admzaw);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/Regulamin', routes.regulamin);
+app.get('/zawodnicy', routes.pobierzZaw);
 
-app.post(/^\/add\/player\/.+\//, routes.addPlayer);
-
-app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.post('/zawodnicy', routes.dodajZaw);
 
 
 https.createServer(options, app).listen(app.get('port'), function () {
