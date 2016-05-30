@@ -29,6 +29,7 @@ app.get('/zgloszenie', routes.zgloszenie);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/Regulamin', routes.regulamin);
 app.get('/zawodnicy', routes.zawodnicy);
+app.get('/zawodnicy/usun/:id', routes.usunZaw);
 
 app.get('/pobierzWZaw', routes.pobierzWZaw);
 

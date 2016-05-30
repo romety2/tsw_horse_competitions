@@ -31,17 +31,20 @@ exports.dodajZaw = (req, res) => {
 };
 
 exports.pobierzWZaw = (req, res) =>  {
-    var pobW = () =>
-    {
-        return temp;
-    };
-    res.json(pobW());
+    res.json(pob());
 };
+
+exports.usunZaw = (req, res) =>  {
+    delete2(req.params.id, '../models/player.js');
+    res.redirect('/zawodnicy');
+};
+
+var temp;
 
 var openPDF = (fp, res) => {
     var fs = require('fs');
     var filePath = fp;
-    fs.readFile(__dirname + filePath , function (err,data){
+    fs.readFile(__dirname + filePath ,  (err,data) => {
         res.contentType("application/pdf");
         res.send(data);
     });
@@ -52,11 +55,20 @@ var create = (object, schema) => {
     var o = new O(object);
     o.save();
 };
-var temp;
 
 var readAll = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
         temp = o;
     });
+};
+
+var delete2 = (id, schema) => {
+    var O = require(schema);
+    O.remove(O.find({_id: id})).exec();
+};
+
+var pob = () =>
+{
+    return temp;
 };
