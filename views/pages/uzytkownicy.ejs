@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <% include ../partials/head %>
+        <% include ../partials/date %>
+        <script src="/js/showModal.js"></script>
+        <script src="/js/date.js"></script>
+        <script src="/js/getUzS.js"></script>
+    </head>
+    <body id="body" class="body-show">
+        <% include ../partials/menu %>
+        <h1 class="text-center">Użytkownicy</h1>
+        <div class="opis">
+            <div>
+                <a id="dodaj-button" class="btn btn-success" role="button", title="Nowy użytkownik"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
+            <br/>
+            <table id="tabela" class="table table-striped">
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Login</th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+        <div id="dodaj-modal" class="modal">
+            <div class="container modal-content">
+                <span class="back close"><span class="glyphicon glyphicon-remove"></span></span>
+                <h2 class="text-center">Nowy użytkownik</h2>
+                    <br>
+                    <form id="dodaj-form" data-toggle="validator" method="post" action="/uzytkownicy" class="form-horizontal">
+                        <div class="form-group">
+                            <label  class="col-sm-2">Imię:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="imieD" name="imie" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$"  required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Nazwisko:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="nazwiskoD" name="nazwisko" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" >Login:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="loginD" name="username" class="form-control" pattern="^([A-Z]|[a-z]|[0-9]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" >Hasło:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="password" id="hasloD" name="password" class="form-control" required/>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button id="zapisz-button" type="submit" class="btn btn-success" title="Zapisz"><span class="glyphicon glyphicon-ok"></span></button>
+                            <a class="back btn btn-default" title="Wróć" type="button"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                        </div>
+                    </form>
+              </div>
+        </div>
+        <div id="edytuj-modal" class="modal">
+            <div class="container modal-content">
+                <span class="back close"><span class="glyphicon glyphicon-remove"></span></span>
+                <h2 class="text-center">Zmień dane użytkownika</h2>
+                    <br>
+                    <form id="edytuj-form" data-toggle="validator" method="post" class="form-horizontal">
+                        <div class="form-group">
+                            <label  class="col-sm-2">Imię:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="imieE" name="imie" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Nazwisko:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="nazwiskoE" name="nazwisko" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" >Login:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="loginE" name="login" class="form-control" pattern="^([A-Z]|[a-z]|[0-9]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button id="zapisz-button" type="submit" class="btn btn-success" title="Zapisz"><span class="glyphicon glyphicon-ok"></span></button>
+                            <a class="back btn btn-default" title="Wróć" type="button"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                        </div>
+                    </form>
+              </div>
+        </div>
+    </body>
+</html>

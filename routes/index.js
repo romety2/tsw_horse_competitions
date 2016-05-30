@@ -25,9 +25,30 @@ exports.zawodnicy = (req, res) =>  {
     res.render('pages/zawodnicy');   
 };
 
+exports.uzytkownicy = (req, res) =>  {
+    readAll('../models/user.js');
+    res.render('pages/uzytkownicy');   
+};
+
 exports.dodajZaw = (req, res) => {
     create(req.body, '../models/player.js');
     res.redirect('/zawodnicy');
+};
+
+exports.dodajUz = (req, res) => {
+    var schema = '../models/user.js';
+    var passport = require('passport');
+    var User = require(schema);
+    console.log(req.body);
+    User.register(new User({imie : req.body.imie, nazwisko: req.body.nazwisko, username: req.body.username}), req.body.password, (err, user) => {
+        console.log(err);
+        if (err) {
+            return res.render('pages/uzytkownicy', { user : user });
+        }
+        passport.authenticate('local')(req, res, function () {
+          res.redirect('/uzytkownicy');
+        });
+    });
 };
 
 exports.pobierzWZaw = (req, res) =>  {
@@ -63,6 +84,16 @@ var create = (object, schema) => {
     var O = require(schema);
     var o = new O(object);
     o.save();
+};
+
+var createUser = (object, schema) => {
+    /*var passport = require('passport');
+    var User = require(schema);
+    User.register(new User({imie : object.imie, nazwisko: object.nazwisko, login: object.login}), object.password, (err, user) => {
+        if (err) {
+        }
+        passport.authenticate('local')();
+    });*/
 };
 
 var read = (id) => {
