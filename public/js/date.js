@@ -1,7 +1,16 @@
 /* jshint esnext: true, jquery: true */
 $(() => {
     {
-        $( "#dataUr" ).datepicker
+        $( "#dataUrD" ).datepicker
+        (
+            {
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: "yy-mm-dd",
+            }
+        );
+        
+        $( "#dataUrE" ).datepicker
         (
             {
 				changeMonth: true,

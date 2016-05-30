@@ -1,4 +1,5 @@
 /* jshint node: true, esnext: true */
+
 var path = require('path');
 var express = require('express');
 var fs = require('fs');
@@ -32,8 +33,10 @@ app.get('/zawodnicy', routes.zawodnicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
 
 app.get('/pobierzWZaw', routes.pobierzWZaw);
+app.get('/pobierzZaw/:id', routes.pobierzZaw);
 
 app.post('/zawodnicy', routes.dodajZaw);
+app.post('/zawodnicy/edytuj/:id', routes.edytujZaw);
 
 mongoose.connect('mongodb://localhost/Zawody'); 
 
