@@ -39,7 +39,7 @@ exports.pobierzZaw = (req, res) =>  {
 };
 
 exports.edytujZaw = (req, res) =>  {
-    update(req.params.id, '../models/player.js');
+    update(req.params.id, req.body, '../models/player.js');
     res.redirect('/zawodnicy');
 };
 
@@ -77,10 +77,9 @@ var readAll = (schema) => {
     });
 };
 
-var update = (object, schema) => {
+var update = (id, object, schema) => {
     var O = require(schema);
-    var o = new O(object);
-    o.save();
+    O.update({_id: id}, {$set: object}, () => {});    
 };
 
 var delete2 = (id, schema) => {
