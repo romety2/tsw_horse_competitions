@@ -36,19 +36,8 @@ exports.dodajZaw = (req, res) => {
 };
 
 exports.dodajUz = (req, res) => {
-    var schema = '../models/user.js';
-    var passport = require('passport');
-    var User = require(schema);
-    console.log(req.body);
-    User.register(new User({imie : req.body.imie, nazwisko: req.body.nazwisko, username: req.body.username}), req.body.password, (err, user) => {
-        console.log(err);
-        if (err) {
-            return res.render('pages/uzytkownicy', { user : user });
-        }
-        passport.authenticate('local')(req, res, function () {
-          res.redirect('/uzytkownicy');
-        });
-    });
+    createUser(req.body, '../models/user.js', req, res);
+    res.redirect('/uzytkownicy');
 };
 
 exports.pobierzWZaw = (req, res) =>  {
@@ -86,16 +75,6 @@ var create = (object, schema) => {
     o.save();
 };
 
-var createUser = (object, schema) => {
-    /*var passport = require('passport');
-    var User = require(schema);
-    User.register(new User({imie : object.imie, nazwisko: object.nazwisko, login: object.login}), object.password, (err, user) => {
-        if (err) {
-        }
-        passport.authenticate('local')();
-    });*/
-};
-
 var read = (id) => {
     var underscore = require('underscore');
     return underscore.find(temp, (t) => { return t._id.toString() === id; });
@@ -118,7 +97,18 @@ var delete2 = (id, schema) => {
     O.remove(O.find({_id: id})).exec();
 };
 
-var pob = () =>
-{
+var pob = () => {
     return temp;
+};
+
+var createUser = (object, schema, req, res) => {
+    var passport = require('passport');
+    var User = require(schema);
+    User.register(new User({imie : object.imie, nazwisko: object.nazwisko, username: object.username}), object.password, (err, user) => {
+        if (err) {
+            return res.render('pages/uzytkownicy', { user : user });
+        }
+        passport.authenticate('local')(req, res, function () {
+        });
+    });
 };
