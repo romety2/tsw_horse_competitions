@@ -12,15 +12,6 @@
                 Strona poświęcona międzynarodowym zawodom konnym. Konie podglegają ocenie przez wykfalifikowanych sędziów pod głównie pod wględem wyglądu oraz chodu. Zwycięzca zawodów otrzyma 5000 złotych, zdobywca drugiego miejsca zaś 2500 złotych, trzeciego 500 oraz odpowiednie medale.</p>
                 <img src="img/kon.gif" alt="Koń" class="obrazek-kon">
             </div>
-            <% if (login) { %>
-            <p> You are currently logged in as: </br>
-            Imie :<%= user.imie %></br>
-            Nazwisko :<%= user.nazwisko %></p>
-          <a href="/logout">Logout</a><br/>
-          <% } else { %>
-           <a href="/login">Login</a><br/>
-           <a href="/register">Register</a>
-          <% } %>
         </div>
     </body>
 </html>

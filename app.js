@@ -41,6 +41,7 @@ app.get('/Regulamin', routes.regulamin);
 app.get('/zawodnicy', routes.zawodnicy);
 app.get('/uzytkownicy', routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
+app.get('/wyloguj', routes.wyloguj);
 
 app.get('/pobierzWZaw', routes.pobierzWZaw);
 app.get('/pobierzZaw/:id', routes.pobierzZaw);

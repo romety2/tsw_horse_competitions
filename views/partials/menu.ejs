@@ -13,10 +13,7 @@
         <li>
             <a href="/zgloszenie" title="Zgłoszenie"><span class="text-menu"><span class="glyphicon glyphicon-pencil"></span> Zgłoszenie</span></a>
         </li>
-        <br>
-        <li>
-            <a href="/logowanie" title="Logowanie"><span class="text-menu"><span class="glyphicon glyphicon-user"></span> Logowanie</span></a>
-        </li>
+        <% if (login) { %>
         <li class="dropdown">
             <a href="#menu" title="Zarządzanie"><span class="text-menu"><span class="glyphicon glyphicon-wrench"></span> Zarządzanie</span></a>
             <ul class="nav">
@@ -27,6 +24,14 @@
                 <hr>
             </ul>
         </li>
+        <li>
+            <a href="/wyloguj" title="Wyloguj"><span class="text-menu"><span class="glyphicon glyphicon-log-out"></span> Wyloguj</span></a>
+        </li>
+        <% } else { %>
+        <li>
+            <a href="/logowanie" title="Logowanie"><span class="text-menu"><span class="glyphicon glyphicon-user"></span> Logowanie</span></a>
+        </li>
+        <% } %>
         <li>
             <a href="/Regulamin" title="Regulamin" target="_blank"><span class="text-menu"><span class="glyphicon glyphicon-exclamation-sign"></span> Regulamin</span>
         </a>

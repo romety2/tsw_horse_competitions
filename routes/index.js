@@ -4,17 +4,15 @@ var temp;
 var passport = require('passport');
 
 exports.index = (req, res) => {
-    res.render('index', { 
-          user : req.user,
-          login: req.isAuthenticated() });    
+    res.render('index', { user : req.user, login: req.isAuthenticated() });    
 };
 
 exports.kontakt = (req, res) =>  {
-    res.render('pages/kontakt');    
+    res.render('pages/kontakt', { user : req.user, login: req.isAuthenticated() });    
 };
 
 exports.zgloszenie = (req, res) =>  {
-    res.render('pages/zgloszenie');    
+    res.render('pages/zgloszenie', { user : req.user, login: req.isAuthenticated() });    
 };
 
 exports.pobierzZg = (req, res) =>  {
@@ -26,21 +24,26 @@ exports.regulamin = (req, res) =>  {
 };
 
 exports.logowanie = (req, res) =>  {
-    res.render('pages/logowanie', { user : req.user });
+    res.render('pages/logowanie', { user : req.user, login: req.isAuthenticated() });
 };
 
 exports.zaloguj = (req, res) =>  {
     res.redirect('/');
 };
 
+exports.wyloguj = (req, res) =>  {
+    req.logout();
+    res.redirect('/');
+};
+
 exports.zawodnicy = (req, res) =>  {
     readAll('../models/player.js');
-    res.render('pages/zawodnicy');   
+    res.render('pages/zawodnicy', { user : req.user, login: req.isAuthenticated() });   
 };
 
 exports.uzytkownicy = (req, res) =>  {
     readAll('../models/user.js');
-    res.render('pages/uzytkownicy');   
+    res.render('pages/uzytkownicy', { user : req.user, login: req.isAuthenticated() });   
 };
 
 exports.dodajZaw = (req, res) => {
