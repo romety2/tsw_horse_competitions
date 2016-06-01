@@ -1,7 +1,12 @@
 /* jshint node: true, esnext: true */
 
+var temp;
+var passport = require('passport');
+
 exports.index = (req, res) => {
-    res.render('index');    
+    res.render('index', { 
+          user : req.user,
+          login: req.isAuthenticated() });    
 };
 
 exports.kontakt = (req, res) =>  {
@@ -18,6 +23,14 @@ exports.pobierzZg = (req, res) =>  {
 
 exports.regulamin = (req, res) =>  {
     openPDF("/../public/file/regulamin.pdf", res);
+};
+
+exports.logowanie = (req, res) =>  {
+    res.render('pages/logowanie', { user : req.user });
+};
+
+exports.zaloguj = (req, res) =>  {
+    res.redirect('/');
 };
 
 exports.zawodnicy = (req, res) =>  {
@@ -37,7 +50,6 @@ exports.dodajZaw = (req, res) => {
 
 exports.dodajUz = (req, res) => {
     createUser(req.body, '../models/user.js', req, res);
-    res.redirect('/uzytkownicy');
 };
 
 exports.pobierzWZaw = (req, res) =>  {
@@ -58,7 +70,7 @@ exports.usunZaw = (req, res) =>  {
     res.redirect('/zawodnicy');
 };
 
-var temp;
+exports.aut = passport.authenticate('local');
 
 var openPDF = (fp, res) => {
     var fs = require('fs');
@@ -102,13 +114,12 @@ var pob = () => {
 };
 
 var createUser = (object, schema, req, res) => {
-    var passport = require('passport');
     var User = require(schema);
     User.register(new User({imie : object.imie, nazwisko: object.nazwisko, username: object.username}), object.password, (err, user) => {
-        if (err) {
+        if (err)
             return res.render('pages/uzytkownicy', { user : user });
-        }
-        passport.authenticate('local')(req, res, function () {
+        passport.authenticate('local')(req, res, () => {
+            res.redirect('/');
         });
     });
 };
