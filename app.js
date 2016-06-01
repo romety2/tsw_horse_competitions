@@ -23,7 +23,7 @@ app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(expressSession({secret: 'secret'}));
+app.use(expressSession({secret: process.env.SESSION_SECRET || 'secret', resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
