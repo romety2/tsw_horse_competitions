@@ -118,7 +118,7 @@ var pob = () => {
 
 var createUser = (object, schema, req, res) => {
     var User = require(schema);
-    User.register(new User({imie : object.imie, nazwisko: object.nazwisko, username: object.username}), object.password, (err, user) => {
+    User.register(new User({imie : object.imie, nazwisko: object.nazwisko, username: object.username, role: object.role}), object.password, (err, user) => {
         if (err)
             return res.render('pages/uzytkownicy', { user : user });
         passport.authenticate('local')(req, res, () => {

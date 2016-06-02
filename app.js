@@ -10,6 +10,7 @@ var passport = require('passport');
 var passportLocal = require('passport-local').Strategy;
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
+var connectRoles = require('connect-roles');
 
 var app = express();
 var routes = require('./routes');
@@ -19,6 +20,22 @@ var options = {
   cert: fs.readFileSync('certifications/cert.crt')
 };
 
+var role = new connectRoles({
+  failureHandler: function (req, res, action) {
+    // optional function to customise code that runs when 
+    // user fails authorisation 
+    var accept = req.headers.accept || '';
+    res.status(403);
+    if (~accept.indexOf('html')) {
+      res.render('access-denied', {action: action});
+    } else {
+      res.send('Access Denied - You don\'t have permission to: ' + action);
+    }
+  }
+});
+
+require('./actions/roles.js')(app, role);
+
 app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,8 +44,8 @@ app.use(expressSession({secret: process.env.SESSION_SECRET || 'secret', resave: 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(role.middleware());
 
-//app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000);
 
@@ -38,7 +55,7 @@ app.get('/zgloszenie', routes.zgloszenie);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/logowanie', routes.logowanie);
 app.get('/Regulamin', routes.regulamin);
-app.get('/zawodnicy', routes.zawodnicy);
+app.get('/zawodnicy', role.can('access admin pages'), routes.zawodnicy);
 app.get('/uzytkownicy', routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
 app.get('/wyloguj', routes.wyloguj);

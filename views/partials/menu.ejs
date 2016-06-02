@@ -14,6 +14,7 @@
             <a href="/zgloszenie" title="Zgłoszenie"><span class="text-menu"><span class="glyphicon glyphicon-pencil"></span> Zgłoszenie</span></a>
         </li>
         <% if (login) { %>
+        <% if (user.role === 'Administrator') { %>
         <li class="dropdown">
             <a href="#menu" title="Zarządzanie"><span class="text-menu"><span class="glyphicon glyphicon-wrench"></span> Zarządzanie</span></a>
             <ul class="nav">
@@ -27,7 +28,7 @@
         <li>
             <a href="/wyloguj" title="Wyloguj"><span class="text-menu"><span class="glyphicon glyphicon-log-out"></span> Wyloguj</span></a>
         </li>
-        <% } else { %>
+        <% }} else { %>
         <li>
             <a href="/logowanie" title="Logowanie"><span class="text-menu"><span class="glyphicon glyphicon-user"></span> Logowanie</span></a>
         </li>
