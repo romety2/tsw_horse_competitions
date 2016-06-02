@@ -3,9 +3,9 @@
    <head>
         <% include ../partials/head %>
         <% include ../partials/date %>
-        <script src="/js/showModal.js"></script>
+        <script src="/js/showModal/uzytkownicy.js"></script>
         <script src="/js/date.js"></script>
-        <script src="/js/getUzS.js"></script>
+        <script src="/js/get/uzytkownicy.js"></script>
     </head>
     <body id="body" class="body-show">
         <% include ../partials/menu %>
@@ -20,6 +20,7 @@
                     <th>Imię</th>
                     <th>Nazwisko</th>
                     <th>Login</th>
+                    <th>Rola</th>
                     <th></th>
                 </tr>
             </table>
@@ -45,13 +46,13 @@
                         <div class="form-group">
                             <label class="col-sm-2" >Login:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" id="loginD" name="username" class="form-control" pattern="^([A-Z]|[a-z]|[0-9]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                                <input type="text" id="usernameD" name="username" class="form-control" pattern="^([A-Z]|[a-z]|[0-9]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">Rola:</label>
                             <div class="col-sm-1 pole-col">
-                                 <select type="text" id="rolaD" name="role" class="form-control" required>
+                                 <select type="text" id="roleD" name="role" class="form-control" required>
                                     <option value="Sędzia" id="opcjaSD">Sędzia</option>
                                     <option value="Administrator" id="opcjaAD">Administrator</option>
                                 </select>
@@ -60,7 +61,7 @@
                         <div class="form-group">
                             <label class="col-sm-2" >Hasło:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="password" id="hasloD" name="password" class="form-control" required/>
+                                <input type="password" id="passwordD" name="password" class="form-control" required/>
                             </div>
                         </div>
                         <div class="form-group text-center">
@@ -91,7 +92,16 @@
                         <div class="form-group">
                             <label class="col-sm-2" >Login:</label>
                             <div class="col-sm-1 pole-col">
-                                <input type="text" id="loginE" name="login" class="form-control" pattern="^([A-Z]|[a-z]|[0-9]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                                <input type="text" id="usernameE" name="username" class="form-control" pattern="^([A-Z]|[a-z]|[0-9]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Rola:</label>
+                            <div class="col-sm-1 pole-col">
+                                 <select type="text" id="roleE" name="role" class="form-control" required>
+                                    <option value="Sędzia" id="opcjaSE">Sędzia</option>
+                                    <option value="Administrator" id="opcjaAE">Administrator</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group text-center">

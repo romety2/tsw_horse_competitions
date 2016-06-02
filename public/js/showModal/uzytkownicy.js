@@ -1,35 +1,27 @@
 /* jshint browser: true, esnext: true, node: true, jquery: true */
 
-    var wypisz = function(data) {
-        console.log(data);
-    };
-
     var oknoEdytujPokaz = function() {
         var id = this.getAttribute("content");
         var em = document.getElementById('edytuj-modal').style.display = "block";
         var form = document.getElementById('edytuj-form');
-        form.setAttribute("action", "/zawodnicy/edytuj/"+id);
+        form.setAttribute("action", "/uzytkownicy/edytuj/"+id);
         $.ajax({
-            url: '/pobierzZaw/'+id,
+            url: '/pobierzUz/'+id,
             method: 'GET',
             success: function(data){
                 document.getElementById('imieE').setAttribute("value", data.imie);
                 document.getElementById('nazwiskoE').setAttribute("value", data.nazwisko);
-                document.getElementById('nazwaE').setAttribute("value", data.nazwa);
-                document.getElementById('dataUrE').setAttribute("value", data.dataUr);
-                if("Ogier" === data.plec)
+                document.getElementById('usernameE').setAttribute("value", data.username);
+                if("Sędzia" === data.role)
                 {
-                    console.log('dupa');
-                    document.getElementById('opcjaOE').setAttribute("selected", "selected");
-                    document.getElementById('opcjaKE').removeAttribute("selected");
+                    document.getElementById('opcjaSE').setAttribute("selected", "selected");
+                    document.getElementById('opcjaAE').removeAttribute("selected");
                 }
                 else
                 {
-                    console.log('dupa2');
-                    document.getElementById('opcjaKE').setAttribute("selected", "selected");
-                    document.getElementById('opcjaOE').removeAttribute("selected");
+                    document.getElementById('opcjaAE').setAttribute("selected", "selected");
+                    document.getElementById('opcjaSE').removeAttribute("selected");
                 }
-                document.getElementById('emailE').setAttribute("value", data.email);
             },
         });
     };

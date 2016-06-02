@@ -46,7 +46,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(role.middleware());
 
 role.use(roles.home);
-role.use(roles.authenticated );
 role.use('access judge pages', roles.judge);
 role.use('access administrator pages', roles.administrator);
 
@@ -62,15 +61,18 @@ app.get('/Regulamin', routes.regulamin);
 app.get('/zawodnicy', role.can('access administrator pages'), routes.zawodnicy);
 app.get('/uzytkownicy', role.can('access administrator pages'), routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
+app.get('/uzytkownicy/usun/:id', routes.usunUz);
 app.get('/wyloguj', routes.wyloguj);
 
-app.get('/pobierzWZaw', routes.pobierzWZaw);
+app.get('/pobierzW', routes.pobierzW);
 app.get('/pobierzZaw/:id', routes.pobierzZaw);
+app.get('/pobierzUz/:id', routes.pobierzZaw);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
 app.post('/uzytkownicy', routes.dodajUz);
 app.post('/zawodnicy/edytuj/:id', routes.edytujZaw);
+app.post('/uzytkownicy/edytuj/:id', routes.edytujUz);
 
 mongoose.connect('mongodb://localhost/Zawody'); 
 

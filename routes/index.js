@@ -52,14 +52,18 @@ exports.dodajZaw = (req, res) => {
 };
 
 exports.dodajUz = (req, res) => {
-    createUser(req.body, '../models/user.js', req, res);
+    createUser(req.body, '../models/user.js', '/uzytkownicy', req, res);
 };
 
-exports.pobierzWZaw = (req, res) =>  {
+exports.pobierzW = (req, res) =>  {
     res.json(pob());
 };
 
 exports.pobierzZaw = (req, res) =>  {
+    res.json(read(req.params.id));
+};
+
+exports.pobierzUz = (req, res) =>  {
     res.json(read(req.params.id));
 };
 
@@ -68,9 +72,19 @@ exports.edytujZaw = (req, res) =>  {
     res.redirect('/zawodnicy');
 };
 
+exports.edytujUz = (req, res) =>  {
+    update(req.params.id, req.body, '../models/user.js');
+    res.redirect('/uzytkownicy');
+};
+
 exports.usunZaw = (req, res) =>  {
     delete2(req.params.id, '../models/player.js');
     res.redirect('/zawodnicy');
+};
+
+exports.usunUz = (req, res) =>  {
+    delete2(req.params.id, '../models/user.js');
+    res.redirect('/uzytkownicy');
 };
 
 exports.aut = passport.authenticate('local');
@@ -116,13 +130,11 @@ var pob = () => {
     return temp;
 };
 
-var createUser = (object, schema, req, res) => {
+var createUser = (object, schema, redirect, req, res) => {
     var User = require(schema);
     User.register(new User({imie : object.imie, nazwisko: object.nazwisko, username: object.username, role: object.role}), object.password, (err, user) => {
         if (err)
             return res.render('pages/uzytkownicy', { user : user });
-        passport.authenticate('local')(req, res, () => {
-            res.redirect('/');
-        });
+    res.redirect(redirect);
     });
 };
