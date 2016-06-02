@@ -12,7 +12,14 @@
         <h1 class="text-center">Użytkownicy</h1>
         <div class="opis">
             <div>
-                <a id="dodaj-button" class="btn btn-success" role="button", title="Nowy użytkownik"><span class="glyphicon glyphicon-plus"></span></a>
+                <div class="form-group">
+                    <label  class="col-sm-9">
+                        <a id="dodaj-button" class="btn btn-success" role="button", title="Nowy zawodnik"><span class="glyphicon glyphicon-plus"></span></a>
+                    </label>
+                    <div class="col-sm-3">
+                        <input type="text" id="szukaj" class="form-control" placeholder="Wyszukaj">
+                    </div>
+                </div>
             </div>
             <br/>
             <table id="tabela" class="table table-striped">
@@ -25,6 +32,7 @@
                 </tr>
             </table>
         </div>
+        <script src="/js/search/table.js"></script>
         <div id="dodaj-modal" class="modal">
             <div class="container modal-content">
                 <span class="back close"><span class="glyphicon glyphicon-remove"></span></span>

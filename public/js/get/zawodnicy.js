@@ -15,7 +15,7 @@ $(() => {
             success: (data) => {
                 for(let i = 0; i < data.length; i++)
                 {
-                    tr = $('<tr/>');
+                    tr = $('<tr class="s"/>');
                     tr.append("<td>"+data[i].imie+"</td>");
                     tr.append("<td>"+data[i].nazwisko+"</td>");
                     tr.append("<td>"+data[i].nazwa+"</td>");
@@ -32,6 +32,6 @@ $(() => {
                     document.getElementsByClassName('edit')[i].addEventListener('click', oknoEdytujPokaz, false);
                 }
             },
-        });
+        }); 
     }
 });
