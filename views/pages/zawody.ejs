@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <% include ../partials/head %>
+        <% include ../partials/date %>
+        <script src="/js/showModal/zawodnicy.js"></script>
+        <script src="/js/date.js"></script>
+        <script src="/js/get/zawodnicy.js"></script>
+    </head>
+    <body id="body" class="body-show">
+        <% include ../partials/menu %>
+        <h1 class="text-center">Zawodnicy</h1>
+        <div class="opis">
+            <div>
+                <a id="dodaj-button" class="btn btn-success" role="button", title="Nowy zawodnik"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
+            <br/>
+            <table id="tabela" class="table table-striped">
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Nazwa konia</th>
+                    <th>Data urodzenia konia</th>
+                    <th>Płeć konia</th>
+                    <th>Email</th>
+                    <th></th>
+                </tr>
+            </table>
+        </div>
+        <div id="dodaj-modal" class="modal">
+            <div class="container modal-content">
+                <span class="back close"><span class="glyphicon glyphicon-remove"></span></span>
+                <h2 class="text-center">Nowy zawodnik</h2>
+                    <br>
+                    <form id="dodaj-form" data-toggle="validator" method="post" action="/zawodnicy" class="form-horizontal">
+                        <div class="form-group">
+                            <label  class="col-sm-2">Imię hodowcy:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="imieD" name="imie" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$"  required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Nazwisko hodowcy:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="nazwiskoD" name="nazwisko" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" >Nazwa konia:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="nazwaD" name="nazwa" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Data urodzenia konia:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="dataUrD" name="dataUr" class="form-control" placeholder="rrrr-mm-dd" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Płeć konia:</label>
+                            <div class="col-sm-1 pole-col">
+                                 <select type="text" id="plecD" name="plec" class="form-control" required>
+                                    <option value="Ogier" id="opcjaOD">Ogier</option>
+                                    <option value="Klacz" id="opcjaKD">Klacz</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" >Email:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="emailD" name="email" class="form-control" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button id="zapisz-button" type="submit" class="btn btn-success" title="Zapisz"><span class="glyphicon glyphicon-ok"></span></button>
+                            <a class="back btn btn-default" title="Wróć" type="button"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                        </div>
+                    </form>
+              </div>
+        </div>
+        <div id="edytuj-modal" class="modal">
+            <div class="container modal-content">
+                <span class="back close"><span class="glyphicon glyphicon-remove"></span></span>
+                <h2 class="text-center">Zmień dane zawodnika</h2>
+                    <br>
+                    <form id="edytuj-form" data-toggle="validator" method="post" class="form-horizontal">
+                        <div class="form-group">
+                            <label  class="col-sm-2">Imię hodowcy:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="imieE" name="imie" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Nazwisko hodowcy:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="nazwiskoE" name="nazwisko" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" >Nazwa konia:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="nazwaE" name="nazwa" class="form-control" pattern="^([A-Z]|[a-z]|Ą|ą|Ć|ć|Ę|ę|Ł|ł|Ń|ń|Ó|ó|Ś|ś|Ź|ź|Ż|ż)+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Data urodzenia konia:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="dataUrE" name="dataUr" class="form-control" placeholder="rrrr-mm-dd" required/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Płeć konia:</label>
+                            <div class="col-sm-1 pole-col">
+                                 <select type="text" id="plecE" name="plec" class="form-control" required>
+                                    <option value="Ogier" id="opcjaOE">Ogier</option>
+                                    <option value="Klacz" id="opcjaKE">Klacz</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2" >Email:</label>
+                            <div class="col-sm-1 pole-col">
+                                <input type="text" id="emailE" name="email" class="form-control" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required/>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button id="zapisz-button" type="submit" class="btn btn-success" title="Zapisz"><span class="glyphicon glyphicon-ok"></span></button>
+                            <a class="back btn btn-default" title="Wróć" type="button"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                        </div>
+                    </form>
+              </div>
+        </div>
+    </body>
+</html>
