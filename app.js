@@ -14,6 +14,7 @@ var connectRoles = require('connect-roles');
 
 var app = express();
 var routes = require('./routes');
+var roles = require('./routes/roles');
 
 var options = {
   key: fs.readFileSync('certifications/key.pem'),
@@ -34,8 +35,6 @@ var role = new connectRoles({
   }
 });
 
-require('./actions/roles.js')(app, role);
-
 app.use(require('serve-favicon')(__dirname + '/public/img/logo.ico'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,6 +45,11 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(role.middleware());
 
+role.use(roles.home);
+role.use(roles.authenticated );
+role.use('access judge pages', roles.judge);
+role.use('access administrator pages', roles.administrator);
+
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000);
 
@@ -55,8 +59,8 @@ app.get('/zgloszenie', routes.zgloszenie);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/logowanie', routes.logowanie);
 app.get('/Regulamin', routes.regulamin);
-app.get('/zawodnicy', role.can('access admin pages'), routes.zawodnicy);
-app.get('/uzytkownicy', routes.uzytkownicy);
+app.get('/zawodnicy', role.can('access administrator pages'), routes.zawodnicy);
+app.get('/uzytkownicy', role.can('access administrator pages'), routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
 app.get('/wyloguj', routes.wyloguj);
 
