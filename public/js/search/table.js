@@ -2,10 +2,10 @@
 
     $('#szukaj').keyup(function() {
         var rows = $('#tabela .s');
-        var val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        var val = $.trim($(this).val()).toLowerCase();
 
         rows.show().filter(function() {
-            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+            var text = $(this).text().toLowerCase();
             return !~text.indexOf(val);
         }).hide();
-    });  
+    });
