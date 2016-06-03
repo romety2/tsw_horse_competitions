@@ -132,7 +132,8 @@ var delete2 = (id, schema) => {
 };
 
 var pob = () => {
-    return temp;
+    var underscore = require("underscore");
+    return underscore.sortBy(temp, temp.nazwa || temp.username);
 };
 
 var createUser = (object, schema, redirect, req, res) => {
