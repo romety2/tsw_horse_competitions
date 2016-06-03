@@ -58,6 +58,7 @@ app.get('/zgloszenie', routes.zgloszenie);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/logowanie', routes.logowanie);
 app.get('/Regulamin', routes.regulamin);
+app.get('/zawody', role.can('access administrator pages'), routes.zawody);
 app.get('/zawodnicy', role.can('access administrator pages'), routes.zawodnicy);
 app.get('/uzytkownicy', role.can('access administrator pages'), routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);

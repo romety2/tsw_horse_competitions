@@ -5,6 +5,13 @@
 @close-szary: #222222;
 @menu-szary: #EEEEEE;
 
+#menu{
+    z-index: 100;
+}
+#tab{
+    z-index: 101;
+}
+
 .pozycja-fixed(@l: auto, @t: auto,  @r: auto, @b: auto){
     position: fixed;
     left: @l;
@@ -30,6 +37,12 @@
 .rozmiar(@w: auto, @h: auto){
     width: @w;
     height: @h;
+}
+
+.border-style(@w: auto, @s: auto, @c: auto){
+    border-width: @w;
+    border-style: @s;
+    border-color: @c
 }
 
 .obj-center(){
@@ -127,6 +140,19 @@
 }
 
 .margin-login{
+    margin-left: 20%;
+}
+
+.radio-widok{
+    display: inline-block;
+    padding: 1%;
+}
+
+.radio-przesun1{
+    margin-left: 5%;
+}
+
+.radio-przesun2{
     margin-left: 20%;
 }
 

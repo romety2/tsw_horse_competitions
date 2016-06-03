@@ -36,6 +36,11 @@ exports.wyloguj = (req, res) =>  {
     res.redirect('/');
 };
 
+exports.zawody = (req, res) =>  {
+    readAll('../models/player.js');
+    res.render('pages/zawody', { user : req.user, login: req.isAuthenticated() });   
+};
+
 exports.zawodnicy = (req, res) =>  {
     readAll('../models/player.js');
     res.render('pages/zawodnicy', { user : req.user, login: req.isAuthenticated() });   
