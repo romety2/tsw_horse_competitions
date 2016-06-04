@@ -16,6 +16,9 @@ var competitionSchema = new Schema({
     rodzaj: {
         type: String,
     },
+    etap: {
+        type: String,
+    },
 });
 
 module.exports = mongoose.model("Zawody", competitionSchema);

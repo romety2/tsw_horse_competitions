@@ -1,6 +1,7 @@
 /* jshint node: true, esnext: true */
 
 var temp;
+var zw;
 var passport = require('passport');
 
 exports.index = (req, res) => {
@@ -38,6 +39,7 @@ exports.wyloguj = (req, res) =>  {
 
 exports.zawody = (req, res) =>  {
     readAll('../models/player.js');
+    readZwNZak('../models/competition.js');
     res.render('pages/zawody', { user : req.user, login: req.isAuthenticated() });   
 };
 
@@ -72,6 +74,10 @@ exports.pobierzUz = (req, res) =>  {
     res.json(read(req.params.id));
 };
 
+exports.pobierzZwNZak = (req, res) =>  {
+    res.json(pobZwNZak());
+};
+
 exports.edytujZaw = (req, res) =>  {
     update(req.params.id, req.body, '../models/player.js');
     res.redirect('/zawodnicy');
@@ -80,6 +86,10 @@ exports.edytujZaw = (req, res) =>  {
 exports.edytujUz = (req, res) =>  {
     update(req.params.id, req.body, '../models/user.js');
     res.redirect('/uzytkownicy');
+};
+
+exports.edytujZw =(req, res) => {
+    updateColumn(req.body.dana, req.params.pole, '../models/competition.js');
 };
 
 exports.usunZaw = (req, res) =>  {
@@ -91,8 +101,6 @@ exports.usunUz = (req, res) =>  {
     delete2(req.params.id, '../models/user.js');
     res.redirect('/uzytkownicy');
 };
-
-exports.aut = passport.authenticate('local');
 
 var openPDF = (fp, res) => {
     var fs = require('fs');
@@ -121,6 +129,17 @@ var readAll = (schema) => {
     });
 };
 
+
+var readZwNZak = (schema) => {
+    var O = require(schema);
+    O.find((err, o) => {
+        var underscore = require('underscore');
+        zw = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) ||
+            create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie'}, '../models/competition.js');
+            underscore.find(o, () => {return o.etap !== 'zakonczone';
+        });
+    });
+};
 var update = (id, object, schema) => {
     var O = require(schema);
     O.update({_id: id}, {$set: object}, () => {});    
@@ -136,6 +155,10 @@ var pob = () => {
     return underscore.sortBy(temp, temp.nazwa || temp.username);
 };
 
+var pobZwNZak = () => {
+    return zw;
+};
+
 var createUser = (object, schema, redirect, req, res) => {
     var User = require(schema);
     User.register(new User({imie : object.imie, nazwisko: object.nazwisko, username: object.username, role: object.role}), object.password, (err, user) => {
@@ -143,4 +166,20 @@ var createUser = (object, schema, redirect, req, res) => {
             return res.render('pages/uzytkownicy', { user : user });
     res.redirect(redirect);
     });
+};
+
+var updateColumn = (value, poleID, schema) => {
+    var O = require(schema);
+    if(poleID==="wydarzenieZ")
+        O.update({_id: zw._id}, {$set: {wydarzenie: value}}, () => {});  
+    else if(poleID==="opisZ")
+        O.update({_id: zw._id}, {$set: {opis: value}}, () => {});  
+    else if(poleID==="radio1Z")
+        O.update({_id: zw._id}, {$set: {zakres: value}}, () => {});  
+    else if(poleID==="radio2Z")
+        O.update({_id: zw._id}, {$set: {zakres: value}}, () => {});  
+    else if(poleID==="radio1R")
+        O.update({_id: zw._id}, {$set: {rodzaj: value}}, () => {});  
+    else if(poleID==="radio2R")
+        O.update({_id: zw._id}, {$set: {rodzaj: value}}, () => {});  
 };

@@ -13,6 +13,9 @@ var competitionSchema = new Schema({
     grupa: { 
         type: String,
     },
+    nrStartowy: { 
+        type: String,
+    },
 });
 
 module.exports = mongoose.model("ZawodyZawodnicyGrupy", competitionSchema);
