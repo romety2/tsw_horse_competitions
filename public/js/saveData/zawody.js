@@ -9,7 +9,6 @@ $(() => {
         var r1 = document.getElementById('radio1R');
         var r2 = document.getElementById('radio2R');
         var upW = function() {
-            console.log(this);
             $.ajax({
                 url: '/edytujZawody/'+this.id,
                 method: 'PUT',

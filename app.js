@@ -68,17 +68,27 @@ app.get('/wyloguj', routes.wyloguj);
 app.get('/pobierzW', routes.pobierzW);
 app.get('/pobierzZaw/:id', routes.pobierzZaw);
 app.get('/pobierzUz/:id', routes.pobierzZaw);
+app.get('/pobierzWZaw', routes.pobierzWZaw);
 app.get('/pobierzZwNZak', routes.pobierzZwNZak);
+app.get('/pobierzZwNDDZaw', routes.pobierzZwNDDZaw);
+app.get('/pobierzLS', routes.pobierzLS);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
 app.post('/uzytkownicy', routes.dodajUz);
 app.post('/zawodnicy/edytuj/:id', routes.edytujZaw);
 app.post('/uzytkownicy/edytuj/:id', routes.edytujUz);
+app.post('/dodajLS', routes.dodajLS);
 
 app.put('/edytujZawody/:pole', routes.edytujZw);
 
+app.delete('/usunLS/:id', routes.usunLS);
+
 mongoose.connect('mongodb://localhost/Zawody'); 
+require('./models/startingList');
+require('./models/competition');
+require('./models/player');
+require('./models/user');
 
 var User = require('./models/user');
 passport.use(new passportLocal(User.authenticate()));

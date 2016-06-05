@@ -4,7 +4,7 @@ $(() => {
     {
         var s = document.getElementById('wyb');
         $.ajax({
-            url: "/pobierzW",
+            url: "/pobierzWZaw",
             method: 'GET',
             success: (data) => {
                 for(let i = 0; i < data.length; i++)

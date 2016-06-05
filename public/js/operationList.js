@@ -14,6 +14,11 @@ $(() => {
             success: function(data){
                 $(ls).append("<option value='"+data._id+"'>"+ns+". "+data.nazwa+", "+data.imie+" "+data.nazwisko+"</option>");
                 $('#wyb option')[s.selectedIndex].remove();
+                $.ajax({
+                    url: '/dodajLS',
+                    method: 'POST',
+                    data: {_zaw: data._id, imie: data.imie, nazwisko: data.nazwisko, nazwa: data.nazwa, plec: data.plec, nrStartowy: ns},
+                });
             },
         });
     };
