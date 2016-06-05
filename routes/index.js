@@ -115,10 +115,6 @@ exports.edytujUz = (req, res) =>  {
     res.redirect('/uzytkownicy');
 };
 
-exports.usunLS = (req, res) =>  {
-    delete2(req.params.id, '../models/startingList.js');
-};
-
 exports.usunZaw = (req, res) =>  {
     delete2(req.params.id, '../models/player.js');
     res.redirect('/zawodnicy');
@@ -127,6 +123,11 @@ exports.usunZaw = (req, res) =>  {
 exports.usunUz = (req, res) =>  {
     delete2(req.params.id, '../models/user.js');
     res.redirect('/uzytkownicy');
+};
+
+exports.usunLS = (req, res) =>  {
+    delete2(req.params.id, '../models/startingList.js');
+    deleteLS('../models/startingList.js', '../models/competition.js', req.params.id);
 };
 
 var openPDF = (fp, res) => {
@@ -190,6 +191,16 @@ var addLS = (schema, schema2) => {
     var O2 = require(schema2);
     O.find((err, o) => {
         zwNZak.ls.push(o[o.length-1]);
+        O2.update({_id: zwNZak._id}, {$set: {ls: zwNZak.ls}}, () => {});    
+    });
+};
+
+var deleteLS = (schema, schema2, id) => {
+    var O = require(schema);
+    var O2 = require(schema2);
+    O.find((err, o) => {
+        console.log(zwNZak.ls.indexOf(id)+' '+zwNZak.ls+' '+id);
+        zwNZak.ls.remove(id);
         O2.update({_id: zwNZak._id}, {$set: {ls: zwNZak.ls}}, () => {});    
     });
 };

@@ -27,6 +27,10 @@ $(() => {
     {
         var s = document.getElementById('wyb');
         var ls = document.getElementById('listaSt');
+        $.ajax({
+            url: '/usunLS/'+ls.value,
+            method: 'DELETE',
+        });
         var ns = $('#listaSt option').length+1;
         $('#listaSt option')[ls.selectedIndex].remove();
     };

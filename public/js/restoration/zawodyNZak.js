@@ -23,7 +23,6 @@ $(() => {
             url: "/pobierzZwNDDZaw",
             method: 'GET',
             success: (data) => {
-                console.log('lol');
                 var s = document.getElementById('wyb');
                 for(let i = 0; i < data.length; i++)
                 $(s).append("<option value='"+data[i]._id+"'>"+data[i].nazwa+" ("+data[i].plec+"), "+data[i].imie+" "+data[i].nazwisko+"</option>");
