@@ -68,6 +68,7 @@ exports.dodajUz = (req, res) => {
 };
 
 exports.dodajLS = (req, res) => {
+    var K = require('../models/competition.js');
     create(req.body, '../models/startingList.js');
     addLS('../models/startingList.js', '../models/competition.js');
 };
@@ -172,7 +173,11 @@ var readAllZaw = (schema) => {
 var getFKLS = (schema, popul) => {
     var O = require(schema);
     O.findOne({etap: 'tworzenie'}).populate(popul).exec((err, o) => {
-        fkLS = o.ls;
+        try {
+            fkLS = o.ls;
+        }
+        catch(err){
+        }
     });
 };
 
@@ -198,8 +203,8 @@ var addLS = (schema, schema2) => {
 var deleteLS = (schema, schema2, id) => {
     var O = require(schema);
     var O2 = require(schema2);
+    O.remove(O.find({_zaw: id})).exec();
     O.find((err, o) => {
-        console.log(zwNZak.ls.indexOf(id)+' '+zwNZak.ls+' '+id);
         zwNZak.ls.remove(id);
         O2.update({_id: zwNZak._id}, {$set: {ls: zwNZak.ls}}, () => {});    
     });
