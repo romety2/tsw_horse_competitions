@@ -44,10 +44,6 @@ exports.wyloguj = (req, res) =>  {
 exports.zawody = (req, res) =>  {
     readZwNZak('../models/competition.js');
     readAllZaw('../models/player.js');
-    if(typeof zwNZak !== 'undefined')
-        {
-            getFKLS('../models/competition.js' ,'ls');
-        }
     res.render('pages/zawody', { user : req.user, login: req.isAuthenticated() });   
 };
 
@@ -71,7 +67,6 @@ exports.dodajUz = (req, res) => {
 };
 
 exports.dodajLS = (req, res) => {
-    var K = require('../models/competition.js');
     create(req.body, '../models/startingList.js');
     addLS('../models/startingList.js', '../models/competition.js');
 };
@@ -131,7 +126,16 @@ exports.usunUz = (req, res) =>  {
 
 exports.usunLS = (req, res) =>  {
     delete2(req.params.id, '../models/startingList.js');
-    deleteLS('../models/startingList.js', '../models/competition.js', req.params.id);
+    deleteLS('../models/startingList.js', req.params.id);
+};
+
+exports.zmienZawGrupa = (req, res) =>  {
+    updateStatusZwNZak('dzielenie', '../models/competition.js');
+    res.redirect('/grupy');
+};
+
+exports.grupy = (req, res) =>  {
+    res.render('pages/grupy', { user : req.user, login: req.isAuthenticated() }); 
 };
 
 var openPDF = (fp, res) => {
@@ -175,9 +179,14 @@ var readAllZaw = (schema) => {
 
 var getFKLS = (schema, popul) => {
     var O = require(schema);
-    O.findOne({etap: 'tworzenie'}).populate(popul).exec((err, o) => {
-        fkLS = o.ls;
-    });
+    if(zwNZak.etap === 'tworzenie')
+        O.findOne({etap: 'tworzenie'}).populate(popul).exec((err, o) => {
+            fkLS = o.ls;
+        });
+    else if(zwNZak.etap === 'dzielenie')
+        O.findOne({etap: 'dzielenie'}).populate(popul).exec((err, o) => {
+            fkLS = o.ls;
+        });
 };
 
 var update = (id, object, schema) => {
@@ -199,9 +208,8 @@ var addLS = (schema, schema2) => {
     });
 };
 
-var deleteLS = (schema, schema2, id) => {
+var deleteLS = (schema, id) => {
     var O = require(schema);
-    var O2 = require(schema2);
     O.remove(O.find({_zaw: id})).exec();
 };
 
@@ -214,6 +222,11 @@ var readZwNZak = (schema) => {
         {
             create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie'}, '../models/competition.js');
             zwNZak = {wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie', ls: []};
+            fkLS = [];
+        }
+        else
+        {
+            getFKLS('../models/competition.js' ,'ls');
         }
     });
 };
@@ -241,6 +254,11 @@ var updateColumn = (value, poleID, schema) => {
         O.update({_id: zwNZak._id}, {$set: {rodzaj: value}}, () => {});  
     else if(poleID==="radio2R")
         O.update({_id: zwNZak._id}, {$set: {rodzaj: value}}, () => {});
+};
+
+var updateStatusZwNZak = (etap, schema) => {
+    var O = require(schema);
+    O.update({_id: zwNZak._id}, {$set: {etap: etap}}, () => {});    
 };
 
 var pob = () => {

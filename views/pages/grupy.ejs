@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <% include ../partials/head %>
+        <% include ../partials/date %>
+    </head>
+    <body id="body" class="body-show">
+        <% include ../partials/menu %>
+        <h1 class="text-center">Podzał zawodników oraz sędziów</h1>
+        <br>
+        <div class="opis">
+            <form id="zaloguj-form"  action="/grupy" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <div class="widok-wiersz">
+                        <label class="col-sm-1">Płeć:</label>
+                        <div class="col-sm-6">
+                            <div class="col-sm-3"><input id="radio1Z" type="radio" name="plec" value="Ogier" checked>Ogier</div>
+                            <div class="col-sm-3"><input id="radio2Z" type="radio" name="plec" value="Klacz">Klacz</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="widok-wiersz">
+                        <label class="col-sm-1">Grupy:</label>
+                        <div class="col-sm-6">
+                            <select type="text" id="grupa" name="grupa" class="form-control" multiple>
+                            </select>
+                            <button id="dodajG-button" type="button" class="btn btn-default" title="Nowa grupa"><span class="glyphicon glyphicon-plus"></span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Zawodnicy:</label>
+                    <div class="col-sm-3">
+                        <select type="text" id="wybZ" class="form-control" multiple>
+                        </select>
+                        <button id="dodajZ-button" type="button" class="btn btn-default" title="Dodaj zawodnika"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                    <label class="col-sm-1"></label>
+                    <div class="col-sm-3">
+                        <select type="text" id="listaSt" name="listaSt" class="form-control" multiple>
+                        </select>
+                        <button id="usunZ-button" type="button" class="btn btn-default" title="Usuń zawodnika"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Sędziowie:</label>
+                    <div class="col-sm-3">
+                        <select type="text" id="wybS" class="form-control" multiple>
+                        </select>
+                        <button id="dodajS-button" type="button" class="btn btn-default" title="Dodaj sędziego"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                    <label class="col-sm-1"></label>
+                    <div class="col-sm-3">
+                        <select type="text" id="listaSt" name="listaSt" class="form-control" multiple>
+                        </select>
+                        <button id="usunS-button" type="button" class="btn btn-default" title="Usuń sędziego"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+                <script src="/js/search/select.js"></script>
+                <div class="form-group text-center">
+                    <button id="zapisz-button" type="submit" class="btn btn-default" title="Rozpocznij zawody">Rozpocznij zawody</button>
+                </div>
+
+            </form>
+        </div>
+    </body>
+</html>

@@ -19,7 +19,8 @@ var competitionSchema = new Schema({
     etap: {
         type: String,
     },
-    ls : [{ type: Schema.ObjectId, ref: "ListaStartowa" }]
+    ls : [{ type: Schema.ObjectId, ref: "ListaStartowa" }],
+    grupy : [{ type: Schema.ObjectId, ref: "Grupy" }]
 });
 
 module.exports = mongoose.model("Zawody", competitionSchema);
