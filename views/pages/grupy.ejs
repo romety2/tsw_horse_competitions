@@ -3,29 +3,32 @@
    <head>
         <% include ../partials/head %>
         <% include ../partials/date %>
+        <script src="/js/operationList/grupy.js"></script>
+        <script src="/js/restoration/grupy.js"></script>
     </head>
     <body id="body" class="body-show">
         <% include ../partials/menu %>
-        <h1 class="text-center">Podzał zawodników oraz sędziów</h1>
+        <h1 class="text-center">Podzał na grupy</h1>
         <br>
         <div class="opis">
             <form id="zaloguj-form"  action="/grupy" method="post" class="form-horizontal">
                 <div class="form-group">
                     <div class="widok-wiersz">
-                        <label class="col-sm-1">Płeć:</label>
+                        <label class="col-sm-1">Grupy:</label>
                         <div class="col-sm-6">
-                            <div class="col-sm-3"><input id="radio1Z" type="radio" name="plec" value="Ogier" checked>Ogier</div>
-                            <div class="col-sm-3"><input id="radio2Z" type="radio" name="plec" value="Klacz">Klacz</div>
+                            <div class="col-sm-3"><input id="radio1P" type="radio" name="plec" value="Ogier" checked>Ogier</div>
+                            <div class="col-sm-3"><input id="radio2P" type="radio" name="plec" value="Klacz">Klacz</div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="widok-wiersz">
-                        <label class="col-sm-1">Grupy:</label>
+                        <label class="col-sm-1"></label>
                         <div class="col-sm-6">
-                            <select type="text" id="grupa" name="grupa" class="form-control" multiple>
+                            <select type="text" id="listaGr" name="grupa" class="form-control" multiple>
                             </select>
                             <button id="dodajG-button" type="button" class="btn btn-default" title="Nowa grupa"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button id="pokazG-button" type="button" class="btn btn-default" title="Pokaż informację"><span class="glyphicon glyphicon-eye-open"></span></button>
                         </div>
                     </div>
                 </div>

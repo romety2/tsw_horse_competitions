@@ -30,7 +30,7 @@ $(() => {
         }); 
         
         $.ajax({
-            url: "/pobierzLS",
+            url: "/pobierzLSZwNZak",
             method: 'GET',
             success: (data) => {
                 var s = document.getElementById('listaSt');

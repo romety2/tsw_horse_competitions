@@ -73,7 +73,8 @@ app.get('/pobierzUz/:id', routes.pobierzZaw);
 app.get('/pobierzWZaw', routes.pobierzWZaw);
 app.get('/pobierzZwNZak', routes.pobierzZwNZak);
 app.get('/pobierzZwNDDZaw', routes.pobierzZwNDDZaw);
-app.get('/pobierzLS', routes.pobierzLS);
+app.get('/pobierzLSZwNZak', routes.pobierzLSZwNZak);
+app.get('/pobierzGrZwNZak', routes.pobierzGrupyZwNZak);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
@@ -81,6 +82,7 @@ app.post('/uzytkownicy', routes.dodajUz);
 app.post('/zawodnicy/edytuj/:id', routes.edytujZaw);
 app.post('/uzytkownicy/edytuj/:id', routes.edytujUz);
 app.post('/dodajLS', routes.dodajLS);
+app.post('/dodajGr', routes.dodajGr);
 app.post('/grupy', routes.zmienZawGrupa);
 
 app.put('/edytujZawody/:pole', routes.edytujZw);
@@ -92,6 +94,8 @@ require('./models/startingList');
 require('./models/competition');
 require('./models/player');
 require('./models/user');
+require('./models/group');
+require('./models/judge');
 
 var User = require('./models/user');
 passport.use(new passportLocal(User.authenticate()));

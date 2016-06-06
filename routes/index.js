@@ -5,6 +5,7 @@ var temp;
 var zwNZak;
 var zaw;
 var fkLS;
+var fkGr;
 
 require('../models/startingList');
 
@@ -47,6 +48,12 @@ exports.zawody = (req, res) =>  {
     res.render('pages/zawody', { user : req.user, login: req.isAuthenticated() });   
 };
 
+exports.grupy = (req, res) =>  {
+    readZwNZak('../models/competition.js');
+    readAllZaw('../models/player.js');
+    res.render('pages/grupy', { user : req.user, login: req.isAuthenticated() }); 
+};
+
 exports.zawodnicy = (req, res) =>  {
     readAll('../models/player.js');
     res.render('pages/zawodnicy', { user : req.user, login: req.isAuthenticated() });   
@@ -71,6 +78,11 @@ exports.dodajLS = (req, res) => {
     addLS('../models/startingList.js', '../models/competition.js');
 };
 
+exports.dodajGr = (req, res) => {
+    create(req.body, '../models/group.js');
+    addGr('../models/group.js', '../models/competition.js');
+};
+
 
 exports.pobierzW = (req, res) =>  {
     res.json(pob());
@@ -92,12 +104,20 @@ exports.pobierzUz = (req, res) =>  {
     res.json(read(req.params.id));
 };
 
-exports.pobierzLS = (req, res) => {
-    res.json(pobLS());
+exports.pobierzLSZwNZak = (req, res) => {
+    res.json(pobLSZwNZak());
+};
+
+exports.pobierzGrupyZwNZak = (req, res) => {
+    res.json(pobGrZwNZak());
 };
 
 exports.pobierzZwNZak = (req, res) =>  {
     res.json(pobZwNZak());
+};
+
+exports.pobierzGrZwNZak= (req, res) =>  {
+    res.json(pobGrZwNZak());
 };
 
 exports.edytujZw =(req, res) => {
@@ -132,10 +152,6 @@ exports.usunLS = (req, res) =>  {
 exports.zmienZawGrupa = (req, res) =>  {
     updateStatusZwNZak('dzielenie', '../models/competition.js');
     res.redirect('/grupy');
-};
-
-exports.grupy = (req, res) =>  {
-    res.render('pages/grupy', { user : req.user, login: req.isAuthenticated() }); 
 };
 
 var openPDF = (fp, res) => {
@@ -177,16 +193,26 @@ var readAllZaw = (schema) => {
     });
 };
 
-var getFKLS = (schema, popul) => {
+var getFKZwNZak = (schema, pLS, pGr) => {
     var O = require(schema);
     if(zwNZak.etap === 'tworzenie')
-        O.findOne({etap: 'tworzenie'}).populate(popul).exec((err, o) => {
+    {
+        O.findOne({etap: 'tworzenie'}).populate(pLS).exec((err, o) => {
             fkLS = o.ls;
         });
+        O.findOne({etap: 'tworzenie'}).populate(pGr).exec((err, o) => {
+            fkGr = o.grupy;
+        });
+    }
     else if(zwNZak.etap === 'dzielenie')
-        O.findOne({etap: 'dzielenie'}).populate(popul).exec((err, o) => {
+    {
+        O.findOne({etap: 'dzielenie'}).populate(pLS).exec((err, o) => {
             fkLS = o.ls;
         });
+        O.findOne({etap: 'dzielenie'}).populate(pGr).exec((err, o) => {
+            fkGr = o.grupy;
+        });
+    }
 };
 
 var update = (id, object, schema) => {
@@ -208,6 +234,16 @@ var addLS = (schema, schema2) => {
     });
 };
 
+var addGr = (schema, schema2) => {
+    var O = require(schema);
+    var O2 = require(schema2);
+    O.find((err, o) => {
+        console.log(zwNZak);
+        zwNZak.grupy.push(o[o.length-1]);
+        O2.update({_id: zwNZak._id}, {$set: {grupy: zwNZak.grupy}}, () => {});    
+    });
+};
+
 var deleteLS = (schema, id) => {
     var O = require(schema);
     O.remove(O.find({_zaw: id})).exec();
@@ -226,7 +262,7 @@ var readZwNZak = (schema) => {
         }
         else
         {
-            getFKLS('../models/competition.js' ,'ls');
+            getFKZwNZak('../models/competition.js' ,'ls', 'grupy');
         }
     });
 };
@@ -275,10 +311,18 @@ var pobZwNZak = () => {
     return zwNZak;
 };
 
-var pobLS = () => {
+var pobLSZwNZak = () => {
     var underscore = require("underscore");
     if(typeof fkLS !== 'undefined')
         return underscore.sortBy(fkLS, fkLS.nrStartowy);
+    else
+        return {} ;
+};
+
+var pobGrZwNZak = () => {
+    var underscore = require("underscore");
+    if(typeof fkGr !== 'undefined')
+        return underscore.sortBy(fkGr, fkGr.nazwa);
     else
         return {} ;
 };
