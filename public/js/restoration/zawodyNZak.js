@@ -35,7 +35,7 @@ $(() => {
             success: (data) => {
                 var s = document.getElementById('listaSt');
                 for(let i = 0; i < data.length; i++)
-                $(s).append("<option value='"+data[i]._id+"'>"+data[i].nrStartowy+". "+data[i].nazwa+", "+data[i].imie+" "+data[i].nazwisko+"</option>");
+                $(s).append("<option value='"+data[i]._zaw+"'>"+data[i].nrStartowy+". "+data[i].nazwa+", "+data[i].imie+" "+data[i].nazwisko+"</option>");
             },
         }); 
     }

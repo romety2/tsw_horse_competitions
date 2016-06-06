@@ -42,9 +42,12 @@ exports.wyloguj = (req, res) =>  {
 };
 
 exports.zawody = (req, res) =>  {
-    readAllZaw('../models/player.js');
     readZwNZak('../models/competition.js');
-    getFKLS('../models/competition.js' ,'ls');
+    readAllZaw('../models/player.js');
+    if(typeof zwNZak !== 'undefined')
+        {
+            getFKLS('../models/competition.js' ,'ls');
+        }
     res.render('pages/zawody', { user : req.user, login: req.isAuthenticated() });   
 };
 
@@ -173,11 +176,7 @@ var readAllZaw = (schema) => {
 var getFKLS = (schema, popul) => {
     var O = require(schema);
     O.findOne({etap: 'tworzenie'}).populate(popul).exec((err, o) => {
-        try {
-            fkLS = o.ls;
-        }
-        catch(err){
-        }
+        fkLS = o.ls;
     });
 };
 
@@ -204,20 +203,18 @@ var deleteLS = (schema, schema2, id) => {
     var O = require(schema);
     var O2 = require(schema2);
     O.remove(O.find({_zaw: id})).exec();
-    O.find((err, o) => {
-        zwNZak.ls.remove(id);
-        O2.update({_id: zwNZak._id}, {$set: {ls: zwNZak.ls}}, () => {});    
-    });
 };
 
 var readZwNZak = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
         var underscore = require('underscore');
-        zwNZak = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) ||
+        zwNZak = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
+        if(zwNZak === '')
+        {
             create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie'}, '../models/competition.js');
-            underscore.find(o, () => {return o.etap !== 'zakonczone';
-        });
+            zwNZak = {wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie', ls: []};
+        }
     });
 };
 
@@ -262,13 +259,16 @@ var pobZwNZak = () => {
 
 var pobLS = () => {
     var underscore = require("underscore");
-    return underscore.sortBy(fkLS, fkLS.nrStartowy);
+    if(typeof fkLS !== 'undefined')
+        return underscore.sortBy(fkLS, fkLS.nrStartowy);
+    else
+        return {} ;
 };
 
 var pobZwNDDZaw = () => {
     var underscore = require("underscore");
     var pm;
-    if(fkLS.length !== 0)
+    if(typeof fkLS !== 'undefined')
         {   
             pm = underscore.keys(underscore.indexBy(fkLS, "_zaw"));
             return underscore.sortBy(underscore.filter(zaw, (z) => { return pm.indexOf(z._id.toString()) === -1; }), zaw.nazwa);

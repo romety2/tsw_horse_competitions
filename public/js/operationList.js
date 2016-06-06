@@ -9,7 +9,7 @@ $(() => {
         var ns = $('#listaSt option').length+1;
         if(s.value)
             {
-                $.ajax({
+            $.ajax({
                     url: '/pobierzZaw/'+s.value,
                     method: 'GET',
                     success: function(data){
@@ -35,7 +35,13 @@ $(() => {
                 url: '/usunLS/'+ls.value,
                 method: 'DELETE',
             });
-            var ns = $('#listaSt option').length+1;
+            $.ajax({
+                    url: '/pobierzZaw/'+ls.value,
+                    method: 'GET',
+                    success: function(data){
+                        $(s).append("<option value='"+data._id+"'>"+data.nazwa+" ("+data.plec+"), "+data.imie+" "+data.nazwisko+"</option>");
+                    },
+                });
             $('#listaSt option')[ls.selectedIndex].remove();
         }
     };
