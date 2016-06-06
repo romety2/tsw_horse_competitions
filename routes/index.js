@@ -238,7 +238,6 @@ var addGr = (schema, schema2) => {
     var O = require(schema);
     var O2 = require(schema2);
     O.find((err, o) => {
-        console.log(zwNZak);
         zwNZak.grupy.push(o[o.length-1]);
         O2.update({_id: zwNZak._id}, {$set: {grupy: zwNZak.grupy}}, () => {});    
     });
