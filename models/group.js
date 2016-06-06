@@ -10,7 +10,7 @@ var groupSchema = new Schema({
     plec: {
         type: String,
     },
-    zawodnicy : [{ type: Schema.ObjectId, ref: "ListaStartowa" }],
+    zawodnicy : [{ type: Schema.ObjectId, ref: "ZawodnikZawody" }],
     sedziowie : [{ type: Schema.ObjectId, ref: "Sedziowie" }]
 });
 

@@ -75,6 +75,8 @@ app.get('/pobierzZwNZak', routes.pobierzZwNZak);
 app.get('/pobierzZwNDDZaw', routes.pobierzZwNDDZaw);
 app.get('/pobierzLSZwNZak', routes.pobierzLSZwNZak);
 app.get('/pobierzGrZwNZak', routes.pobierzGrupyZwNZak);
+app.get('/pobierzSedziow', routes.pobierzSedziow);
+app.get('/pobierzLSZwNZak/:grupa', routes.pobierzLSZwNZakPlecWgGr);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
@@ -96,6 +98,7 @@ require('./models/player');
 require('./models/user');
 require('./models/group');
 require('./models/judge');
+require('./models/playerC');
 
 var User = require('./models/user');
 passport.use(new passportLocal(User.authenticate()));

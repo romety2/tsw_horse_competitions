@@ -4,6 +4,7 @@ var temp;
 /* nowe zawody */
 var zwNZak;
 var zaw;
+var sedz;
 var fkLS;
 var fkGr;
 
@@ -51,6 +52,7 @@ exports.zawody = (req, res) =>  {
 exports.grupy = (req, res) =>  {
     readZwNZak('../models/competition.js');
     readAllZaw('../models/player.js');
+    readAllSedz('../models/user.js', 'Sędzia');
     res.render('pages/grupy', { user : req.user, login: req.isAuthenticated() }); 
 };
 
@@ -75,11 +77,13 @@ exports.dodajUz = (req, res) => {
 
 exports.dodajLS = (req, res) => {
     create(req.body, '../models/startingList.js');
+    fkLS.push(req.body);
     addLS('../models/startingList.js', '../models/competition.js');
 };
 
 exports.dodajGr = (req, res) => {
     create(req.body, '../models/group.js');
+    fkGr.push(req.body);
     addGr('../models/group.js', '../models/competition.js');
 };
 
@@ -108,6 +112,10 @@ exports.pobierzLSZwNZak = (req, res) => {
     res.json(pobLSZwNZak());
 };
 
+exports.pobierzLSZwNZakPlecWgGr = (req, res) => {
+    res.json(pobLSZwNZakPlecWgGr(req.params.grupa));
+};
+
 exports.pobierzGrupyZwNZak = (req, res) => {
     res.json(pobGrZwNZak());
 };
@@ -116,8 +124,12 @@ exports.pobierzZwNZak = (req, res) =>  {
     res.json(pobZwNZak());
 };
 
-exports.pobierzGrZwNZak= (req, res) =>  {
+exports.pobierzGrZwNZak = (req, res) =>  {
     res.json(pobGrZwNZak());
+};
+
+exports.pobierzSedziow = (req, res) =>  {
+    res.json(pobSedz());
 };
 
 exports.edytujZw =(req, res) => {
@@ -179,6 +191,11 @@ var readZaw = (id) => {
     return underscore.find(zaw, (z) => { return z._id.toString() === id; });
 };
 
+var readSedz = (id) => {
+    var underscore = require('underscore');
+    return underscore.find(sedz, (z) => { return z._id.toString() === id; });
+};
+
 var readAll = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
@@ -190,6 +207,13 @@ var readAllZaw = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
         zaw = o;
+    });
+};
+
+var readAllSedz = (schema, rol) => {
+    var O = require(schema);
+    O.find({role: rol}).exec((err, o) => {
+        sedz = o;
     });
 };
 
@@ -306,6 +330,11 @@ var pobZaw = () => {
     return underscore.sortBy(zaw, zaw.nazwa);
 };
 
+var pobSedz = () => {
+    var underscore = require("underscore");
+    return underscore.sortBy(sedz, sedz.nazwisko+sedz.imie);
+};
+
 var pobZwNZak = () => {
     return zwNZak;
 };
@@ -318,10 +347,22 @@ var pobLSZwNZak = () => {
         return {} ;
 };
 
+var pobLSZwNZakPlecWgGr = (nGr) => {
+    var underscore = require("underscore");
+    var g;
+    if(typeof fkLS !== 'undefined' && typeof fkGr !== 'undefined' )
+    {
+        g = underscore.find(fkGr, (f) => {return f.nazwa === nGr;});
+        return underscore.filter(fkLS, (f) => {return g.plec === f.plec;});
+    }
+    else
+        return {} ;
+};
+
 var pobGrZwNZak = () => {
     var underscore = require("underscore");
     if(typeof fkGr !== 'undefined')
-        return underscore.sortBy(fkGr, fkGr.nazwa);
+        return underscore.sortBy(fkGr, (f) => {return f.nazwa;});
     else
         return {} ;
 };
