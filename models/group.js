@@ -10,8 +10,7 @@ var groupSchema = new Schema({
     plec: {
         type: String,
     },
-    zawodnicy : [{ type: Schema.ObjectId, ref: "ZawodnikZawody" }],
     sedziowie : [{ type: Schema.ObjectId, ref: "Sedziowie" }]
 });
 
-module.exports = mongoose.model("Grupy", groupSchema);
+module.exports = mongoose.model("Grupa", groupSchema);

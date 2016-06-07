@@ -25,6 +25,7 @@ var startingListSchema = new Schema({
         required: true
     },
     _zaw : { type: Schema.ObjectId, ref: 'Zawodnik' },
+    _gr : { type: Schema.ObjectId, ref: 'Grupa' }
 });
 
 module.exports = mongoose.model("ListaStartowa", startingListSchema);

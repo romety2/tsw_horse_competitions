@@ -77,6 +77,7 @@ app.get('/pobierzLSZwNZak', routes.pobierzLSZwNZak);
 app.get('/pobierzGrZwNZak', routes.pobierzGrupyZwNZak);
 app.get('/pobierzSedziow', routes.pobierzSedziow);
 app.get('/pobierzLSZwNZak/:grupa', routes.pobierzLSZwNZakPlecWgGr);
+app.get('/pobierzLSZwNZakWGr/:grupa', routes.pobierzLSZwNZakGrWgGr);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
@@ -88,17 +89,17 @@ app.post('/dodajGr', routes.dodajGr);
 app.post('/grupy', routes.zmienZawGrupa);
 
 app.put('/edytujZawody/:pole', routes.edytujZw);
+app.put('/wstawGr/:id', routes.wstawGr);
+app.put('/usunGr/:id', routes.usunGr);
 
 app.delete('/usunLS/:id', routes.usunLS);
 
 mongoose.connect('mongodb://localhost/Zawody'); 
+require('./models/group');
 require('./models/startingList');
 require('./models/competition');
 require('./models/player');
 require('./models/user');
-require('./models/group');
-require('./models/judge');
-require('./models/playerC');
 
 var User = require('./models/user');
 passport.use(new passportLocal(User.authenticate()));

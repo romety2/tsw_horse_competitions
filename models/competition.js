@@ -20,7 +20,7 @@ var competitionSchema = new Schema({
         type: String,
     },
     ls : [{ type: Schema.ObjectId, ref: "ListaStartowa" }],
-    grupy : [{ type: Schema.ObjectId, ref: "Grupy" }]
+    grupy : [{ type: Schema.ObjectId, ref: "Grupa" }]
 });
 
 module.exports = mongoose.model("Zawody", competitionSchema);

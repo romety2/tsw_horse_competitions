@@ -12,7 +12,7 @@ $(() => {
                     url: '/pobierzZaw/'+s.value,
                     method: 'GET',
                     success: function(data){
-                        if(ns.poprabo)
+                        if(ns.pobrano)
                             ns++;
                         else
                         {
@@ -24,7 +24,7 @@ $(() => {
                         $.ajax({
                             url: '/dodajLS',
                             method: 'POST',
-                            data: {_zaw: data._id, imie: data.imie, nazwisko: data.nazwisko, nazwa: data.nazwa, plec: data.plec, nrStartowy: ns},
+                            data: {_zaw: data._id, _gr: data._id, imie: data.imie, nazwisko: data.nazwisko, nazwa: data.nazwa, plec: data.plec, nrStartowy: ns},
                         });
                     },
                 });
