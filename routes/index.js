@@ -2,11 +2,7 @@
 
 var temp;
 /* nowe zawody */
-var zwNZak;
-var zaw;
-var sedz;
-var fkLS;
-var fkGr;
+var zwNZak, zaw, sedz, fkLS, fkGr;
 
 require('../models/startingList');
 
@@ -120,15 +116,19 @@ exports.pobierzLSZwNZakGrWgGr = (req, res) => {
     res.json(pobLSZwNZakGrWgGr(req.params.grupa));
 };
 
-exports.pobierzGrupyZwNZak = (req, res) => {
-    res.json(pobGrZwNZak());
+exports.pobierzSedziowNWGr = (req, res) =>  {
+    res.json(pobierzSedziowNWGr(req.params.grupa));
+};
+
+exports.pobierzSedziowWGr = (req, res) =>  {
+    res.json(pobierzSedziowWGr(req.params.grupa));
 };
 
 exports.pobierzZwNZak = (req, res) =>  {
     res.json(pobZwNZak());
 };
 
-exports.pobierzGrZwNZak = (req, res) =>  {
+exports.pobierzGrZwNZak = (req, res) => {
     res.json(pobGrZwNZak());
 };
 
@@ -177,6 +177,16 @@ exports.wstawGr = (req, res) =>  {
 
 exports.usunGr = (req, res) =>  {
     updateColumn(req.params.id, 'gr2', req.params.id, '../models/startingList.js');
+    res.redirect('/grupy');
+};
+
+exports.wstawSedz = (req, res) =>  {
+    updateColumn(req.body.sedz, 'sedz', req.params.grupa, '../models/group.js');
+    res.redirect('/grupy');
+};
+
+exports.usunSedz = (req, res) =>  {
+    updateColumn(req.body.sedz, 'sedz2', req.params.grupa, '../models/group.js');
     res.redirect('/grupy');
 };
 
@@ -332,8 +342,8 @@ var updateColumnZwNZak = (value, poleID, schema) => {
 var updateColumn = (value, poleID, id, schema) => {
     var O = require(schema);
     var underscore = require("underscore");
-    var pmLS;
-    var pmGr;
+    var pmLS, pmGr, pm;
+    var tb = [];
     if(poleID==="gr")
     {
         O.update({_id: underscore.find(fkLS, (ls) => {return ls._zaw.toString() === id;})._id}, {$set: {_gr: underscore.find(fkGr, (g) => {return g.nazwa === value;})._id}}, () => {});
@@ -347,6 +357,28 @@ var updateColumn = (value, poleID, id, schema) => {
         O.update({_id: underscore.find(fkLS, (ls) => {return ls._zaw.toString() === id;})._id}, {$set: {_gr: id}}, () => {});
         pmLS = underscore.keys(underscore.indexBy(fkLS, "_zaw"));
         fkLS[underscore.indexOf(pmLS, id)]._gr=id;
+    }
+    else if(poleID==="sedz")
+    {
+        tb = underscore.find(fkGr, (g) => {return g.nazwa === id;}).sedziowie;
+        tb.push(underscore.find(sedz, (s) => {return s._id.toString() === value;}));
+        O.update({_id: underscore.find(fkGr, (g) => {return g.nazwa === id;})._id},
+        {$set: {sedziowie: tb}}, () => {});
+        pmGr = underscore.keys(underscore.indexBy(fkGr, "nazwa"));
+        fkGr[underscore.indexOf(pmGr, id)].sedziowie=tb;
+    }
+    else if(poleID==="sedz2")
+    {
+        console.log('dd');
+        tb = underscore.find(fkGr, (g) => {return g.nazwa === id;}).sedziowie;
+        pm = tb.indexOf(value);
+        if (pm >= 0)
+          tb.splice(pm, 1);
+        console.log(tb);
+        O.update({_id: underscore.find(fkGr, (g) => {return g.nazwa === id;})._id},
+        {$set: {sedziowie: tb}}, () => {});
+        pmGr = underscore.keys(underscore.indexBy(fkGr, "nazwa"));
+        fkGr[underscore.indexOf(pmGr, id)].sedziowie=tb;
     }
 };
 
@@ -401,6 +433,30 @@ var pobLSZwNZakGrWgGr = (nGr) => {
     {
         g = underscore.find(fkGr, (f) => {return f.nazwa === nGr;});
         return underscore.filter(fkLS, (f) => {return f._gr.toString() === g._id.toString();});
+    }
+    else
+        return {};
+};
+
+var pobierzSedziowNWGr = (nGr) => {
+    var underscore = require("underscore");
+    var g;
+    if(typeof fkLS !== 'undefined' && typeof fkGr !== 'undefined' )
+    {
+        g = underscore.find(fkGr, (f) => {return f.nazwa === nGr;});
+        return underscore.sortBy(underscore.filter(sedz, (s) => {return g.sedziowie.indexOf(s._id.toString()) === -1;}), (f) => {return f.nazwisko+f.imie;});
+    }
+    else
+        return {};
+};
+
+var pobierzSedziowWGr = (nGr) => {
+    var underscore = require("underscore");
+    var g;
+    if(typeof fkLS !== 'undefined' && typeof fkGr !== 'undefined' )
+    {
+        g = underscore.find(fkGr, (f) => {return f.nazwa === nGr;});
+        return underscore.sortBy(underscore.filter(sedz, (s) => {return g.sedziowie.indexOf(s._id.toString()) !== -1;}), (f) => {return f.nazwisko+f.imie;});
     }
     else
         return {};

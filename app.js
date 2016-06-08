@@ -64,7 +64,6 @@ app.get('/zawodnicy', role.can('access administrator pages'), routes.zawodnicy);
 app.get('/uzytkownicy', role.can('access administrator pages'), routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
 app.get('/uzytkownicy/usun/:id', routes.usunUz);
-app.get('/uzytkownicy/usun/:id', routes.usunUz);
 app.get('/wyloguj', routes.wyloguj);
 
 app.get('/pobierzW', routes.pobierzW);
@@ -74,10 +73,12 @@ app.get('/pobierzWZaw', routes.pobierzWZaw);
 app.get('/pobierzZwNZak', routes.pobierzZwNZak);
 app.get('/pobierzZwNDDZaw', routes.pobierzZwNDDZaw);
 app.get('/pobierzLSZwNZak', routes.pobierzLSZwNZak);
-app.get('/pobierzGrZwNZak', routes.pobierzGrupyZwNZak);
+app.get('/pobierzGrZwNZak', routes.pobierzGrZwNZak);
 app.get('/pobierzSedziow', routes.pobierzSedziow);
 app.get('/pobierzLSZwNZak/:grupa', routes.pobierzLSZwNZakPlecWgGr);
 app.get('/pobierzLSZwNZakWGr/:grupa', routes.pobierzLSZwNZakGrWgGr);
+app.get('/pobierzSedziowNWGr/:grupa', routes.pobierzSedziowNWGr);
+app.get('/pobierzSedziowWGr/:grupa', routes.pobierzSedziowWGr);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
@@ -91,8 +92,11 @@ app.post('/grupy', routes.zmienZawGrupa);
 app.put('/edytujZawody/:pole', routes.edytujZw);
 app.put('/wstawGr/:id', routes.wstawGr);
 app.put('/usunGr/:id', routes.usunGr);
+app.put('/wstawSedz/:grupa', routes.wstawSedz);
+app.put('/usunSedz/:grupa', routes.usunSedz);
 
 app.delete('/usunLS/:id', routes.usunLS);
+
 
 mongoose.connect('mongodb://localhost/Zawody'); 
 require('./models/group');

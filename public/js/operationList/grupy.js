@@ -48,14 +48,23 @@ $(() => {
                 },
             }); 
             $.ajax({
-                url: "/pobierzSedziow",
+                url: "/pobierzSedziowNWGr/"+lg.value,
                 method: 'GET',
                 success: (data) => {
                     $("#wybS option").remove();
-                    $("#wybSS option").remove();
                     var s = document.getElementById('wybS');
                     for(let i = 0; i < data.length; i++)
-                        $(s).append("<option value='"+data[i].username+"'>"+data[i].imie+" "+data[i].nazwisko+"</option>");
+                        $(s).append("<option value='"+data[i]._id+"'>"+data[i].imie+" "+data[i].nazwisko+"</option>");
+                },
+            }); 
+            $.ajax({
+                url: "/pobierzSedziowWGr/"+lg.value,
+                method: 'GET',
+                success: (data) => {
+                    $("#wybSS option").remove();
+                    var s = document.getElementById('wybSS');
+                    for(let i = 0; i < data.length; i++)
+                        $(s).append("<option value='"+data[i]._id+"'>"+data[i].imie+" "+data[i].nazwisko+"</option>");
                 },
             }); 
         }
@@ -95,35 +104,35 @@ $(() => {
     
     var addJudge = () =>
     {
-        var lg = document.getElementById('listaGr');
+        var ng = document.getElementById('nazwa-grupy');
         var ws = document.getElementById('wybS');
         var wws = document.getElementById('wybSS');
         if(ws.value)
             {
                 $(wws).append("<option value='"+ws.value+"'>"+ws.options[ws.selectedIndex].text+"</option>");
-                $('#wybS option')[ws.selectedIndex].remove();
                 $.ajax({
-                    url: '/wstawGr',
+                    url: '/wstawSedz/'+$(ng).text(),
                     method: 'PUT',
-                    data: {_gr: ws.value},
+                    data: {sedz: ws.value},
                 });
+                $('#wybS option')[ws.selectedIndex].remove();
             }
     };
 
     var delJudge = () =>
     {
-        var lg = document.getElementById('listaGr');
+        var ng = document.getElementById('nazwa-grupy');
         var ws = document.getElementById('wybS');
         var wws = document.getElementById('wybSS');
         if(wws.value)
             {
                 $(ws).append("<option value='"+wws.value+"'>"+wws.options[wws.selectedIndex].text+"</option>");
-                $('#wybSS option')[wws.selectedIndex].remove();
-                /*$.ajax({
-                    url: '/wstawGr',
+                $.ajax({
+                    url: '/usunSedz/'+$(ng).text(),
                     method: 'PUT',
-                    data: {_gr: data._id},
-                });*/
+                    data: {sedz: wws.value},
+                });
+                $('#wybSS option')[wws.selectedIndex].remove();
             }
     };
     
