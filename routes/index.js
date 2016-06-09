@@ -166,6 +166,7 @@ exports.usunLS = (req, res) =>  {
 };
 
 exports.usunGr2 = (req, res) =>  {
+    updateNG(req.params.nazwa, '../models/group.js');
     delGrWLS(req.params.nazwa);
     delfkGr(req.params.nazwa);
     delete3('../models/group.js', req.params.nazwa, 'g');
@@ -534,10 +535,22 @@ var updateNS = (id, schema) => {
     var ns = underscore.find(fkLS, (f) => {return f._zaw.toString() === id.toString();}).nrStartowy;
     var i;
     var nns = underscore.map(fkLS, (ls) => { return parseInt(ls.nrStartowy) > parseInt(ns) ? (parseInt(ls.nrStartowy) - 1).toString() : ls.nrStartowy; });
-    for(i = ns; i < fkLS.length; i++)
+    for(i = parseInt(ns); i < fkLS.length; i++)
     {
         fkLS[i].nrStartowy = nns[i];
         O.update({_id: fkLS[i]._id}, {$set: {nrStartowy: nns[i]}}, () => {});
+    }  
+};
+
+var updateNG = (id, schema) => {
+    var underscore = require("underscore");
+    var O = require(schema);
+    var ng = underscore.find(fkGr, (g) => {return g.nazwa === id.toString();}).nazwa.substring(5);
+    var i;
+    var nng = underscore.map(fkGr, (g) => { return parseInt(g.nazwa.substring(5)) > parseInt(ng) ? 'Grupa '+(parseInt(g.nazwa.substring(5)) - 1).toString() : g.nazwa; });
+    for(i = parseInt(ng); i < fkGr.length; i++)
+    {
+        fkGr[i].nazwa = nng[i];
+        O.update({_id: fkGr[i]._id}, {$set: {nazwa: nng[i]}}, () => {});
     }
-    
 };

@@ -16,18 +16,26 @@ $(() => {
             method: 'POST',
             data: {nazwa: 'Grupa '+ng, plec: plec},
         });
-        $(lg).append("<option value='Grupa "+ng+"'>Grupa "+ng+"</option>");
+        $(lg).append("<option value='Grupa "+ng+"'>Grupa "+ng+" ("+plec+")</option>");
     };
     
     var deleteGroup = () =>
     {
         var ng = document.getElementById('nazwa-grupy');
+        var lgo = $('#listaGr option');
         if(lg.value)
         {
             $.ajax({
                 url: '/usunGr2/'+lg.value,
                 method: 'DELETE',
             });
+            for(let i = lg.selectedIndex+1; i < lgo.length; i++)
+            {
+                let pmP = lg.options[i].text.indexOf(' ');
+                let pmS = lg.options[i].text.indexOf(' ', pmP+1);
+                lg.options[i].text=lg.options[i].text.substring(0, pmP+1)+(parseInt(lg.options[i].text.substring(pmP, pmS)-1).toString())+lg.options[i].text.substring(pmS); 
+                lg.options[i].value=lg.options[i].value.substring(0, pmP+1)+(parseInt(lg.options[i].value.substring(pmP))-1).toString();     
+            }
             $('#listaGr option')[lg.selectedIndex].remove();
             $("#wybS option").remove();
             $("#wybSS option").remove();
