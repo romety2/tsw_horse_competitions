@@ -72,15 +72,13 @@ exports.dodajUz = (req, res) => {
 };
 
 exports.dodajLS = (req, res) => {
-    create(req.body, '../models/startingList.js');
-    fkLS.push(req.body);
-    addLS('../models/startingList.js', '../models/competition.js');
+    fkLS.push(create(req.body, '../models/startingList.js'));
+    add3('../models/startingList.js', '../models/competition.js', 'ls');
 };
 
 exports.dodajGr = (req, res) => {
-    create(req.body, '../models/group.js');
-    fkGr.push(req.body);
-    addGr('../models/group.js', '../models/competition.js');
+    fkGr.push(create(req.body, '../models/group.js'));
+    add3('../models/group.js', '../models/competition.js', 'g');
 };
 
 
@@ -162,7 +160,12 @@ exports.usunUz = (req, res) =>  {
 
 exports.usunLS = (req, res) =>  {
     delete2(req.params.id, '../models/startingList.js');
-    deleteLS('../models/startingList.js', req.params.id);
+    delete3('../models/startingList.js', req.params.id, 'ls');
+};
+
+exports.usunGr2 = (req, res) =>  {
+    console.log('dd');
+    delete3('../models/group.js', req.params.nazwa, 'g');
 };
 
 exports.zmienZawGrupa = (req, res) =>  {
@@ -203,6 +206,7 @@ var create = (object, schema) => {
     var O = require(schema);
     var o = new O(object);
     o.save();
+    return o;
 };
 
 var read = (id) => {
@@ -273,27 +277,31 @@ var delete2 = (id, schema) => {
     O.remove(O.find({_id: id})).exec();
 };
 
-var addLS = (schema, schema2) => {
+var add3 = (schema, schema2, type) => {
     var O = require(schema);
     var O2 = require(schema2);
-    O.find((err, o) => {
-        zwNZak.ls.push(o[o.length-1]);
-        O2.update({_id: zwNZak._id}, {$set: {ls: zwNZak.ls}}, () => {});    
-    });
+    if(type === 'ls')
+    {
+        O.find((err, o) => {
+            zwNZak.ls.push(o[o.length-1]);
+            O2.update({_id: zwNZak._id}, {$set: {ls: zwNZak.ls}}, () => {});    
+        });   
+    }
+    else if(type === 'g')
+    {
+        O.find((err, o) => {
+            zwNZak.grupy.push(o[o.length-1]);
+            O2.update({_id: zwNZak._id}, {$set: {grupy: zwNZak.grupy}}, () => {});    
+        }); 
+    }
 };
 
-var addGr = (schema, schema2) => {
+var delete3 = (schema, id, type) => {
     var O = require(schema);
-    var O2 = require(schema2);
-    O.find((err, o) => {
-        zwNZak.grupy.push(o[o.length-1]);
-        O2.update({_id: zwNZak._id}, {$set: {grupy: zwNZak.grupy}}, () => {});    
-    });
-};
-
-var deleteLS = (schema, id) => {
-    var O = require(schema);
-    O.remove(O.find({_zaw: id})).exec();
+    if(type === 'ls')
+        O.remove(O.find({_zaw: id})).exec();
+    else if(type === 'g')
+        O.remove(O.find({nazwa: id})).exec();
 };
 
 var readZwNZak = (schema) => {

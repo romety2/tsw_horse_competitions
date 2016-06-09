@@ -96,6 +96,7 @@ app.put('/wstawSedz/:grupa', routes.wstawSedz);
 app.put('/usunSedz/:grupa', routes.usunSedz);
 
 app.delete('/usunLS/:id', routes.usunLS);
+app.delete('/usunGr2/:nazwa', routes.usunGr2);
 
 
 mongoose.connect('mongodb://localhost/Zawody'); 

@@ -4,8 +4,6 @@ $(() => {
     
     var addPlayer = () =>
     {
-        var s = document.getElementById('wyb');
-        var ls = document.getElementById('listaSt');
         if(s.value)
             {
             $.ajax({
@@ -33,8 +31,6 @@ $(() => {
     
     var deletePlayer = () =>
     {
-        var s = document.getElementById('wyb');
-        var ls = document.getElementById('listaSt');
         if(ls.value)
         {
             $.ajax({
@@ -55,7 +51,11 @@ $(() => {
     var ns = 0;
     var db = document.getElementById('dodaj-button'); 
     var ub = document.getElementById('usun-button'); 
+    var s = document.getElementById('wyb');
+    var ls = document.getElementById('listaSt');
     db.addEventListener('click', addPlayer, false);
     ub.addEventListener('click', deletePlayer, false);
+    s.addEventListener('dblclick', addPlayer, false);
+    ls.addEventListener('dblclick', deletePlayer, false);
     ns.pobrano = false;
 });

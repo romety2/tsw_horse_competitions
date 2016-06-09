@@ -1,7 +1,6 @@
 /* jshint browser: true, esnext: true, jquery: true, node: true */
 
 $(() => {
-    var lg = document.getElementById('listaGr');
     var addGroup = () =>
     {
         var plec = $('input[name="plec"]:checked').val();
@@ -20,10 +19,21 @@ $(() => {
         $(lg).append("<option value='Grupa "+ng+"'>Grupa "+ng+"</option>");
     };
     
+    var deleteGroup = () =>
+    {
+        if(lg.value)
+        {
+            $.ajax({
+                url: '/usunGr2/'+lg.value,
+                method: 'DELETE',
+            });
+            $('#listaGr option')[lg.selectedIndex].remove();
+        }
+    };
+    
     var informationGroup = () =>
     {
         var ng = document.getElementById('nazwa-grupy');
-        var lg = document.getElementById('listaGr');
         if(lg.value)
         {
             ng.innerHTML = lg.value;
@@ -73,8 +83,6 @@ $(() => {
     var addPlayer = () =>
     {
         var ng = document.getElementById('nazwa-grupy');
-        var wz = document.getElementById('wybZ');
-        var wwz = document.getElementById('wybZZ');
         if(wz.value)
             {
                 $(wwz).append("<option value='"+wz.value+"'>"+wz.options[wz.selectedIndex].text+"</option>");
@@ -89,8 +97,6 @@ $(() => {
     
     var delPlayer = () =>
     {
-        var wz = document.getElementById('wybZ');
-        var wwz = document.getElementById('wybZZ');
         if(wwz.value)
             {
                 $(wz).append("<option value='"+wwz.value+"'>"+wwz.options[wwz.selectedIndex].text+"</option>");
@@ -105,8 +111,6 @@ $(() => {
     var addJudge = () =>
     {
         var ng = document.getElementById('nazwa-grupy');
-        var ws = document.getElementById('wybS');
-        var wws = document.getElementById('wybSS');
         if(ws.value)
             {
                 $(wws).append("<option value='"+ws.value+"'>"+ws.options[ws.selectedIndex].text+"</option>");
@@ -122,8 +126,6 @@ $(() => {
     var delJudge = () =>
     {
         var ng = document.getElementById('nazwa-grupy');
-        var ws = document.getElementById('wybS');
-        var wws = document.getElementById('wybSS');
         if(wws.value)
             {
                 $(ws).append("<option value='"+wws.value+"'>"+wws.options[wws.selectedIndex].text+"</option>");
@@ -137,16 +139,28 @@ $(() => {
     };
     
     var ng = 0;
+    var lg = document.getElementById('listaGr');
+    var wz = document.getElementById('wybZ');
+    var wwz = document.getElementById('wybZZ');
+    var ws = document.getElementById('wybS');
+    var wws = document.getElementById('wybSS');
     var dg = document.getElementById('dodajG-button');
+    var ug = document.getElementById('usunG-button');
     var pg = document.getElementById('pokazG-button');
     var dz = document.getElementById('dodajZ-button');
     var uz = document.getElementById('usunZ-button');
     var ds = document.getElementById('dodajS-button');
     var us = document.getElementById('usunS-button');
     dg.addEventListener('click', addGroup, false);
+    ug.addEventListener('click', deleteGroup, false);
     pg.addEventListener('click', informationGroup, false);
     dz.addEventListener('click', addPlayer, false);
     uz.addEventListener('click', delPlayer, false);
     ds.addEventListener('click', addJudge, false);
     us.addEventListener('click', delJudge, false);
+    lg.addEventListener('dblclick', informationGroup, false);
+    wz.addEventListener('dblclick', addPlayer, false);
+    wwz.addEventListener('dblclick', delPlayer, false);
+    ws.addEventListener('dblclick', addJudge, false);
+    wws.addEventListener('dblclick', delJudge, false);
 });
