@@ -164,7 +164,7 @@ exports.usunLS = (req, res) =>  {
 };
 
 exports.usunGr2 = (req, res) =>  {
-    console.log('dd');
+    delGrWLS(req.params.nazwa);
     delete3('../models/group.js', req.params.nazwa, 'g');
 };
 
@@ -304,6 +304,12 @@ var delete3 = (schema, id, type) => {
         O.remove(O.find({nazwa: id})).exec();
 };
 
+var delGrWLS = (nazwa) => {
+    var underscore = require('underscore');
+    var id = underscore.find(fkGr, (g) => { return g.nazwa === nazwa; })._id;
+    underscore.map(underscore.filter(fkLS, (ls) => { return ls._gr.toString() === id.toString();}), (ls2) => { return updateColumn(ls2._zaw.toString(), 'gr2', ls2._zaw.toString(), '../models/startingList.js');});
+};
+
 var readZwNZak = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
@@ -377,7 +383,6 @@ var updateColumn = (value, poleID, id, schema) => {
     }
     else if(poleID==="sedz2")
     {
-        console.log('dd');
         tb = underscore.find(fkGr, (g) => {return g.nazwa === id;}).sedziowie;
         pm = tb.indexOf(value);
         if (pm >= 0)

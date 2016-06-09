@@ -21,6 +21,7 @@ $(() => {
     
     var deleteGroup = () =>
     {
+        var ng = document.getElementById('nazwa-grupy');
         if(lg.value)
         {
             $.ajax({
@@ -28,6 +29,11 @@ $(() => {
                 method: 'DELETE',
             });
             $('#listaGr option')[lg.selectedIndex].remove();
+            $("#wybS option").remove();
+            $("#wybSS option").remove();
+            $("#wybZ option").remove();
+            $("#wybZZ option").remove();
+            ng.innerHTML = 'Grupa';
         }
     };
     
