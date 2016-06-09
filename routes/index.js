@@ -159,12 +159,15 @@ exports.usunUz = (req, res) =>  {
 };
 
 exports.usunLS = (req, res) =>  {
-    delete2(req.params.id, '../models/startingList.js');
+    updateNS(req.params.id, '../models/startingList.js');
+    delLSWZw(req.params.id);
+    delfkLS(req.params.id);
     delete3('../models/startingList.js', req.params.id, 'ls');
 };
 
 exports.usunGr2 = (req, res) =>  {
     delGrWLS(req.params.nazwa);
+    delfkGr(req.params.nazwa);
     delete3('../models/group.js', req.params.nazwa, 'g');
 };
 
@@ -310,6 +313,27 @@ var delGrWLS = (nazwa) => {
     underscore.map(underscore.filter(fkLS, (ls) => { return ls._gr.toString() === id.toString();}), (ls2) => { return updateColumn(ls2._zaw.toString(), 'gr2', ls2._zaw.toString(), '../models/startingList.js');});
 };
 
+var delLSWZw = (id) => {
+    var underscore = require('underscore');
+    updateColumn(zwNZak._id, 'zw', id, '../models/competition.js');  
+};
+
+var delfkLS = (id) => {
+    var underscore = require('underscore');
+    var tb = underscore.keys(underscore.indexBy(fkLS, "_zaw"));
+    var pm = tb.indexOf(id);
+    if (pm >= 0)
+        fkLS.splice(pm, 1);
+};
+
+var delfkGr = (id) => {
+    var underscore = require('underscore');
+    var tb = underscore.keys(underscore.indexBy(fkGr, "nazwa"));
+    var pm = tb.indexOf(id);
+    if (pm >= 0)
+        fkGr.splice(pm, 1);
+};
+
 var readZwNZak = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
@@ -387,11 +411,20 @@ var updateColumn = (value, poleID, id, schema) => {
         pm = tb.indexOf(value);
         if (pm >= 0)
           tb.splice(pm, 1);
-        console.log(tb);
         O.update({_id: underscore.find(fkGr, (g) => {return g.nazwa === id;})._id},
         {$set: {sedziowie: tb}}, () => {});
         pmGr = underscore.keys(underscore.indexBy(fkGr, "nazwa"));
         fkGr[underscore.indexOf(pmGr, id)].sedziowie=tb;
+    }
+    else if(poleID==="zw")
+    {
+        id = underscore.find(fkLS, (ls) => {return ls._zaw.toString() === id.toString();})._id;
+        tb = zwNZak.ls;
+        pm = tb.indexOf(id);
+        if (pm >= 0)
+          tb.splice(pm, 1);
+        O.update({_id: value}, {$set: {ls: tb}}, () => {});
+        zwNZak.ls=tb;
     }
 };
 
@@ -493,4 +526,18 @@ var pobZwNDDZaw = () => {
         }
     else
         return underscore.sortBy(zaw, (z) => {return z.nazwa;}); 
+};
+
+var updateNS = (id, schema) => {
+    var underscore = require("underscore");
+    var O = require(schema);
+    var ns = underscore.find(fkLS, (f) => {return f._zaw.toString() === id.toString();}).nrStartowy;
+    var i;
+    var nns = underscore.map(fkLS, (ls) => { return parseInt(ls.nrStartowy) > parseInt(ns) ? (parseInt(ls.nrStartowy) - 1).toString() : ls.nrStartowy; });
+    for(i = ns; i < fkLS.length; i++)
+    {
+        fkLS[i].nrStartowy = nns[i];
+        O.update({_id: fkLS[i]._id}, {$set: {nrStartowy: nns[i]}}, () => {});
+    }
+    
 };

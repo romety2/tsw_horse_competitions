@@ -31,6 +31,7 @@ $(() => {
     
     var deletePlayer = () =>
     {
+        var lso = $('#listaSt option');
         if(ls.value)
         {
             $.ajax({
@@ -38,12 +39,18 @@ $(() => {
                 method: 'DELETE',
             });
             $.ajax({
-                    url: '/pobierzZaw/'+ls.value,
-                    method: 'GET',
-                    success: function(data){
-                        $(s).append("<option value='"+data._id+"'>"+data.nazwa+" ("+data.plec+"), "+data.imie+" "+data.nazwisko+"</option>");
-                    },
-                });
+                url: '/pobierzZaw/'+ls.value,
+                method: 'GET',
+                success: function(data){
+                    $(s).append("<option value='"+data._id+"'>"+data.nazwa+" ("+data.plec+"), "+data.imie+" "+data.nazwisko+"</option>");
+                },
+            });
+            for(let i = ls.selectedIndex+1; i < lso.length; i++)
+            {
+                let pm = ls.options[i].text.indexOf('.');
+                ls.options[i].text=(parseInt(ls.options[i].text.substring(0, pm)-1).toString())+ls.options[i].text.substring(pm);
+                
+            }
             $('#listaSt option')[ls.selectedIndex].remove();
         }
     };
