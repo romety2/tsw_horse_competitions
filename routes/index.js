@@ -342,8 +342,7 @@ var readZwNZak = (schema) => {
         zwNZak = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
         if(zwNZak === '')
         {
-            create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie'}, '../models/competition.js');
-            zwNZak = {wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie', ls: []};
+            zwNZak = create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie'}, '../models/competition.js');
             fkLS = [];
         }
         else
