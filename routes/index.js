@@ -342,7 +342,7 @@ var readZwNZak = (schema) => {
         zwNZak = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
         if(zwNZak === '')
         {
-            zwNZak = create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', etap: 'tworzenie'}, '../models/competition.js');
+            zwNZak = create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', is: '0', etap: 'tworzenie'}, '../models/competition.js');
             fkLS = [];
         }
         else
@@ -375,6 +375,8 @@ var updateColumnZwNZak = (value, poleID, schema) => {
         O.update({_id: zwNZak._id}, {$set: {rodzaj: value}}, () => {});  
     else if(poleID==="radio2R")
         O.update({_id: zwNZak._id}, {$set: {rodzaj: value}}, () => {});
+    else if(poleID==="is")
+        O.update({_id: zwNZak._id}, {$set: {is: value}}, () => {});
 };
 
 var updateColumn = (value, poleID, id, schema) => {

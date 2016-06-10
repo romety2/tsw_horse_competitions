@@ -8,6 +8,7 @@ $(() => {
             success: (data) => {
                 document.getElementById('wydarzenieZ').setAttribute("value", data.wydarzenie);
                 document.getElementById('opisZ').value = data.opis;
+                document.getElementById('is').value = data.is;
                 if(data.zakres==="10")
                      document.getElementById("radio1Z").checked = true;
                 else   

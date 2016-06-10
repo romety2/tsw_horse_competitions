@@ -16,6 +16,9 @@ var competitionSchema = new Schema({
     rodzaj: {
         type: String,
     },
+    is: {
+        type: String,
+    },
     etap: {
         type: String,
     },
