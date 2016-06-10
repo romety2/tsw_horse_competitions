@@ -94,6 +94,7 @@ app.put('/wstawGr/:id', routes.wstawGr);
 app.put('/usunGr/:id', routes.usunGr);
 app.put('/wstawSedz/:grupa', routes.wstawSedz);
 app.put('/usunSedz/:grupa', routes.usunSedz);
+app.put('/zmienKolNS/:id1/:id2', routes.zmienKolNS);
 
 app.delete('/usunLS/:id', routes.usunLS);
 app.delete('/usunGr2/:nazwa', routes.usunGr2);

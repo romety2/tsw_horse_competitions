@@ -197,6 +197,10 @@ exports.usunSedz = (req, res) =>  {
     res.redirect('/grupy');
 };
 
+exports.zmienKolNS = (req, res) =>  {
+    changeOrderNS(req.params.id1, req.params.id2, '../models/startingList.js');
+};
+
 var openPDF = (fp, res) => {
     var fs = require('fs');
     var filePath = fp;
@@ -535,11 +539,13 @@ var updateNS = (id, schema) => {
     var O = require(schema);
     var ns = underscore.find(fkLS, (f) => {return f._zaw.toString() === id.toString();}).nrStartowy;
     var i;
-    var nns = underscore.map(fkLS, (ls) => { return parseInt(ls.nrStartowy) > parseInt(ns) ? (parseInt(ls.nrStartowy) - 1).toString() : ls.nrStartowy; });
-    for(i = parseInt(ns); i < fkLS.length; i++)
+    for(i = 0; i < fkLS.length; i++)
     {
-        fkLS[i].nrStartowy = nns[i];
-        O.update({_id: fkLS[i]._id}, {$set: {nrStartowy: nns[i]}}, () => {});
+        if(parseInt(fkLS[i].nrStartowy) > parseInt(ns))
+        {
+            O.update({_id: fkLS[i]._id}, {$set: {nrStartowy: parseInt(fkLS[i].nrStartowy) - 1}}, () => {});
+            fkLS[i].nrStartowy--;
+        }
     }  
 };
 
@@ -554,4 +560,17 @@ var updateNG = (id, schema) => {
         fkGr[i].nazwa = nng[i];
         O.update({_id: fkGr[i]._id}, {$set: {nazwa: nng[i]}}, () => {});
     }
+};
+
+var changeOrderNS = (id1, id2, schema) => {
+    var underscore = require("underscore");
+    var ns1 = (parseInt(underscore.find(fkLS, (f) => {return f._zaw.toString() === id1.toString();}).nrStartowy)-1).toString();
+    var ns2 = (parseInt(underscore.find(fkLS, (f) => {return f._zaw.toString() === id2.toString();}).nrStartowy)+1).toString();
+    var O = require(schema);
+    var pmLS, pmGr;
+    O.update({_zaw: id1}, {$set: {nrStartowy: ns1}}, () => {});
+    O.update({_zaw: id2}, {$set: {nrStartowy: ns2}}, () => {});
+    pmLS = underscore.keys(underscore.indexBy(fkLS, "_zaw"));
+    fkLS[underscore.indexOf(pmLS, id1)].nrStartowy=ns1;
+    fkLS[underscore.indexOf(pmLS, id2)].nrStartowy=ns2;
 };
