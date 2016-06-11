@@ -20,6 +20,14 @@
     bottom: @b;
 }
 
+.pozycja-absolute(@l: auto, @t: auto,  @r: auto, @b: auto){
+    position: absolute;
+    left: @l;
+    top: @t;
+    right: @r;
+    bottom: @b;
+}
+
 .forma-padding(@pl: auto, @pt: auto, @pr: auto, @pb: auto){
     padding-left: @pl;
     padding-top: @pt;
@@ -70,7 +78,6 @@
 .none-padding{
     padding: 0;
 }
-
 
 .menu-nav li a{
     color: black;
@@ -177,6 +184,27 @@
 
 .ocena-opis{
     font-size: 30px;
+}
+
+.widok-col{
+    .flex(column);
+}
+
+.widok-row{
+    .flex(row);
+}
+
+.dane-oc{
+    width: 25%
+}
+
+.inf-oc{
+    margin-left:5%;
+    width: 75%
+}
+
+tb-oc{
+    margin-top:5%;
 }
 
 @media screen and (min-width: 1201px){

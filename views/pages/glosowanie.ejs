@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <% include ../partials/head %>
+    </head>
+    <body id="body" class="body-show">
+        <% include ../partials/menu %>
+        <div>
+            <h1 class="text-center">Ocenianie</h1>
+                <div class="opis">
+                <div class="widok-row">
+                    <div class="widok-col dane-oc">
+                        <div>
+                            <label>Grupy:</label>
+                            <div class="form-group">
+                                <div class="">
+                                    <input type="text" id="szukajG" class="form-control" placeholder="Wyszukaj">
+                                </div>
+                            </div>
+                            <div class="">
+                                <select type="text" id="wybG" class="form-control" multiple>
+                                    </select>
+                                <button id="dodajG-button" type="button" class="btn btn-default" title="Wybierz grupę"><span class="glyphicon glyphicon-plus"></span></button>
+                            </div>
+                        </div>
+                        <div>
+                           <br>
+                            <label>Zawodnicy:</label>
+                            <div class="form-group">
+                                <div class="">
+                                    <input type="text" id="szukajZ" class="form-control" placeholder="Wyszukaj">
+                                </div>
+                            </div>
+                            <div class="">
+                                <select type="text" id="wybZ" class="form-control" multiple>
+                                    </select>
+                                <button id="dodajZ-button" type="button" class="btn btn-default" title="Wybierz zawodnika"><span class="glyphicon glyphicon-plus"></span></button>
+                            </div>
+                        </div>
+                        <div>
+                           <br>
+                            <button id="zacznij-button" type="button" class="btn btn-default" title="Rozpocznij zawody">Zakończ ocenianie</button>
+                            <br><br>
+                            <button id="zacznij-button" type="button" class="btn btn-default" title="Rozpocznij zawody">Zakończ zawody</button>
+                        </div>
+                    </div>
+                    <div class="widok-col inf-oc">
+                        <h2 class="text-center">Grupa</h2>
+                        <h2 class="text-center">Zawodnik</h2>
+                        <table id="tabela" class="table table-striped sortable tb-oc">
+                            <tr>
+                                <th>Sędzia</th>
+                                <th>Typ</th>
+                                <th>Głowa i szyja</th>
+                                <th>Kłoda</th>
+                                <th>Nogi</th>
+                                <th>Ruch</th>
+                            </tr>
+                        </table> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

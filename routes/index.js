@@ -18,6 +18,10 @@ exports.zgloszenie = (req, res) =>  {
     res.render('pages/zgloszenie', { user : req.user, login: req.isAuthenticated() });    
 };
 
+exports.glosowanie = (req, res) =>  {
+    res.render('pages/glosowanie', { user : req.user, login: req.isAuthenticated() });    
+};
+
 exports.pobierzZg = (req, res) =>  {
     res.download(__dirname + '/../public/file/zgloszenie.pdf');
 };
