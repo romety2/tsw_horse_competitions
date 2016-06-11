@@ -51,6 +51,7 @@ role.use('access administrator pages', roles.administrator);
 
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000);
+app.set('host', process.env.HOST || '127.0.0.1');
 
 app.get('/', routes.index);
 app.get('/kontakt', routes.kontakt);
@@ -79,6 +80,7 @@ app.get('/pobierzLSZwNZak/:grupa', routes.pobierzLSZwNZakPlecWgGr);
 app.get('/pobierzLSZwNZakWGr/:grupa', routes.pobierzLSZwNZakGrWgGr);
 app.get('/pobierzSedziowNWGr/:grupa', routes.pobierzSedziowNWGr);
 app.get('/pobierzSedziowWGr/:grupa', routes.pobierzSedziowWGr);
+app.get('/walidacjaGr', routes.walidacjaGr);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
@@ -112,7 +114,7 @@ passport.use(new passportLocal(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-https.createServer(options, app).listen(app.get('port'), function () {
+https.createServer(options, app).listen(app.get('port'), app.get('host'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });
 

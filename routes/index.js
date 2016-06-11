@@ -168,6 +168,7 @@ exports.usunLS = (req, res) =>  {
 exports.usunGr2 = (req, res) =>  {
     updateNG(req.params.nazwa, '../models/group.js');
     delGrWLS(req.params.nazwa);
+    delGrWZw(req.params.nazwa);
     delfkGr(req.params.nazwa);
     delete3('../models/group.js', req.params.nazwa, 'g');
 };
@@ -199,6 +200,10 @@ exports.usunSedz = (req, res) =>  {
 
 exports.zmienKolNS = (req, res) =>  {
     changeOrderNS(req.params.id1, req.params.id2, '../models/startingList.js');
+};
+
+exports.walidacjaGr = (req, res) =>  {
+    res.json(validationGr());
 };
 
 var openPDF = (fp, res) => {
@@ -323,6 +328,11 @@ var delLSWZw = (id) => {
     updateColumn(zwNZak._id, 'zw', id, '../models/competition.js');  
 };
 
+var delGrWZw = (id) => {
+    var underscore = require('underscore');
+    updateColumn(zwNZak._id, 'zw2', id, '../models/competition.js');  
+};
+
 var delfkLS = (id) => {
     var underscore = require('underscore');
     var tb = underscore.keys(underscore.indexBy(fkLS, "_zaw"));
@@ -346,7 +356,7 @@ var readZwNZak = (schema) => {
         zwNZak = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
         if(zwNZak === '')
         {
-            zwNZak = create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', is: '0', etap: 'tworzenie'}, '../models/competition.js');
+            zwNZak = create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', is: '1', etap: 'tworzenie'}, '../models/competition.js');
             fkLS = [];
         }
         else
@@ -432,6 +442,16 @@ var updateColumn = (value, poleID, id, schema) => {
         O.update({_id: value}, {$set: {ls: tb}}, () => {});
         zwNZak.ls=tb;
     }
+    else if(poleID==="zw2")
+    {
+        id = underscore.find(fkGr, (g) => {return g.nazwa === id.toString();})._id;
+        tb = zwNZak.grupy;
+        pm = tb.indexOf(id);
+        if (pm >= 0)
+          tb.splice(pm, 1);
+        O.update({_id: value}, {$set: {grupy: tb}}, () => {});
+        zwNZak.gr=tb;
+    }
 };
 
 var updateStatusZwNZak = (etap, schema) => {
@@ -472,7 +492,7 @@ var pobLSZwNZakPlecWgGr = (nGr) => {
     if(typeof fkLS !== 'undefined' && typeof fkGr !== 'undefined' )
     {
         g = underscore.find(fkGr, (f) => {return f.nazwa === nGr;});
-        return underscore.filter(fkLS, (f) => {return g.plec === f.plec && f._zaw.toString() === f._gr.toString();});
+        return underscore.sortBy(underscore.filter(fkLS, (f) => {return g.plec === f.plec && f._zaw.toString() === f._gr.toString();}), (f) => {return f.nrStartowy;});
     }
     else
         return {} ;
@@ -484,7 +504,7 @@ var pobLSZwNZakGrWgGr = (nGr) => {
     if(typeof fkLS !== 'undefined' && typeof fkGr !== 'undefined' )
     {
         g = underscore.find(fkGr, (f) => {return f.nazwa === nGr;});
-        return underscore.filter(fkLS, (f) => {return f._gr.toString() === g._id.toString();});
+        return underscore.sortBy(underscore.filter(fkLS, (f) => {return f._gr.toString() === g._id.toString();}), (f) => {return f.nrStartowy;});
     }
     else
         return {};
@@ -573,4 +593,26 @@ var changeOrderNS = (id1, id2, schema) => {
     pmLS = underscore.keys(underscore.indexBy(fkLS, "_zaw"));
     fkLS[underscore.indexOf(pmLS, id1)].nrStartowy=ns1;
     fkLS[underscore.indexOf(pmLS, id2)].nrStartowy=ns2;
+};
+
+var validationGr = () => {
+    var underscore = require("underscore");
+    var tb = underscore.keys(underscore.indexBy(fkLS, "_gr"));
+    var pm;
+    if(fkGr.length === 0)
+        return "Musisz utworzyć jakąś grupę!";
+    else if(!underscore.every(fkGr, (g) => { return tb.indexOf(g._id.toString()) !== -1;}))
+    {
+          return underscore.find(fkGr, (g) => { return tb.indexOf(g._id.toString()) === -1; }).nazwa+": jest pusta dodaj do niej zawodników lub usuń grupę!";  
+    }
+    else if(!underscore.every(fkGr, (g) => { return g.sedziowie.length === parseInt(zwNZak.is); }))
+    {
+        return underscore.find(fkGr, (g) => { return g.sedziowie.length !== parseInt(zwNZak.is); }).nazwa+": liczba siędziów nie jest równa "+zwNZak.is+"!";
+    }
+    else if(!underscore.every(fkLS, (ls) => { return ls._zaw.toString() !== ls._gr.toString(); }))
+    {
+        pm = underscore.find(fkLS, (ls) => { return ls._zaw.toString() === ls._gr.toString(); });
+        return "Zawodnik: "+pm.nrStartowy+". "+pm.nazwa+" ("+pm.plec+") - "+pm.imie+" "+pm.nazwisko+", nie został dodany do żadnej grupy!";     
+    }
+    return '';
 };

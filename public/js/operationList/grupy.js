@@ -78,7 +78,7 @@ $(() => {
                     $("#wybS option").remove();
                     var s = document.getElementById('wybS');
                     for(let i = 0; i < data.length; i++)
-                        $(s).append("<option value='"+data[i]._id+"'>"+data[i].imie+" "+data[i].nazwisko+"</option>");
+                        $(s).append("<option value='"+data[i]._id+"'>"+data[i].imie+" "+data[i].nazwisko+" ("+data[i].username+")"+"</option>");
                 },
             }); 
             $.ajax({
@@ -88,7 +88,7 @@ $(() => {
                     $("#wybSS option").remove();
                     var s = document.getElementById('wybSS');
                     for(let i = 0; i < data.length; i++)
-                        $(s).append("<option value='"+data[i]._id+"'>"+data[i].imie+" "+data[i].nazwisko+"</option>");
+                        $(s).append("<option value='"+data[i]._id+"'>"+data[i].imie+" "+data[i].nazwisko+" ("+data[i].username+")</option>");
                 },
             }); 
         }
