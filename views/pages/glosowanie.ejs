@@ -3,6 +3,8 @@
    <head>
         <% include ../partials/head %>
     </head>
+    <script src="/js/ws/socket.io.js"></script>
+    <script src="/js/ws/admin.js"></script>
     <body id="body" class="body-show">
         <% include ../partials/menu %>
         <div>
@@ -45,8 +47,10 @@
                         </div>
                     </div>
                     <div class="widok-col inf-oc">
-                        <h2 class="text-center">Grupa</h2>
-                        <h2 class="text-center">Zawodnik</h2>
+                        <div class="text-center widok-row">
+                            <h3>Grupa</h3>
+                            <h3 class='przesuNagl'>Zawodnik</h3>
+                        </div>
                         <table id="tabela" class="table table-striped sortable tb-oc">
                             <tr>
                                 <th>Sędzia</th>

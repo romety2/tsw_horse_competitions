@@ -4,6 +4,7 @@ var path = require('path');
 var express = require('express');
 var fs = require('fs');
 var https = require('https');
+var httpsServer;
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -15,6 +16,10 @@ var connectRoles = require('connect-roles');
 var app = express();
 var routes = require('./routes');
 var roles = require('./routes/roles');
+var User = require('./models/user');
+
+var socketIo;
+var io;
 
 var options = {
   key: fs.readFileSync('certifications/key.pem'),
@@ -113,15 +118,25 @@ require('./models/competition');
 require('./models/player');
 require('./models/user');
 
-var User = require('./models/user');
 passport.use(new passportLocal(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-https.createServer(options, app).listen(app.get('port'), app.get('host'), function () {
+httpsServer = https.createServer(options, app);
+
+socketIo = require("socket.io");
+io = socketIo.listen(httpsServer);
+
+httpsServer.listen(app.get('port'), app.get('host'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });
 
 /*app.listen(app.get('port'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });*/
+
+io.sockets.on("connection", function (socket) {
+    socket.on("test", function (username, room) {
+		console.log('test');
+    });
+});
