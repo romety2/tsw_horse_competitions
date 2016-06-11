@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <% include ../partials/head %>
+        <link href="/css/bootstrap-slider.min.css" rel="stylesheet"/>
+        <script src="/js/sliders/slider.js"></script>
+    </head>
+    <body id="body" class="body-show">
+        <% include ../partials/menu %>
+        <div>
+            <h1 class="text-center">Ocenianie</h1>
+            <div class="opis">
+                <div class="form-group">
+                    <label class="col-sm-2 ocena-opis">Typ: </label>
+                    <input style="width: 55%;" id="STyp" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="0.5" data-slider-value="0"/>
+                    <span id='ocenaT' class="ocena"></span>
+                </div>
+                <br>
+                <div class="form-group">
+                   <label class="col-sm-2 ocena-opis">Głowa: </label>
+                    <input style="width: 55%;" id="SGlowa" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="0.5" data-slider-value="0"/>
+                    <span id='ocenaG' class='ocena'></span>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label class="col-sm-2 ocena-opis">Kłoda: </label>
+                    <input style="width: 55%;" id="SKloda" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="0.5" data-slider-value="0"/>
+                    <span id='ocenaK'  class='ocena'></span>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label class="col-sm-2 ocena-opis">Nogi: </label>
+                    <input style="width: 55%;" id="SNogi" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="0.5" data-slider-value="0"/>
+                    <span id='ocenaN'  class='ocena'></span>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label class="col-sm-2 ocena-opis">Ruch: </label>
+                    <input style="width: 55%;" id="SRuch" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="0.5" data-slider-value="0"/>
+                    <span id='ocenaR' class='ocena'></span>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="/js/sliders/bootstrap-slider.min.js"></script>
+</html>

@@ -26,6 +26,11 @@
             </ul>
         </li>
         <% } %>
+        <% if (user.role === 'Sędzia') { %>
+        <li>
+            <a href="/ocenianie" title="Ocenianie"><span class="text-menu"><span class="glyphicon glyphicon-star"></span> Ocenianie</span></a>
+        </li>
+        <% } %>
         <li>
             <a href="/wyloguj" title="Wyloguj"><span class="text-menu"><span class="glyphicon glyphicon-log-out"></span> Wyloguj</span></a>
         </li>

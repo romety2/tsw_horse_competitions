@@ -65,6 +65,7 @@ app.get('/zawodnicy', role.can('access administrator pages'), routes.zawodnicy);
 app.get('/uzytkownicy', role.can('access administrator pages'), routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
 app.get('/uzytkownicy/usun/:id', routes.usunUz);
+app.get('/ocenianie', routes.ocenianie);
 app.get('/wyloguj', routes.wyloguj);
 
 app.get('/pobierzW', routes.pobierzW);

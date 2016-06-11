@@ -206,6 +206,10 @@ exports.walidacjaGr = (req, res) =>  {
     res.json(validationGr());
 };
 
+exports.ocenianie = (req, res) =>  {
+    res.render('pages/ocenianie', { user : req.user, login: req.isAuthenticated() });
+};
+
 var openPDF = (fp, res) => {
     var fs = require('fs');
     var filePath = fp;
