@@ -5,6 +5,8 @@
     </head>
     <script src="/js/ws/socket.io.js"></script>
     <script src="/js/ws/admin.js"></script>
+    <script src="/js/restoration/glosowanie.js"></script>
+    <script src="/js/operationList/glosowanie.js"></script>
     <body id="body" class="body-show">
         <% include ../partials/menu %>
         <div>
@@ -41,15 +43,15 @@
                         </div>
                         <div>
                            <br>
-                            <button id="zacznij-button" type="button" class="btn btn-default" title="Rozpocznij zawody">Zakończ ocenianie</button>
+                            <button id="zakOc" type="button" class="btn btn-default" title="Zakończ oceniać">Zakończ ocenianie</button>
                             <br><br>
-                            <button id="zacznij-button" type="button" class="btn btn-default" title="Rozpocznij zawody">Zakończ zawody</button>
+                            <button id="zakZaw" type="button" class="btn btn-default" title="Zakończ zawody">Zakończ zawody</button>
                         </div>
                     </div>
                     <div class="widok-col inf-oc">
                         <div class="text-center widok-row">
-                            <h3>Grupa</h3>
-                            <h3 class='przesuNagl'>Zawodnik</h3>
+                            <h3 id="nGr">Grupa</h3>
+                            <h3 id="nZaw" class='przesuNagl'></h3>
                         </div>
                         <table id="tabela" class="table table-striped sortable tb-oc">
                             <tr>
