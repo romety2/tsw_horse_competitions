@@ -18,10 +18,6 @@ exports.zgloszenie = (req, res) =>  {
     res.render('pages/zgloszenie', { user : req.user, login: req.isAuthenticated() });    
 };
 
-exports.glosowanie = (req, res) =>  {
-    res.render('pages/glosowanie', { user : req.user, login: req.isAuthenticated() });    
-};
-
 exports.pobierzZg = (req, res) =>  {
     res.download(__dirname + '/../public/file/zgloszenie.pdf');
 };
@@ -54,6 +50,13 @@ exports.grupy = (req, res) =>  {
     readAllZaw('../models/player.js');
     readAllSedz('../models/user.js', 'Sędzia');
     res.render('pages/grupy', { user : req.user, login: req.isAuthenticated() }); 
+};
+
+exports.glosowanie = (req, res) =>  {
+    readZwNZak('../models/competition.js');
+    readAllZaw('../models/player.js');
+    readAllSedz('../models/user.js', 'Sędzia');
+    res.render('pages/glosowanie', { user : req.user, login: req.isAuthenticated() });    
 };
 
 exports.zawodnicy = (req, res) =>  {
@@ -182,6 +185,11 @@ exports.zmienZawGrupa = (req, res) =>  {
     res.redirect('/grupy');
 };
 
+exports.zmienZawGlos = (req, res) =>  {
+    updateStatusZwNZak('rozpoczete', '../models/competition.js');
+    createTableNotes('../models/notes.js', '../models/competition.js');
+};
+
 exports.wstawGr = (req, res) =>  {
     updateColumn(req.body._gr, 'gr', req.params.id, '../models/startingList.js');
     res.redirect('/grupy');
@@ -283,6 +291,15 @@ var getFKZwNZak = (schema, pLS, pGr) => {
             fkLS = o.ls;
         });
         O.findOne({etap: 'dzielenie'}).populate(pGr).exec((err, o) => {
+            fkGr = o.grupy;
+        });
+    }
+    else if(zwNZak.etap === 'rozpoczete')
+    {
+        O.findOne({etap: 'rozpoczete'}).populate(pLS).exec((err, o) => {
+            fkLS = o.ls;
+        });
+        O.findOne({etap: 'rozpoczete'}).populate(pGr).exec((err, o) => {
             fkGr = o.grupy;
         });
     }
@@ -623,4 +640,21 @@ var validationGr = () => {
         return "Zawodnik: "+pm.nrStartowy+". "+pm.nazwa+" ("+pm.plec+") - "+pm.imie+" "+pm.nazwisko+", nie został dodany do żadnej grupy!";     
     }
     return '';
+};
+
+var createTableNotes = (schema , s2) =>
+{
+    var i, j, k, tb = [], dl;
+    var underscore = require("underscore");
+    var f = (ls) => { return ls._gr.toString() !== fkGr[i]._id.toString();};
+    var O = require(s2);
+    for(i = 0; i < fkGr.length; i++)
+    {
+        tb = underscore.filter(fkLS, f);
+        dl = tb.length;
+        for(j = 0; j < dl; j++)
+            for(k = 0; k < zwNZak.is; k++)
+                zwNZak.oceny.push(create({typ: '', glowa: '', kloda: '', nogi: '', ruch: '', status: 'n', sedzia: fkGr[i].sedziowie[k].toString(), zawodnik: tb[j]._id.toString(),}, '../models/notes.js'));
+    }
+    O.update({_id: zwNZak._id}, {$set: {oceny: zwNZak.oceny}}, () => {});
 };

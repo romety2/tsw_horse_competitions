@@ -11,7 +11,13 @@ $(() => {
             method: 'GET',
             success: (data) => {
                     if(data === '')
+                    {
+                        $.ajax({
+                            url: "/glosowanie",
+                            method: 'PUT',
+                        }); 
                        k.click();
+                    }
                     else
                     {
                         kom.style.display = 'block';
