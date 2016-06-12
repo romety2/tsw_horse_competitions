@@ -46,6 +46,11 @@ $(() => {
     {
         if(wz.value)
         {
+            $.ajax({
+                url: "/zmienStatusOc/"+wz.value,
+                method: 'PUT',
+            }); 
+            
             document.getElementById('nZaw').innerHTML = wz.options[wz.selectedIndex].text;
             $.ajax({
                 url: "/pobierzSedziowWGr/"+$('#nGr').text(),
@@ -64,6 +69,8 @@ $(() => {
     {
         var t = $('.temp');
         var tt = $('.temp .typ'), tg = $('.temp .glowa'), tk = $('.temp .kloda'), tn = $('.temp .nogi'), tr = $('.temp .ruch');
+        var pm = $(document.getElementById('nZaw')).text().indexOf('.');
+        var ns = $(document.getElementById('nZaw')).text().substring(0, pm);
         if(sprOceny())
         {
             wz.disabled = false;
@@ -74,12 +81,20 @@ $(() => {
             zo.disabled = true;
             for(let i = 0; i < t.length; i++)
             {
+                $.ajax({
+                    url:"/zapiszOceny/"+$(tt[i]).text()+"/"+$(tg[i]).text()+"/"+$(tk[i]).text()+"/"+$(tn[i]).text()+"/"+$(tr[i]).text()+"/"+$(t)[i].id+'/'+ns,
+                    method: 'PUT',
+                }); 
                 $(tt[i]).text('');
                 $(tg[i]).text('');
                 $(tk[i]).text('');
                 $(tn[i]).text('');
                 $(tr[i]).text('');
             }
+            $.ajax({
+                url: "/zmienStatusZak",
+                method: 'PUT',
+            }); 
         }
     };
     

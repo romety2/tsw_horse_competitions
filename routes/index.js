@@ -196,6 +196,14 @@ exports.zmienStatusWG = (req, res) => {
     updateStatusOc('../models/notes.js', req.params.nazwa ,'wg');
 };
 
+exports.zmienStatusOc = (req, res) => {
+    updateStatusOc('../models/notes.js', req.params.id ,'o');
+};
+
+exports.zmienStatuZak = (req, res) => {
+    updateStatusOc('../models/notes.js', '' ,'z');
+};
+
 exports.wstawGr = (req, res) =>  {
     updateColumn(req.body._gr, 'gr', req.params.id, '../models/startingList.js');
     res.redirect('/grupy');
@@ -231,6 +239,10 @@ exports.ocenianie = (req, res) =>  {
 
 exports.pobUst = (req, res) => {
     res.json(pobUst('../models/competition.js'));
+};
+
+exports.zapiszOceny = (req, res) => {
+    zapOcene(req.params.t, req.params.g,  req.params.k,  req.params.n,  req.params.r, req.params.sedzia, req.params.ns, '../models/notes.js');
 };
 
 
@@ -675,7 +687,7 @@ var createTableNotes = (schema , s2) =>
 {
     var i, j, k, tb = [], dl;
     var underscore = require("underscore");
-    var f = (ls) => { return ls._gr.toString() !== fkGr[i]._id.toString();};
+    var f = (ls) => { return ls._gr.toString() === fkGr[i]._id.toString();};
     var O = require(s2);
     for(i = 0; i < fkGr.length; i++)
     {
@@ -710,4 +722,30 @@ var updateStatusOc = (schema, grupa, status) =>
         for(i = 0; i < pm.length; i++)
             O.update({_id: pm[i]._id}, {$set: {status: 'wg'}}, () => {});
     }
+    else if(status === 'o')
+    {
+        id = underscore.find(fkLS, (ls) => { return ls._zaw.toString() === grupa; })._id;
+        id = underscore.find(fkOc, (o) => { return o.zawodnik.toString() === id.toString(); })._id;
+        i = underscore.keys(underscore.indexBy(fkOc, "_id"));
+        fkOc[i.indexOf(id.toString())].status='o';
+        O.update({_id: id}, {$set: {status: 'o'}}, () => {});
+    }
+    else if(status === 'z')
+    {
+        id = underscore.find(fkOc, (o) => { return o.status.toString() === 'o'; })._id;
+        i = underscore.keys(underscore.indexBy(fkOc, "_id"));
+        fkOc[i.indexOf(id.toString())].status='z';
+        O.update({_id: id}, {$set: {status: 'z'}}, () => {});
+    }
+};
+
+var zapOcene = (t, g, k, n, r, login, ns, schema) =>
+{
+    var O = require(schema);
+    var underscore = require('underscore');
+    var idS = underscore.find(sedz, (s) => { return s.username === login; })._id;
+    var idLS = underscore.find(fkLS, (ls) => { return ls.nrStartowy === ns; })._id;
+    console.log(idS);
+    console.log(idLS);
+    O.update({zawodnik: idLS, sedzia: idS}, {$set: {typ: t, glowa: g, kloda: k, nogi: n, ruch: r}}, () => {});
 };

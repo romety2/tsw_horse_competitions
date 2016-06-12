@@ -53,6 +53,11 @@ $(() => {
                     $('#STyp').on("change", (e) => {
                         $("#ocenaT").text(e.value.newValue);
                         sendVote(e.value.newValue, 'typ',  document.getElementById('pokoj').value);
+                     if($(document.getElementById('nSt')).text().length !== 0)
+                            $.ajax({
+                                url: "/zapiszOcene/"+e.value.newValue+'/typ/'+document.getElementById('pokoj').value+'/'+$(document.getElementById('nSt')).text(),
+                                method: 'PUT'
+                            });
                     });
 
                     $('#SGlowa').slider({
@@ -91,6 +96,7 @@ $(() => {
                         $("#ocenaR").text(e.value.newValue);
                         sendVote(e.value.newValue, 'ruch',  document.getElementById('pokoj').value);
                     });
+                    
                 }
             },
         }); 

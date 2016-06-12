@@ -19,5 +19,5 @@ socket.on("error", function (err) {
     });
 
 socket.on("echoPrzekazOcene", function (ocena, kategoria, uzytkownik) {
-        console.log($("#"+uzytkownik+" ."+kategoria).text(ocena));
+        $("#"+uzytkownik+" ."+kategoria).text(ocena);
     });

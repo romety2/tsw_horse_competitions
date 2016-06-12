@@ -107,6 +107,9 @@ app.put('/usunSedz/:grupa', routes.usunSedz);
 app.put('/zmienKolNS/:id1/:id2', routes.zmienKolNS);
 app.put('/glosowanie', routes.zmienZawGlos);
 app.put('/zmienStatusWG/:nazwa', routes.zmienStatusWG);
+app.put('/zmienStatusOc/:id', routes.zmienStatusOc);
+app.put('/zmienStatusZak/', routes.zmienStatuZak);
+app.put('/zapiszOceny/:t/:g/:k/:n/:r/:sedzia/:ns', routes.zapiszOceny);
 
 app.delete('/usunLS/:id', routes.usunLS);
 app.delete('/usunGr2/:nazwa', routes.usunGr2);
