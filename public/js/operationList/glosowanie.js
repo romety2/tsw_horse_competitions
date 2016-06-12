@@ -1,4 +1,5 @@
 /* jshint browser: true, esnext: true, jquery: true, node: true */
+/* globals sendGroup, sendNS */
 
 $(() => {
     var getPlayer = () =>
@@ -21,6 +22,7 @@ $(() => {
                 for(let i = 0; i < data.length; i++)
                     $(z).append("<option value='"+data[i]._zaw+"'>"+data[i].nrStartowy+". "+data[i].nazwa+", "+data[i].imie+" "+data[i].nazwisko+"</option>");
                 document.getElementById('nGr').innerHTML = wg.value;
+                sendGroup(wg.value);
                 $('#wybG option')[wg.selectedIndex].remove();
                 wg.disabled = true;
                 },
@@ -30,6 +32,7 @@ $(() => {
     var getNote = () =>
     {
         document.getElementById('nZaw').innerHTML = wz.options[wz.selectedIndex].text;
+        sendNS(wz.options[wz.selectedIndex].text.substring(0, wz.options[wz.selectedIndex].text.indexOf('.')));
         $('#wybZ option')[wz.selectedIndex].remove();
         wz.disabled = true;
         zo.disabled = false;

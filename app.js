@@ -132,13 +132,25 @@ httpsServer.listen(app.get('port'), app.get('host'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });
 
-io.sockets.on("connection", function (socket) {
-    /*socket.on("setting", function (zakres, rodzaj) {
-        console.log(zakres+' '+rodzaj);
-        socket.broadcast.emit("echoSetting", zakres, rodzaj);
-    });*/
-});
-
 /*app.listen(app.get('port'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });*/
+
+
+io.sockets.on("connection", function (socket) {
+    socket.on("userJoin", function (j) {
+        if(socket.dolaczyl)
+            socket.leave(socket.dolaczyl);
+        socket.dolaczyl = j;
+        socket.join(j);
+    });
+    socket.on("userLeave", function () {
+        socket.leave(socket.dolaczyl);
+    });
+    socket.on("przekazGrupe", function(g){
+        socket.broadcast.emit("echoPrzekazGrupe", g);
+    });
+    socket.on("przekazNS", function(g){
+        socket.broadcast.emit("echoPrzekazNS", g);
+    });
+});
