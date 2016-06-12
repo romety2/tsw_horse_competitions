@@ -106,6 +106,7 @@ app.put('/wstawSedz/:grupa', routes.wstawSedz);
 app.put('/usunSedz/:grupa', routes.usunSedz);
 app.put('/zmienKolNS/:id1/:id2', routes.zmienKolNS);
 app.put('/glosowanie', routes.zmienZawGlos);
+app.put('/zmienStatusWG/:nazwa', routes.zmienStatusWG);
 
 app.delete('/usunLS/:id', routes.usunLS);
 app.delete('/usunGr2/:nazwa', routes.usunGr2);
@@ -135,7 +136,6 @@ httpsServer.listen(app.get('port'), app.get('host'), function () {
 /*app.listen(app.get('port'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });*/
-
 
 io.sockets.on("connection", function (socket) {
     socket.on("userJoin", function (j) {

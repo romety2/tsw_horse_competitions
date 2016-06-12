@@ -7,6 +7,10 @@ $(() => {
         if(wg.value)
         {
             $.ajax({
+                url: "/zmienStatusWG/"+wg.value,
+                method: 'PUT',
+                }); 
+            $.ajax({
                 url: "/pobierzSedziowWGr/"+wg.value,
                 method: 'GET',
                 success: (data) => {

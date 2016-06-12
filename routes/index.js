@@ -2,7 +2,7 @@
 
 var temp;
 /* nowe zawody */
-var zwNZak, zaw, sedz, fkLS, fkGr;
+var zwNZak, zaw, sedz, fkLS, fkGr, fkOc;
 /* ustawienia zawodów */
 var zwNZak2;
 
@@ -192,6 +192,10 @@ exports.zmienZawGlos = (req, res) =>  {
     createTableNotes('../models/notes.js', '../models/competition.js');
 };
 
+exports.zmienStatusWG = (req, res) => {
+    updateStatusOc('../models/notes.js', req.params.nazwa ,'wg');
+};
+
 exports.wstawGr = (req, res) =>  {
     updateColumn(req.body._gr, 'gr', req.params.id, '../models/startingList.js');
     res.redirect('/grupy');
@@ -228,6 +232,7 @@ exports.ocenianie = (req, res) =>  {
 exports.pobUst = (req, res) => {
     res.json(pobUst('../models/competition.js'));
 };
+
 
 var openPDF = (fp, res) => {
     var fs = require('fs');
@@ -281,7 +286,7 @@ var readAllSedz = (schema, rol) => {
     });
 };
 
-var getFKZwNZak = (schema, pLS, pGr) => {
+var getFKZwNZak = (schema, pLS, pGr, pOc) => {
     var O = require(schema);
     if(zwNZak.etap === 'tworzenie')
     {
@@ -290,6 +295,9 @@ var getFKZwNZak = (schema, pLS, pGr) => {
         });
         O.findOne({etap: 'tworzenie'}).populate(pGr).exec((err, o) => {
             fkGr = o.grupy;
+        });
+        O.findOne({etap: 'tworzenie'}).populate(pOc).exec((err, o) => {
+            fkOc = o.oceny;
         });
     }
     else if(zwNZak.etap === 'dzielenie')
@@ -300,6 +308,9 @@ var getFKZwNZak = (schema, pLS, pGr) => {
         O.findOne({etap: 'dzielenie'}).populate(pGr).exec((err, o) => {
             fkGr = o.grupy;
         });
+        O.findOne({etap: 'dzielenie'}).populate(pOc).exec((err, o) => {
+            fkOc = o.oceny;
+        });
     }
     else if(zwNZak.etap === 'rozpoczete')
     {
@@ -308,6 +319,9 @@ var getFKZwNZak = (schema, pLS, pGr) => {
         });
         O.findOne({etap: 'rozpoczete'}).populate(pGr).exec((err, o) => {
             fkGr = o.grupy;
+        });
+        O.findOne({etap: 'rozpoczete'}).populate(pOc).exec((err, o) => {
+            fkOc = o.oceny;
         });
     }
 };
@@ -393,7 +407,7 @@ var readZwNZak = (schema) => {
         }
         else
         {
-            getFKZwNZak('../models/competition.js' ,'ls', 'grupy');
+            getFKZwNZak('../models/competition.js' ,'ls', 'grupy', 'oceny');
         }
     });
 };
@@ -680,4 +694,20 @@ var pobUst = (schema) =>
         return {zakres: zwNZak2.zakres, rodzaj: zwNZak2.rodzaj};
     else
         return '';
+};
+
+var updateStatusOc = (schema, grupa, status) =>
+{
+    var underscore = require('underscore');
+    var id, pm, i;
+    var O = require(schema);
+    if(status === 'wg')
+    {
+        id = underscore.find(fkGr, (g) => { return g.nazwa === grupa; })._id;
+        pm = underscore.keys(underscore.indexBy(underscore.filter(fkLS, (ls) => { return ls._gr.toString() === id.toString();}), "_id"));
+        underscore.map(fkOc, (oc) => { return pm.indexOf(oc.zawodnik.toString()) !== -1 ? oc.status = 'wg' : oc ;});
+        pm = underscore.filter(fkOc, (ls) => { return ls.status === 'wg';});
+        for(i = 0; i < pm.length; i++)
+            O.update({_id: pm[i]._id}, {$set: {status: 'wg'}}, () => {});
+    }
 };
