@@ -160,4 +160,7 @@ io.sockets.on("connection", function (socket) {
     socket.on("przekazOcene", function (ocena, kategoria, uzytkownik) {
             socket.broadcast.emit("echoPrzekazOcene", ocena, kategoria, uzytkownik);
     });
+    socket.on("brakOcen", function(text, user){
+        socket.broadcast.to(user).emit("echoPokazKomunikat", text);
+    });
 });

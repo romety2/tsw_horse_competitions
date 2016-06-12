@@ -18,8 +18,16 @@ socket.on("error", function (err) {
     
 socket.on("echoPrzekazGrupe", function (g) {
         document.getElementById('nGr').innerHTML = g;
+        document.getElementById('komunikat').style.display = 'none';
     });
 
 socket.on("echoPrzekazNS", function (ns) {
         document.getElementById('nSt').innerHTML = ", Nr startowy: "+ns;
+        document.getElementById('komunikat').style.display = 'none';
+    });
+
+socket.on("echoPokazKomunikat", function (k) {
+        var kom = document.getElementById('komunikat');
+        kom.innerHTML = k;
+        kom.style.display = 'block';
     });

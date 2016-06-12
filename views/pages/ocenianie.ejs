@@ -11,14 +11,16 @@
     <body id="body" class="body-show">
         <% include ../partials/menu %>
         <div>
-            <h1 class="text-center">Ocena</h1>
-            <div class="text-center">
-                <div class="widok-row widok-center">
-                    <h3 id="nGr">Grupa</h3>
-                    <h3 id="nSt">, Nr startowy: </h3>
-                </div>
-            </div>
             <div class="opis">
+                <h1 class="text-center">Ocena</h1>
+                <div id="komunikat" class="alert alert-danger ukryty">
+                </div>
+                <div class="text-center">
+                    <div class="widok-row widok-center">
+                        <h3 id="nGr">Obecnie brak konia do oceny</h3>
+                        <h3 id="nSt"></h3>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-2 ocena-opis">Typ: </label>
                     <input style="width: 55%;" id="STyp" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0"/>

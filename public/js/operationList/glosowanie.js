@@ -1,5 +1,5 @@
 /* jshint browser: true, esnext: true, jquery: true, node: true */
-/* globals sendGroup, sendNS */
+/* globals sendGroup, sendNS, noneVoteError */
 
 $(() => {
     var getPlayer = () =>
@@ -58,12 +58,56 @@ $(() => {
     
     var actionClickEndVote = () =>
     {
-        wz.disabled = false;
-        if(wz.options.length === 0)
-            wg.disabled = false;
-        if(wg.options.length === 0)
-            zz.disabled = false;
-        zo.disabled = true;
+        var t = $('.temp');
+        var tt = $('.temp .typ'), tg = $('.temp .glowa'), tk = $('.temp .kloda'), tn = $('.temp .nogi'), tr = $('.temp .ruch');
+        if(sprOceny())
+        {
+            wz.disabled = false;
+            if(wz.options.length === 0)
+                wg.disabled = false;
+            if(wg.options.length === 0)
+                zz.disabled = false;
+            zo.disabled = true;
+            for(let i = 0; i < t.length; i++)
+            {
+                $(tt[i]).text('');
+                $(tg[i]).text('');
+                $(tk[i]).text('');
+                $(tn[i]).text('');
+                $(tr[i]).text('');
+            }
+        }
+    };
+    
+    var sprOceny = () =>
+    {
+        var t = $('.temp');
+        var v = true;
+        var text = 'Ocenianie powinno zostać zakończone. Proszę wypełnić oceny za:';
+        var tt = $('.temp .typ'), tg = $('.temp .glowa'), tk = $('.temp .kloda'), tn = $('.temp .nogi'), tr = $('.temp .ruch');
+        for(let i = 0; i < t.length; i++)
+        {
+            if($(tt[i]).text().length === 0 ||
+               $(tg[i]).text().length === 0 ||
+               $(tk[i]).text().length === 0 ||
+               $(tn[i]).text().length === 0 ||
+               $(tr[i]).text().length === 0)
+                {
+                    v = false;
+                    if($(tt[i]).text().length === 0)
+                        text+=' TYP';
+                    if($(tg[i]).text().length === 0)
+                        text+=' GŁOWĘ';
+                    if($(tk[i]).text().length === 0)
+                        text+=' KŁODĘ';
+                    if($(tn[i]).text().length === 0)
+                        text+=' NOGI';
+                    if($(tr[i]).text().length === 0)
+                        text+=' RUCH';
+                    noneVoteError(text, $(t)[i].id);
+                }
+        }
+        return v;
     };
     
     var wg = document.getElementById('wybG');

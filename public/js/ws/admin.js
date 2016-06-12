@@ -7,6 +7,8 @@ var sendGroup = (text, users) => { socket.emit("przekazGrupe", text, users); };
 
 var sendNS = (text, users) => { socket.emit("przekazNS", text, users); };
 
+var noneVoteError = (text, user) => { socket.emit("brakOcen", text, user); };
+
 socket.on('connect', function () {
     });
 
