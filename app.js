@@ -88,6 +88,7 @@ app.get('/pobierzLSZwNZakWGr/:grupa', routes.pobierzLSZwNZakGrWgGr);
 app.get('/pobierzSedziowNWGr/:grupa', routes.pobierzSedziowNWGr);
 app.get('/pobierzSedziowWGr/:grupa', routes.pobierzSedziowWGr);
 app.get('/walidacjaGr', routes.walidacjaGr);
+app.get('/pobUst', routes.pobUst);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
@@ -131,12 +132,13 @@ httpsServer.listen(app.get('port'), app.get('host'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });
 
+io.sockets.on("connection", function (socket) {
+    /*socket.on("setting", function (zakres, rodzaj) {
+        console.log(zakres+' '+rodzaj);
+        socket.broadcast.emit("echoSetting", zakres, rodzaj);
+    });*/
+});
+
 /*app.listen(app.get('port'), function () {
     console.log("Serwer nasłuchuje na porcie " + app.get('port'));
 });*/
-
-io.sockets.on("connection", function (socket) {
-    socket.on("test", function (username, room) {
-		console.log('test');
-    });
-});

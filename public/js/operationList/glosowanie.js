@@ -8,9 +8,7 @@ $(() => {
             method: 'GET',
             success: (data) => {
                 $("#tabela .temp").remove();
-                console.log(data);
                 var tb = document.getElementById('tabela');
-                console.log(tb);
                 for(let i = 0; i < data.length; i++)
                     $(tb).append("<tr id="+data[i].username+" class='temp'><td>"+data[i].imie+" "+data[i].nazwisko+"</td><td class='typ'></td><td class='glowa'></td><td class='kloda'></td><td class='nogi'></td><td class='ruch'></td></tr>");
                 },

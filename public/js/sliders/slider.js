@@ -1,46 +1,92 @@
 /* jshint browser: true, esnext: true, jquery: true, node: true */
 
 $(() => {
-    {
-        $('#STyp').slider({
-            //tooltip: 'always'
-        });
-    
-        $('#STyp').on("change", (e) => {
-            $("#ocenaT").text(e.value.newValue);
-        });
-        
-        $('#SGlowa').slider({
-            //tooltip: 'always'
-        });
+    {                       
+        var st = document.getElementById('STyp');
+        var sg = document.getElementById('SGlowa');
+        var sk = document.getElementById('SKloda');
+        var sn = document.getElementById('SNogi');
+        var sr = document.getElementById('SRuch');
+        $.ajax({
+            url: "/pobUst",
+            method: 'GET',
+            success: (data) => {
+                if(data !== '')
+                {
+                    if(data.zakres === '10')
+                    {
+                        st.setAttribute("data-slider-max", '10');
+                        sg.setAttribute("data-slider-max", '10');
+                        sk.setAttribute("data-slider-max", '10');
+                        sn.setAttribute("data-slider-max", '10');
+                        sr.setAttribute("data-slider-max", '10');
+                    }
+                    else
+                    {
+                        st.setAttribute("data-slider-max", '20');
+                        sg.setAttribute("data-slider-max", '20');
+                        sk.setAttribute("data-slider-max", '20');
+                        sn.setAttribute("data-slider-max", '20');
+                        sr.setAttribute("data-slider-max", '20');
+                    }
+                    if(data.rodzaj === 'c')
+                    {
+                        st.setAttribute("data-slider-step", '1');
+                        sg.setAttribute("data-slider-step", '1');
+                        sk.setAttribute("data-slider-step", '1');
+                        sn.setAttribute("data-slider-step", '1');
+                        sr.setAttribute("data-slider-step", '1');
+                    }
+                    else
+                    {
+                        st.setAttribute("data-slider-step", '0.5');
+                        sg.setAttribute("data-slider-step", '0.5');
+                        sk.setAttribute("data-slider-step", '0.5');
+                        sn.setAttribute("data-slider-step", '0.5');
+                        sr.setAttribute("data-slider-step", '0.5');
+                    }
+                    $('#STyp').slider({
+                        //tooltip: 'always'
+                    });
 
-        $('#SGlowa').on("change", (e) => {
-            $("#ocenaG").text(e.value.newValue);
-        });
-        
-        $('#SKloda').slider({
-            //tooltip: 'always'
-        });
+                    $('#STyp').on("change", (e) => {
+                        $("#ocenaT").text(e.value.newValue);
+                    });
 
-        $('#SKloda').on("change", (e) => {
-            $("#ocenaK").text(e.value.newValue);
-        });
-        
-        $('#SNogi').slider({
-            //tooltip: 'always'
-        });
+                    $('#SGlowa').slider({
+                        //tooltip: 'always'
+                    });
 
-        
-        $('#SNogi').on("change", (e) => {
-            $("#ocenaN").text(e.value.newValue);
-        });
-        
-        $('#SRuch').slider({
-            //tooltip: 'always'
-        });
+                    $('#SGlowa').on("change", (e) => {
+                        $("#ocenaG").text(e.value.newValue);
+                    });
 
-        $('#SRuch').on("change", (e) => {
-            $("#ocenaR").text(e.value.newValue);
-        });
+                    $('#SKloda').slider({
+                        //tooltip: 'always'
+                    });
+
+                    $('#SKloda').on("change", (e) => {
+                        $("#ocenaK").text(e.value.newValue);
+                    });
+
+                    $('#SNogi').slider({
+                        //tooltip: 'always'
+                    });
+
+
+                    $('#SNogi').on("change", (e) => {
+                        $("#ocenaN").text(e.value.newValue);
+                    });
+
+                    $('#SRuch').slider({
+                        //tooltip: 'always'
+                    });
+
+                    $('#SRuch').on("change", (e) => {
+                        $("#ocenaR").text(e.value.newValue);
+                    });
+                }
+            },
+        }); 
     }
 });

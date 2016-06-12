@@ -3,6 +3,8 @@
 var temp;
 /* nowe zawody */
 var zwNZak, zaw, sedz, fkLS, fkGr;
+/* ustawienia zawodów */
+var zwNZak2;
 
 require('../models/startingList');
 
@@ -219,7 +221,12 @@ exports.walidacjaGr = (req, res) =>  {
 };
 
 exports.ocenianie = (req, res) =>  {
+    readZwNZak2('../models/competition.js');
     res.render('pages/ocenianie', { user : req.user, login: req.isAuthenticated() });
+};
+
+exports.pobUst = (req, res) => {
+    res.json(pobUst('../models/competition.js'));
 };
 
 var openPDF = (fp, res) => {
@@ -388,6 +395,14 @@ var readZwNZak = (schema) => {
         {
             getFKZwNZak('../models/competition.js' ,'ls', 'grupy');
         }
+    });
+};
+
+var readZwNZak2 = (schema) => {
+    var O = require(schema);
+    O.find((err, o) => {
+        var underscore = require('underscore');
+        zwNZak2 = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
     });
 };
 
@@ -657,4 +672,12 @@ var createTableNotes = (schema , s2) =>
                 zwNZak.oceny.push(create({typ: '', glowa: '', kloda: '', nogi: '', ruch: '', status: 'n', sedzia: fkGr[i].sedziowie[k].toString(), zawodnik: tb[j]._id.toString(),}, '../models/notes.js'));
     }
     O.update({_id: zwNZak._id}, {$set: {oceny: zwNZak.oceny}}, () => {});
+};
+
+var pobUst = (schema) =>
+{
+    if(zwNZak2 !== '')
+        return {zakres: zwNZak2.zakres, rodzaj: zwNZak2.rodzaj};
+    else
+        return '';
 };
