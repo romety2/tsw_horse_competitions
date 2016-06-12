@@ -4,7 +4,7 @@ var temp;
 /* nowe zawody */
 var zwNZak, zaw, sedz, fkLS, fkGr, fkOc;
 /* ustawienia zawodów */
-var zwNZak2;
+var zwNZak2, sedz2, fkLS2, fkGr2, fkOc2;
 
 require('../models/startingList');
 
@@ -234,6 +234,7 @@ exports.walidacjaGr = (req, res) =>  {
 
 exports.ocenianie = (req, res) =>  {
     readZwNZak2('../models/competition.js');
+    readAllSedz2('../models/user.js', 'Sędzia');
     res.render('pages/ocenianie', { user : req.user, login: req.isAuthenticated() });
 };
 
@@ -243,6 +244,10 @@ exports.pobUst = (req, res) => {
 
 exports.zapiszOceny = (req, res) => {
     zapOcene(req.params.t, req.params.g,  req.params.k,  req.params.n,  req.params.r, req.params.sedzia, req.params.ns, '../models/notes.js');
+};
+
+exports.sprCzyNieOceniam = (req, res) => {
+    res.json(sprPlayerOInLogin(req.params.login));
 };
 
 
@@ -429,8 +434,57 @@ var readZwNZak2 = (schema) => {
     O.find((err, o) => {
         var underscore = require('underscore');
         zwNZak2 = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
+        if(zwNZak2 !== '')
+             getFKZwNZak2('../models/competition.js' ,'ls', 'grupy', 'oceny');
     });
 };
+var getFKZwNZak2 = (schema, pLS, pGr, pOc) => {
+    var O = require(schema);
+    if(zwNZak2.etap === 'tworzenie')
+    {
+        O.findOne({etap: 'tworzenie'}).populate(pLS).exec((err, o) => {
+            fkLS2 = o.ls;
+        });
+        O.findOne({etap: 'tworzenie'}).populate(pGr).exec((err, o) => {
+            fkGr2 = o.grupy;
+        });
+        O.findOne({etap: 'tworzenie'}).populate(pOc).exec((err, o) => {
+            fkOc2 = o.oceny;
+        });
+    }
+    else if(zwNZak2.etap === 'dzielenie')
+    {
+        O.findOne({etap: 'dzielenie'}).populate(pLS).exec((err, o) => {
+            fkLS2 = o.ls;
+        });
+        O.findOne({etap: 'dzielenie'}).populate(pGr).exec((err, o) => {
+            fkGr2 = o.grupy;
+        });
+        O.findOne({etap: 'dzielenie'}).populate(pOc).exec((err, o) => {
+            fkOc2 = o.oceny;
+        });
+    }
+    else if(zwNZak2.etap === 'rozpoczete')
+    {
+        O.findOne({etap: 'rozpoczete'}).populate(pLS).exec((err, o) => {
+            fkLS2 = o.ls;
+        });
+        O.findOne({etap: 'rozpoczete'}).populate(pGr).exec((err, o) => {
+            fkGr2 = o.grupy;
+        });
+        O.findOne({etap: 'rozpoczete'}).populate(pOc).exec((err, o) => {
+            fkOc2 = o.oceny;
+        });
+    }
+};
+
+var readAllSedz2 = (schema, rol) => {
+    var O = require(schema);
+    O.find({role: rol}).exec((err, o) => {
+        sedz2 = o;
+    });
+};
+
 
 var createUser = (object, schema, redirect, req, res) => {
     var User = require(schema);
@@ -748,4 +802,22 @@ var zapOcene = (t, g, k, n, r, login, ns, schema) =>
     console.log(idS);
     console.log(idLS);
     O.update({zawodnik: idLS, sedzia: idS}, {$set: {typ: t, glowa: g, kloda: k, nogi: n, ruch: r}}, () => {});
+};
+
+var sprPlayerOInLogin = (login) =>
+{
+    var underscore = require('underscore');
+    var status = underscore.find(fkOc2, (o2) => { return o2.status === 'o'; }) || '';
+    var user, zaw, gr;
+    if(status !== '')
+    {
+        user = underscore.find(sedz2, (s2) => { return s2.username === login; });
+        if(user._id.toString() === status.sedzia.toString())
+        {
+            zaw = underscore.find(fkLS2, (ls2) => { return ls2._id.toString() === status.zawodnik.toString(); });
+            gr = underscore.find(fkGr2, (gr2) => { return gr2._id.toString() === zaw._gr.toString(); });
+            return {ns: zaw.nrStartowy, grupa: gr.nazwa};
+        }
+    }
+    return '';
 };
