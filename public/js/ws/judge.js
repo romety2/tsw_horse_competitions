@@ -3,8 +3,10 @@
 
 var socket = io.connect(location.host);
 
+var sendVote = (ocena, kategoria, uzytkownik) => { socket.emit("przekazOcene", ocena, kategoria, uzytkownik); };
+
 socket.on('connect', function () {
-        socket.emit("userJoin", 'dd');
+        socket.emit("userJoin", document.getElementById('pokoj').value);
     });
 
 socket.on('disconnect', function () {

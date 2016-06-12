@@ -1,4 +1,5 @@
 /* jshint browser: true, esnext: true, jquery: true, node: true */
+/* globals sendGroup, sendVote */
 
 $(() => {
     {                       
@@ -51,6 +52,7 @@ $(() => {
 
                     $('#STyp').on("change", (e) => {
                         $("#ocenaT").text(e.value.newValue);
+                        sendVote(e.value.newValue, 'typ',  document.getElementById('pokoj').value);
                     });
 
                     $('#SGlowa').slider({
@@ -59,6 +61,7 @@ $(() => {
 
                     $('#SGlowa').on("change", (e) => {
                         $("#ocenaG").text(e.value.newValue);
+                        sendVote(e.value.newValue, 'glowa',  document.getElementById('pokoj').value);
                     });
 
                     $('#SKloda').slider({
@@ -66,6 +69,7 @@ $(() => {
                     });
 
                     $('#SKloda').on("change", (e) => {
+                        sendVote(e.value.newValue, 'kloda',  document.getElementById('pokoj').value);
                         $("#ocenaK").text(e.value.newValue);
                     });
 
@@ -76,6 +80,7 @@ $(() => {
 
                     $('#SNogi').on("change", (e) => {
                         $("#ocenaN").text(e.value.newValue);
+                        sendVote(e.value.newValue, 'nogi',  document.getElementById('pokoj').value);
                     });
 
                     $('#SRuch').slider({
@@ -84,6 +89,7 @@ $(() => {
 
                     $('#SRuch').on("change", (e) => {
                         $("#ocenaR").text(e.value.newValue);
+                        sendVote(e.value.newValue, 'ruch',  document.getElementById('pokoj').value);
                     });
                 }
             },

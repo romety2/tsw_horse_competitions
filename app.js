@@ -66,12 +66,12 @@ app.get('/logowanie', routes.logowanie);
 app.get('/Regulamin', routes.regulamin);
 app.get('/zawody', routes.zawody); //, role.can('access administrator pages')
 app.get('/grupy', routes.grupy); //, role.can('access administrator pages')
+app.get('/glosowanie', routes.glosowanie);
 app.get('/zawodnicy', role.can('access administrator pages'), routes.zawodnicy);
 app.get('/uzytkownicy', role.can('access administrator pages'), routes.uzytkownicy);
 app.get('/zawodnicy/usun/:id', routes.usunZaw);
 app.get('/uzytkownicy/usun/:id', routes.usunUz);
 app.get('/ocenianie', role.can('access judge pages'), routes.ocenianie);
-app.get('/glosowanie', routes.glosowanie);
 app.get('/wyloguj', routes.wyloguj);
 
 app.get('/pobierzW', routes.pobierzW);
@@ -147,10 +147,17 @@ io.sockets.on("connection", function (socket) {
     socket.on("userLeave", function () {
         socket.leave(socket.dolaczyl);
     });
-    socket.on("przekazGrupe", function(g){
-        socket.broadcast.emit("echoPrzekazGrupe", g);
+    socket.on("przekazGrupe", function(g, users){
+        var i;
+        for(i = 0; i < users.length; i++)
+            socket.broadcast.to(users[i].username).emit("echoPrzekazGrupe", g);
     });
-    socket.on("przekazNS", function(g){
-        socket.broadcast.emit("echoPrzekazNS", g);
+    socket.on("przekazNS", function(g, users){
+        var i;
+        for(i = 0; i < users.length; i++)
+            socket.broadcast.to(users[i].username).emit("echoPrzekazNS", g);
+    });
+    socket.on("przekazOcene", function (ocena, kategoria, uzytkownik) {
+            socket.broadcast.emit("echoPrzekazOcene", ocena, kategoria, uzytkownik);
     });
 });

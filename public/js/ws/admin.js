@@ -3,9 +3,9 @@
 
 var socket = io.connect(location.host);
     
-var sendGroup = (text) => { socket.emit("przekazGrupe", text); };
+var sendGroup = (text, users) => { socket.emit("przekazGrupe", text, users); };
 
-var sendNS = (text) => { socket.emit("przekazNS", text); };
+var sendNS = (text, users) => { socket.emit("przekazNS", text, users); };
 
 socket.on('connect', function () {
     });
@@ -14,4 +14,8 @@ socket.on('disconnect', function () {
     });
 
 socket.on("error", function (err) {
+    });
+
+socket.on("echoPrzekazOcene", function (ocena, kategoria, uzytkownik) {
+        console.log($("#"+uzytkownik+" ."+kategoria).text(ocena));
     });

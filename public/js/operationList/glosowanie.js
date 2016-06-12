@@ -4,38 +4,56 @@
 $(() => {
     var getPlayer = () =>
     {
-        $.ajax({
-            url: "/pobierzSedziowWGr/"+wg.value,
-            method: 'GET',
-            success: (data) => {
-                $("#tabela .temp").remove();
-                var tb = document.getElementById('tabela');
-                for(let i = 0; i < data.length; i++)
-                    $(tb).append("<tr id="+data[i].username+" class='temp'><td>"+data[i].imie+" "+data[i].nazwisko+"</td><td class='typ'></td><td class='glowa'></td><td class='kloda'></td><td class='nogi'></td><td class='ruch'></td></tr>");
-                },
-            }); 
-        $.ajax({
-            url: "/pobierzLSZwNZakWGr/"+wg.value,
-            method: 'GET',
-            success: (data) => {
-                var z = document.getElementById('wybZ');
-                for(let i = 0; i < data.length; i++)
-                    $(z).append("<option value='"+data[i]._zaw+"'>"+data[i].nrStartowy+". "+data[i].nazwa+", "+data[i].imie+" "+data[i].nazwisko+"</option>");
-                document.getElementById('nGr').innerHTML = wg.value;
-                sendGroup(wg.value);
-                $('#wybG option')[wg.selectedIndex].remove();
-                wg.disabled = true;
-                },
-            }); 
+        if(wg.value)
+        {
+            $.ajax({
+                url: "/pobierzSedziowWGr/"+wg.value,
+                method: 'GET',
+                success: (data) => {
+                    $("#tabela .temp").remove();
+                    var tb = document.getElementById('tabela');
+                    for(let i = 0; i < data.length; i++)
+                        $(tb).append("<tr id="+data[i].username+" class='temp'><td>"+data[i].imie+" "+data[i].nazwisko+"</td><td class='typ'></td><td class='glowa'></td><td class='kloda'></td><td class='nogi'></td><td class='ruch'></td></tr>");
+                    },
+                }); 
+            $.ajax({
+                url: "/pobierzLSZwNZakWGr/"+wg.value,
+                method: 'GET',
+                success: (data) => {
+                    var z = document.getElementById('wybZ');
+                    for(let i = 0; i < data.length; i++)
+                        $(z).append("<option value='"+data[i]._zaw+"'>"+data[i].nrStartowy+". "+data[i].nazwa+", "+data[i].imie+" "+data[i].nazwisko+"</option>");
+                    document.getElementById('nGr').innerHTML = wg.value;
+                    $.ajax({
+                        url: "/pobierzSedziowWGr/"+wg.value,
+                        method: 'GET',
+                        success: (data) => {
+                            sendGroup(wg.value, data);
+                            $('#wybG option')[wg.selectedIndex].remove();
+                            wg.disabled = true;
+                        },
+                    });
+                    },
+                }); 
+            }
     };
     
     var getNote = () =>
     {
-        document.getElementById('nZaw').innerHTML = wz.options[wz.selectedIndex].text;
-        sendNS(wz.options[wz.selectedIndex].text.substring(0, wz.options[wz.selectedIndex].text.indexOf('.')));
-        $('#wybZ option')[wz.selectedIndex].remove();
-        wz.disabled = true;
-        zo.disabled = false;
+        if(wz.value)
+        {
+            document.getElementById('nZaw').innerHTML = wz.options[wz.selectedIndex].text;
+            $.ajax({
+                url: "/pobierzSedziowWGr/"+$('#nGr').text(),
+                method: 'GET',
+                success: (data) => {
+                    sendNS(wz.options[wz.selectedIndex].text.substring(0, wz.options[wz.selectedIndex].text.indexOf('.')), data);
+                    $('#wybZ option')[wz.selectedIndex].remove();
+                },
+            });
+            wz.disabled = true;
+            zo.disabled = false;
+        }
     };
     
     var actionClickEndVote = () =>

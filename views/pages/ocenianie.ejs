@@ -7,6 +7,7 @@
         <script src="/js/ws/socket.io.js"></script>
         <script src="/js/ws/judge.js"></script>
     </head>
+    <input type='text' id='pokoj' class='ukryty' value='<%= user.username %>'>
     <body id="body" class="body-show">
         <% include ../partials/menu %>
         <div>
@@ -34,6 +35,7 @@
                     <label class="col-sm-2 ocena-opis">Kłoda: </label>
                     <input style="width: 55%;" id="SKloda" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="0"/>
                     <span id='ocenaK'  class='ocena'></span>
+                    
                 </div>
                 <br>
                 <div class="form-group">
