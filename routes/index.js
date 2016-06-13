@@ -944,17 +944,21 @@ var zapOcene = (t, g, k, n, r, login, ns, schema) =>
 var sprPlayerOInLogin = (login) =>
 {
     var underscore = require('underscore');
-    var status = underscore.find(fkOc2, (o2) => { return o2.status === 'o'; }) || '';
-    var user, zaw, gr;
-    if(status !== '')
+    var status = underscore.filter(fkOc2, (o2) => { return o2.status === 'o'; });
+    var user, zaw, gr, i;
+    var fLS = (ls2) => { return ls2._id.toString() === status[i].zawodnik.toString();};
+    var fGr = (gr2) => { return gr2._id.toString() === zaw._gr.toString();}; 
+    if(status.length !== 0)
     {
         user = underscore.find(sedz2, (s2) => { return s2.username === login; });
-        if(user._id.toString() === status.sedzia.toString())
-        {
-            zaw = underscore.find(fkLS2, (ls2) => { return ls2._id.toString() === status.zawodnik.toString(); });
-            gr = underscore.find(fkGr2, (gr2) => { return gr2._id.toString() === zaw._gr.toString(); });
-            return {ns: zaw.nrStartowy, grupa: gr.nazwa};
-        }
+        for(i = 0; i < status.length; i++)
+            if(user._id.toString() === status[i].sedzia.toString())
+            {
+                zaw = underscore.find(fkLS2, fLS);
+                gr = underscore.find(fkGr2, fGr);
+                i = status.length;
+                return {ns: zaw.nrStartowy, grupa: gr.nazwa};
+            }
     }
     return '';
 };
@@ -1062,7 +1066,7 @@ var pobRanking = () => {
 };
 
 var pobJeszczeRazRanking = (t,g,k,n,r,ns,l) => {
-    var tb, tb2, tb3, uz, uz1, uz2, i, j, id, sr=0, srt=0, srg=0, srk=0, srn=0, srr=0, ile=0;
+    /*var tb, tb2, tb3, uz, uz1, uz2, i, j, id, sr=0, srt=0, srg=0, srk=0, srn=0, srr=0, ile=0;
     var data = [];
     var f = (t) => { return t.zawodnik.toString() === tb2[i];};
     var f2 = (ls) => { return ls._id.toString() === tb2[i]; };
@@ -1079,7 +1083,7 @@ var pobJeszczeRazRanking = (t,g,k,n,r,ns,l) => {
     if(underscore.every(tb, (t) => { return t.typ !== '';}))
     {
         console.log('dziala');     
-    }
+    }*/
     //fkOc3.push({typ: t, glowa: g, kloda: k, nogi: n, ruch: r, status: '', sedzia: null, zawodnik: uz1._id});
     /*if(zwNZak3 !== '')
     {
