@@ -11,5 +11,16 @@ $(() => {
                     $(s).append("<option value='"+data[i].nazwa+"'>"+data[i].nazwa+"  ("+data[i].plec+")"+"</option>");
             },
         }); 
+        
+        $.ajax({
+            url: "/pobierzStatusZwNZak",
+            method: 'GET',
+            success: (data) => {
+                if(data === 'rozpoczete')
+                    document.getElementById('pGl').click();
+                else if(data === 'tworzenie')
+                    document.getElementById('pZw').click();
+            },
+        }); 
     }
 });

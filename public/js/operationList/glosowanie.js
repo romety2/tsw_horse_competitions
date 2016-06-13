@@ -78,7 +78,7 @@ $(() => {
             wz.disabled = false;
             if(wz.options.length === 0)
                 wg.disabled = false;
-            if(wg.options.length === 0)
+            if(wg.options.length === 0 && wz.options.length === 0)
                 zz.disabled = false;
             zo.disabled = true;
             for(let i = 0; i < t.length; i++)
