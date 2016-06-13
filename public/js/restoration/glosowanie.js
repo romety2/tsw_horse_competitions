@@ -48,6 +48,7 @@ $(() => {
             url: "/pobierzOcenianegoLS",
             method: 'GET',
             success: (data) => {
+                    var ns;
                     document.getElementById('zakOc').disabled = true;
                     document.getElementById('zakZaw').disabled = true;
                     if(data !== '')
@@ -55,6 +56,31 @@ $(() => {
                         $("#nZaw").text(data.nrStartowy+'. '+data.nazwa+', '+data.imie+' '+data.nazwisko);
                         document.getElementById('wybZ').disabled = true;
                         document.getElementById('zakOc').disabled = false;
+                        if($('#wybZ option').length === 0)
+                        {
+                        ns = $("#nZaw").text().indexOf('.');
+                        ns = $("#nZaw").text().substring(0, ns);
+                        console.log(ns);
+                        document.getElementById('wybG').disabled = true;
+                        $.ajax({
+                            url: "/pobierzNazweGrZLSWNS/"+ns,
+                            method: 'GET',
+                            success: (data2) => {
+                                $("#nGr").text(data2.nazwa);
+                                $("#nGr").val(data2.nazwa);
+                                $.ajax({
+                                    url: "/pobierzSedziowWGr/"+$("#nGr").text(),
+                                    method: 'GET',
+                                    success: (data3) => {
+                                        $("#tabela .temp").remove();
+                                        var tb = document.getElementById('tabela');
+                                        for(let i = 0; i < data3.length; i++)
+                                            $(tb).append("<tr id="+data3[i].username+" class='temp'><td>"+data3[i].imie+" "+data3[i].nazwisko+"</td><td class='typ'></td><td class='glowa'></td><td class='kloda'></td><td class='nogi'></td><td class='ruch'></td></tr>");
+                                        },
+                                    }); 
+                                },
+                            }); 
+                        }
                     }
                     else
                     {
@@ -63,5 +89,16 @@ $(() => {
                     }
                 },
             });
+        
+        $.ajax({
+            url: "/pobierzStatusZwNZak",
+            method: 'GET',
+            success: (data) => {
+                if(data === 'dzielenie')
+                    document.getElementById('pGr').click();
+                else if(data === 'tworzenie')
+                    document.getElementById('pZw').click();
+            },
+        }); 
     }
 });

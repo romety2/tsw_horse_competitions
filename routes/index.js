@@ -270,6 +270,10 @@ exports.pobierzNazweGrZLS = (req, res) => {
     res.json(pobNazweGrZLS(req.params.id));
 };
 
+exports.pobierzNazweGrZLSWNS = (req, res) => {
+    res.json(pobNazweGrZLSWNS(req.params.id));
+};
+
 exports.pobierzOcenianegoLS = (req, res) => {
     res.json(pobOcenianegoLS());
 };
@@ -288,7 +292,9 @@ exports.jeszczeRazRanking = (req, res) => {
 
 exports.koniecZawodow = (req, res) => {
     updateStatusZwNZak('zakonczone', '../models/competition.js');
-    res.render('index', { user : req.user, login: req.isAuthenticated() });
+};
+exports.pobierzStatusZwNZak = (req, res) => {
+    res.json(pobStatusZwNZak());
 };
 
 var openPDF = (fp, res) => {
@@ -457,7 +463,6 @@ var readZwNZak = (schema) => {
     O.find((err, o) => {
         var underscore = require('underscore');
         zwNZak = underscore.find(o, (o2) => { return o2.etap !== 'zakonczone'; }) || '';
-        console.log(zwNZak);
         if(zwNZak === '')
         {
             zwNZak = create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', is: '1', etap: 'tworzenie'}, '../models/competition.js');
@@ -1007,6 +1012,14 @@ var pobNazweGrZLS = (id) =>
     return(underscore.find(fkGr, (gr) => { return gr._id.toString() === pm._gr.toString() ;}));
 };
 
+var pobNazweGrZLSWNS = (id) =>
+{
+    var i;
+    var underscore = require('underscore');
+    var pm = underscore.find(fkLS, (ls) => { return ls.nrStartowy === id.toString() ;});
+    return(underscore.find(fkGr, (gr) => { return gr._id.toString() === pm._gr.toString() ;}));
+};
+
 var pobOcenianegoLS = () =>
 {
     var i;
@@ -1131,4 +1144,11 @@ var pobJeszczeRazRanking = (t,g,k,n,r,ns,l) => {
             }
     }
 return '';
+};
+
+var pobStatusZwNZak = () => {
+    if(zwNZak !== '')
+        return zwNZak.etap;
+    else
+        return '';
 };

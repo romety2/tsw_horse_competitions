@@ -68,6 +68,7 @@ $(() => {
     var actionClickEndVote = () =>
     {
         var t = $('.temp');
+        console.log(t);
         var tt = $('.temp .typ'), tg = $('.temp .glowa'), tk = $('.temp .kloda'), tn = $('.temp .nogi'), tr = $('.temp .ruch');
         var pm = $(document.getElementById('nZaw')).text().indexOf('.');
         var ns = $(document.getElementById('nZaw')).text().substring(0, pm);
@@ -92,12 +93,12 @@ $(() => {
                 $(tk[i]).text('');
                 $(tn[i]).text('');
                 $(tr[i]).text('');
+                $.ajax({
+                    url: "/zmienStatusZak",
+                    method: 'PUT',
+                }); 
             }
             $(document.getElementById('nZaw')).text('');
-            $.ajax({
-                url: "/zmienStatusZak",
-                method: 'PUT',
-            }); 
         }
     };
     
@@ -135,9 +136,16 @@ $(() => {
     var actionClickCompetition = () =>
     {
         $.ajax({
-            url: "/koniecZawodow",
-            method: 'PUT',
-        });
+            url: "/pobierzStatusZwNZak",
+            method: 'GET',
+            success: () => { 
+                $.ajax({
+                    url: "/koniecZawodow",
+                    method: 'PUT',
+                });
+                document.getElementById('wyjscie').click();
+            },
+        }); 
     };
     
     var wg = document.getElementById('wybG');

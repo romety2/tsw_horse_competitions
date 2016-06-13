@@ -45,8 +45,9 @@ $(() => {
                         sk.setAttribute("data-slider-step", '0.5');
                         sn.setAttribute("data-slider-step", '0.5');
                         sr.setAttribute("data-slider-step", '0.5');
-                    }
-                    $('#STyp').slider({
+                    }  
+                }
+                   $('#STyp').slider({
                         //tooltip: 'always'
                     });
 
@@ -96,8 +97,6 @@ $(() => {
                         $("#ocenaR").text(e.value.newValue);
                         sendVote(e.value.newValue, 'ruch',  document.getElementById('pokoj').value);
                     });
-                    
-                }
             },
         }); 
     }

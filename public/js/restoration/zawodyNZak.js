@@ -39,5 +39,16 @@ $(() => {
                 $(s).append("<option value='"+data[i]._zaw+"'>"+data[i].nrStartowy+". "+data[i].nazwa+", "+data[i].imie+" "+data[i].nazwisko+"</option>");
             },
         }); 
+    
+        $.ajax({
+            url: "/pobierzStatusZwNZak",
+            method: 'GET',
+            success: (data) => {
+                if(data === 'dzielenie')
+                    document.getElementById('pGr').click();
+                else if(data === 'rozpoczete')
+                    document.getElementById('pGl').click();
+            },
+        }); 
     }
 });

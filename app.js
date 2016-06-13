@@ -65,8 +65,8 @@ app.get('/pobierzZas', routes.pobierzZg);
 app.get('/logowanie', routes.logowanie);
 app.get('/livescore', routes.livescore);
 app.get('/Regulamin', routes.regulamin);
-app.get('/zawody', routes.zawody); //, role.can('access administrator pages')
-app.get('/grupy', routes.grupy); //, role.can('access administrator pages')
+app.get('/zawody', role.can('access administrator pages') , routes.zawody);
+app.get('/grupy', role.can('access administrator pages'), routes.grupy);
 app.get('/glosowanie', routes.glosowanie);
 app.get('/zawodnicy', role.can('access administrator pages'), routes.zawodnicy);
 app.get('/uzytkownicy', role.can('access administrator pages'), routes.uzytkownicy);
@@ -94,10 +94,12 @@ app.get('/sprawdzCzyNieOceniam/:login', routes.sprCzyNieOceniam);
 app.get('/pobierzGrNieUzyte', routes.pobierzGrNieUzyte);
 app.get('/pobierzGrWUzyciu', routes.pobierzGrWUzyciu);
 app.get('/pobierzNazweGrZLS/:id', routes.pobierzNazweGrZLS);
+app.get('/pobierzNazweGrZLSWNS/:id', routes.pobierzNazweGrZLSWNS);
 app.get('/pobierzOcenianegoLS', routes.pobierzOcenianegoLS);
 app.get('/pobierzNazweIOpisNzNZak', routes.pobierzNazweIOpisNzNZak);
 app.get('/pobierzRanking', routes.pobierzRanking);
 app.get('/pobierzJeszczeRazRanking/:t/:g/:k/:n/:r/:ns/:l', routes.jeszczeRazRanking);
+app.get('/pobierzStatusZwNZak', routes.pobierzStatusZwNZak);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
