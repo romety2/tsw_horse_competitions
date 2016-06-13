@@ -8,7 +8,7 @@ $(() => {
             if(data !== '')
             {
                 $(document.getElementById('nGr')).text(data.grupa);
-                $(document.getElementById('nSt')).text(', Nr startowy: '+data.ns);
+                $(document.getElementById('nSt')).text('Nr startowy: '+data.ns);
             }
         },
     });

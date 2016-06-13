@@ -22,7 +22,7 @@ socket.on("echoPrzekazGrupe", function (g) {
     });
 
 socket.on("echoPrzekazNS", function (ns) {
-        document.getElementById('nSt').innerHTML = ", Nr startowy: "+ns;
+        document.getElementById('nSt').innerHTML = "Nr startowy: "+ns;
         document.getElementById('komunikat').style.display = 'none';
     });
 

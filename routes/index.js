@@ -1066,13 +1066,14 @@ var pobRanking = () => {
 };
 
 var pobJeszczeRazRanking = (t,g,k,n,r,ns,l) => {
-    /*var tb, tb2, tb3, uz, uz1, uz2, i, j, id, sr=0, srt=0, srg=0, srk=0, srn=0, srr=0, ile=0;
+    var tb, tb2, tb3, uz, uz1, uz2, i, j, id, sr=0, srt=0, srg=0, srk=0, srn=0, srr=0, ile=0;
     var data = [];
     var f = (t) => { return t.zawodnik.toString() === tb2[i];};
     var f2 = (ls) => { return ls._id.toString() === tb2[i]; };
     var underscore = require('underscore');
     uz1 = underscore.find(fkLS3, (ls) => { return ls.nrStartowy.toString() === ns; })._id;
     uz2 = underscore.find(sedz3, (s) => { return s.username.toString() === l; })._id;
+
     id = underscore.find(fkOc3, (o) => { return o.zawodnik.toString() === uz1.toString() && o.sedzia.toString() === uz2.toString(); })._id;
     i = underscore.keys(underscore.indexBy(fkOc3, "_id"));
     fkOc3[i.indexOf(id.toString())].typ=t;
@@ -1080,48 +1081,48 @@ var pobJeszczeRazRanking = (t,g,k,n,r,ns,l) => {
     fkOc3[i.indexOf(id.toString())].kloda=k;
     fkOc3[i.indexOf(id.toString())].nogi=n;
     fkOc3[i.indexOf(id.toString())].ruch=r;
-    if(underscore.every(tb, (t) => { return t.typ !== '';}))
+    fkOc3[i.indexOf(id.toString())].status='z';
+    tb = underscore.filter(fkOc3, (o) => { return o.zawodnik.toString() === uz1.toString() && o.sedzia.toString() === uz2.toString(); });
+    tb2 = underscore.filter(fkOc3, (o) => { return o.zawodnik.toString() === uz1.toString(); });
+    if(underscore.every(tb2, (t) => { return t.typ !== '';}))
     {
-        console.log('dziala');     
-    }*/
-    //fkOc3.push({typ: t, glowa: g, kloda: k, nogi: n, ruch: r, status: '', sedzia: null, zawodnik: uz1._id});
-    /*if(zwNZak3 !== '')
-    {
-        tb = underscore.filter(fkOc3, (o3) => { return o3.status.toString() === 'z';});
-        tb2 = underscore.uniq(underscore.keys(underscore.indexBy(tb, "zawodnik")));
-        for(i = 0; i < tb2.length; i++)
-        {
-            sr=0;
-            srt=0;
-            srg=0;
-            srk=0;
-            srn=0;
-            srr=0;
-            ile=0;
-            tb3 = underscore.filter(tb, f);
-            for(j = 0; j < tb3.length; j++)
+        if(zwNZak3 !== '')
             {
-                srt += parseFloat(tb3[j].typ);
-                srg += parseFloat(tb3[j].glowa);
-                srk += parseFloat(tb3[j].kloda);
-                srn += parseFloat(tb3[j].nogi);
-                srr += parseFloat(tb3[j].ruch);
-                ile++;
+                tb = underscore.filter(fkOc3, (o3) => { return o3.status.toString() === 'z';});
+                tb2 = underscore.uniq(underscore.keys(underscore.indexBy(tb, "zawodnik")));
+                for(i = 0; i < tb2.length; i++)
+                {
+                    sr=0;
+                    srt=0;
+                    srg=0;
+                    srk=0;
+                    srn=0;
+                    srr=0;
+                    ile=0;
+                    tb3 = underscore.filter(tb, f);
+                    for(j = 0; j < tb3.length; j++)
+                    {
+                        srt += parseFloat(tb3[j].typ);
+                        srg += parseFloat(tb3[j].glowa);
+                        srk += parseFloat(tb3[j].kloda);
+                        srn += parseFloat(tb3[j].nogi);
+                        srr += parseFloat(tb3[j].ruch);
+                        ile++;
+                    }
+                    srt /= ile;
+                    srg /= ile;
+                    srk /= ile;
+                    srn /= ile;
+                    srr /= ile;
+                    sr = (srt + srg + srk +srn + srr)/5;
+                    uz = underscore.find(fkLS3, f2);
+                    data.push({miejsce: 0, nazwa: uz.nazwa, hodowca: uz.imie+' '+uz.nazwisko, typ: srt, glowa: srg, kloda: srk, nogi: srn, ruch: srr, wynik: sr});
+                }
+                data = underscore.sortBy(data, 'wynik', 'typ', 'ruch').reverse();
+                for(i = 0; i < data.length; i++)
+                    data[i].miejsce=i+1;
+                return data;
             }
-            srt /= ile;
-            srg /= ile;
-            srk /= ile;
-            srn /= ile;
-            srr /= ile;
-            sr = (srt + srg + srk +srn + srr)/5;
-            uz = underscore.find(fkLS3, f2);
-            data.push({miejsce: 0, nazwa: uz.nazwa, hodowca: uz.imie+' '+uz.nazwisko, typ: srt, glowa: srg, kloda: srk, nogi: srn, ruch: srr, wynik: sr});
-        }
-        data = underscore.sortBy(data, 'wynik', 'typ', 'ruch').reverse();
-        for(i = 0; i < data.length; i++)
-            data[i].miejsce=i+1;
-        return data;
     }
-    else
-        return '';*/
+return '';
 };
