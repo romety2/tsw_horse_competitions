@@ -286,6 +286,11 @@ exports.jeszczeRazRanking = (req, res) => {
     res.json(pobJeszczeRazRanking(req.params.t, req.params.g, req.params.k, req.params.n, req.params.r, req.params.ns, req.params.l));
 };
 
+exports.koniecZawodow = (req, res) => {
+    updateStatusZwNZak('zakonczone', '../models/competition.js');
+    res.render('index', { user : req.user, login: req.isAuthenticated() });
+};
+
 var openPDF = (fp, res) => {
     var fs = require('fs');
     var filePath = fp;
@@ -451,7 +456,8 @@ var readZwNZak = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
         var underscore = require('underscore');
-        zwNZak = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
+        zwNZak = underscore.find(o, (o2) => { return o2.etap !== 'zakonczone'; }) || '';
+        console.log(zwNZak);
         if(zwNZak === '')
         {
             zwNZak = create({wydarzenie: '', opis: '', zakres: '10', rodzaj: 'c', is: '1', etap: 'tworzenie'}, '../models/competition.js');
@@ -468,7 +474,7 @@ var readZwNZak2 = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
         var underscore = require('underscore');
-        zwNZak2 = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
+        zwNZak2 = underscore.find(o, (o2) => { return o2.etap !== 'zakonczone'; }) || '';
         if(zwNZak2 !== '')
              getFKZwNZak2('../models/competition.js' ,'ls', 'grupy', 'oceny');
     });
@@ -525,7 +531,7 @@ var readZwNZak3 = (schema) => {
     var O = require(schema);
     O.find((err, o) => {
         var underscore = require('underscore');
-        zwNZak3 = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
+        zwNZak3 = underscore.find(o, (o2) => { return o2.etap !== 'zakonczone'; }) || '';
         if(zwNZak3 !== '')
              getFKZwNZak3('../models/competition.js' ,'ls', 'grupy', 'oceny');
     });

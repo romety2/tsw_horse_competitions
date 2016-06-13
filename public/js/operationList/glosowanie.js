@@ -132,6 +132,14 @@ $(() => {
         return v;
     };
     
+    var actionClickCompetition = () =>
+    {
+        $.ajax({
+            url: "/koniecZawodow",
+            method: 'PUT',
+        });
+    };
+    
     var wg = document.getElementById('wybG');
     var wz = document.getElementById('wybZ');
     var dg = document.getElementById('dodajG-button');
@@ -143,4 +151,5 @@ $(() => {
     dz.addEventListener('click', getNote, false);
     wz.addEventListener('dblclick', getNote, false);
     zo.addEventListener('click', actionClickEndVote, false);
+    zz.addEventListener('click', actionClickCompetition, false);
 });

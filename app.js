@@ -119,6 +119,7 @@ app.put('/zmienStatusWG/:nazwa', routes.zmienStatusWG);
 app.put('/zmienStatusOc/:id', routes.zmienStatusOc);
 app.put('/zmienStatusZak/', routes.zmienStatusZak);
 app.put('/zapiszOceny/:t/:g/:k/:n/:r/:sedzia/:ns', routes.zapiszOceny);
+app.put('/koniecZawodow', routes.koniecZawodow);
 
 app.delete('/usunLS/:id', routes.usunLS);
 app.delete('/usunGr2/:nazwa', routes.usunGr2);
