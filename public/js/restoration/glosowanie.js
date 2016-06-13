@@ -20,6 +20,8 @@ $(() => {
                 for(let i = 0; i < data.length; i++)
                     $(z).append("<option value='"+data[i]._zaw+"'>"+data[i].nrStartowy+". "+data[i].nazwa+", "+data[i].imie+" "+data[i].nazwisko+"</option>");
                     if(data.length !== 0)
+                    {
+                    document.getElementById('wybG').disabled = true;
                     $.ajax({
                         url: "/pobierzNazweGrZLS/"+data[data.length-1]._id,
                         method: 'GET',
@@ -38,6 +40,7 @@ $(() => {
                                 }); 
                             },
                         }); 
+                    }
                 },
             }); 
         
@@ -45,15 +48,20 @@ $(() => {
             url: "/pobierzOcenianegoLS",
             method: 'GET',
             success: (data) => {
+                    document.getElementById('zakOc').disabled = true;
+                    document.getElementById('zakZaw').disabled = true;
                     if(data !== '')
+                    {
                         $("#nZaw").text(data.nrStartowy+'. '+data.nazwa+', '+data.imie+' '+data.nazwisko);
+                        document.getElementById('wybZ').disabled = true;
+                        document.getElementById('zakOc').disabled = false;
+                    }
+                    else
+                    {
+                         if($("#wybZ option").length === 0 && $("#wybG option").length === 0) 
+                             document.getElementById('zakZaw').disabled = false;
+                    }
                 },
             });
     }
-    var zo = document.getElementById("zakOc");
-    var zz = document.getElementById("zakZaw");
-    var wg = document.getElementById('wybG');
-    var wz = document.getElementById('wybZ');
-    zo.disabled = true;
-    zz.disabled = true;
 });

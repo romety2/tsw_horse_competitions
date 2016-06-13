@@ -814,8 +814,6 @@ var zapOcene = (t, g, k, n, r, login, ns, schema) =>
     var underscore = require('underscore');
     var idS = underscore.find(sedz, (s) => { return s.username === login; })._id;
     var idLS = underscore.find(fkLS, (ls) => { return ls.nrStartowy === ns; })._id;
-    console.log(idS);
-    console.log(idLS);
     O.update({zawodnik: idLS, sedzia: idS}, {$set: {typ: t, glowa: g, kloda: k, nogi: n, ruch: r}}, () => {});
 };
 
