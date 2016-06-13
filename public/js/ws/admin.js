@@ -9,6 +9,8 @@ var sendNS = (text, users) => { socket.emit("przekazNS", text, users); };
 
 var noneVoteError = (text, user) => { socket.emit("brakOcen", text, user); };
 
+var sendRanking = (t, g, k, n, r, ns, l) => { socket.emit("ranking", t, g, k, n, r, ns, l); };
+
 socket.on('connect', function () {
     });
 

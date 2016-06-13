@@ -5,6 +5,8 @@ var temp;
 var zwNZak, zaw, sedz, fkLS, fkGr, fkOc;
 /* ustawienia zawodów */
 var zwNZak2, sedz2, fkLS2, fkGr2, fkOc2;
+/* livescore */
+var zwNZak3, sedz3, fkLS3, fkGr3, fkOc3;
 
 require('../models/startingList');
 
@@ -13,7 +15,7 @@ exports.index = (req, res) => {
 };
 
 exports.kontakt = (req, res) =>  {
-    res.render('pages/kontakt', { user : req.user, login: req.isAuthenticated() });    
+    res.render('pages/kontakt', { user : req.user, login: req.isAuthenticated() });  
 };
 
 exports.zgloszenie = (req, res) =>  {
@@ -59,6 +61,12 @@ exports.glosowanie = (req, res) =>  {
     readAllZaw('../models/player.js');
     readAllSedz('../models/user.js', 'Sędzia');
     res.render('pages/glosowanie', { user : req.user, login: req.isAuthenticated() });    
+};
+
+exports.livescore = (req, res) => {
+    readZwNZak3('../models/competition.js');
+    readAllSedz3('../models/user.js', 'Sędzia');
+    res.render('pages/livescore', { user : req.user, login: req.isAuthenticated() });  
 };
 
 exports.zawodnicy = (req, res) =>  {
@@ -200,7 +208,7 @@ exports.zmienStatusOc = (req, res) => {
     updateStatusOc('../models/notes.js', req.params.id ,'o');
 };
 
-exports.zmienStatuZak = (req, res) => {
+exports.zmienStatusZak = (req, res) => {
     updateStatusOc('../models/notes.js', '' ,'z');
 };
 
@@ -264,6 +272,18 @@ exports.pobierzNazweGrZLS = (req, res) => {
 
 exports.pobierzOcenianegoLS = (req, res) => {
     res.json(pobOcenianegoLS());
+};
+
+exports.pobierzNazweIOpisNzNZak = (req, res) => {
+    res.json(pobNazweIOpisNzNZak());
+};
+
+exports.pobierzRanking = (req, res) => {
+    res.json(pobRanking());
+};
+
+exports.jeszczeRazRanking = (req, res) => {
+    res.json(pobJeszczeRazRanking(req.params.t, req.params.g, req.params.k, req.params.n, req.params.r, req.params.ns, req.params.l));
 };
 
 var openPDF = (fp, res) => {
@@ -453,6 +473,7 @@ var readZwNZak2 = (schema) => {
              getFKZwNZak2('../models/competition.js' ,'ls', 'grupy', 'oceny');
     });
 };
+
 var getFKZwNZak2 = (schema, pLS, pGr, pOc) => {
     var O = require(schema);
     if(zwNZak2.etap === 'tworzenie')
@@ -498,6 +519,92 @@ var readAllSedz2 = (schema, rol) => {
     O.find({role: rol}).exec((err, o) => {
         sedz2 = o;
     });
+};
+
+var readZwNZak3 = (schema) => {
+    var O = require(schema);
+    O.find((err, o) => {
+        var underscore = require('underscore');
+        zwNZak3 = underscore.find(o, () => { return o.etap !== 'zakonczone'; }) || '';
+        if(zwNZak3 !== '')
+             getFKZwNZak3('../models/competition.js' ,'ls', 'grupy', 'oceny');
+    });
+};
+
+var getFKZwNZak3 = (schema, pLS, pGr, pOc) => {
+    var O = require(schema);
+    if(zwNZak3.etap === 'tworzenie')
+    {
+        O.findOne({etap: 'tworzenie'}).populate(pLS).exec((err, o) => {
+            fkLS3 = o.ls;
+        });
+        O.findOne({etap: 'tworzenie'}).populate(pGr).exec((err, o) => {
+            fkGr3 = o.grupy;
+        });
+        O.findOne({etap: 'tworzenie'}).populate(pOc).exec((err, o) => {
+            fkOc3 = o.oceny;
+        });
+    }
+    else if(zwNZak3.etap === 'dzielenie')
+    {
+        O.findOne({etap: 'dzielenie'}).populate(pLS).exec((err, o) => {
+            fkLS3 = o.ls;
+        });
+        O.findOne({etap: 'dzielenie'}).populate(pGr).exec((err, o) => {
+            fkGr3 = o.grupy;
+        });
+        O.findOne({etap: 'dzielenie'}).populate(pOc).exec((err, o) => {
+            fkOc3 = o.oceny;
+        });
+    }
+    else if(zwNZak3.etap === 'rozpoczete')
+    {
+        O.findOne({etap: 'rozpoczete'}).populate(pLS).exec((err, o) => {
+            fkLS3 = o.ls;
+        });
+        O.findOne({etap: 'rozpoczete'}).populate(pGr).exec((err, o) => {
+            fkGr3 = o.grupy;
+        });
+        O.findOne({etap: 'rozpoczete'}).populate(pOc).exec((err, o) => {
+            fkOc3 = o.oceny;
+        });
+    }
+};
+
+var readAllSedz3 = (schema, rol) => {
+    var O = require(schema);
+    O.find({role: rol}).exec((err, o) => {
+        sedz3 = o;
+    });
+};
+
+var update = (id, object, schema) => {
+    var O = require(schema);
+    O.update({_id: id}, {$set: object}, () => {});    
+};
+
+var delete2 = (id, schema) => {
+    var O = require(schema);
+    O.remove(O.find({_id: id})).exec();
+};
+
+var add3 = (schema, schema2, type) => {
+    var O = require(schema);
+    var O2 = require(schema2);
+    if(type === 'ls')
+    {
+        O.find((err, o) => {
+            zwNZak.ls.push(o[o.length-1]);
+            O2.update({_id: zwNZak._id}, {$set: {ls: zwNZak.ls}}, () => {});    
+        });   
+    }
+    else if(type === 'g')
+    {
+        O.find((err, o) => {
+            zwNZak.grupy.push(o[o.length-1]);
+            O2.update({_id: zwNZak._id}, {$set: {grupy: zwNZak.grupy}}, () => {});    
+        }); 
+    }
 };
 
 
@@ -758,15 +865,18 @@ var createTableNotes = (schema , s2) =>
     var underscore = require("underscore");
     var f = (ls) => { return ls._gr.toString() === fkGr[i]._id.toString();};
     var O = require(s2);
-    for(i = 0; i < fkGr.length; i++)
+    if(zwNZak.oceny.length === 0)
     {
-        tb = underscore.filter(fkLS, f);
-        dl = tb.length;
-        for(j = 0; j < dl; j++)
-            for(k = 0; k < zwNZak.is; k++)
-                zwNZak.oceny.push(create({typ: '', glowa: '', kloda: '', nogi: '', ruch: '', status: 'n', sedzia: fkGr[i].sedziowie[k].toString(), zawodnik: tb[j]._id.toString(),}, '../models/notes.js'));
+        for(i = 0; i < fkGr.length; i++)
+        {
+            tb = underscore.filter(fkLS, f);
+            dl = tb.length;
+            for(j = 0; j < dl; j++)
+                for(k = 0; k < zwNZak.is; k++)
+                    zwNZak.oceny.push(create({typ: '', glowa: '', kloda: '', nogi: '', ruch: '', status: 'n', sedzia: fkGr[i].sedziowie[k].toString(), zawodnik: tb[j]._id.toString(),}, '../models/notes.js'));
+        }
+        O.update({_id: zwNZak._id}, {$set: {oceny: zwNZak.oceny}}, () => {});
     }
-    O.update({_id: zwNZak._id}, {$set: {oceny: zwNZak.oceny}}, () => {});
 };
 
 var pobUst = (schema) =>
@@ -780,7 +890,7 @@ var pobUst = (schema) =>
 var updateStatusOc = (schema, grupa, status) =>
 {
     var underscore = require('underscore');
-    var id, pm, i;
+    var id, pm, i, j;
     var O = require(schema);
     if(status === 'wg')
     {
@@ -794,27 +904,41 @@ var updateStatusOc = (schema, grupa, status) =>
     else if(status === 'o')
     {
         id = underscore.find(fkLS, (ls) => { return ls._zaw.toString() === grupa; })._id;
-        id = underscore.find(fkOc, (o) => { return o.zawodnik.toString() === id.toString(); })._id;
+        id = underscore.filter(fkOc, (o) => { return o.zawodnik.toString() === id.toString(); });
         i = underscore.keys(underscore.indexBy(fkOc, "_id"));
-        fkOc[i.indexOf(id.toString())].status='o';
-        O.update({_id: id}, {$set: {status: 'o'}}, () => {});
+        for(j = 0; j < id.length; j++)
+        {
+            fkOc[i.indexOf(id[j]._id.toString())].status='o';
+            O.update({_id: id[j]._id}, {$set: {status: 'o'}}, () => {});
+        }
     }
     else if(status === 'z')
     {
-        id = underscore.find(fkOc, (o) => { return o.status.toString() === 'o'; })._id;
+        id = underscore.filter(fkOc, (o) => { return o.status.toString() === 'o'; });
         i = underscore.keys(underscore.indexBy(fkOc, "_id"));
-        fkOc[i.indexOf(id.toString())].status='z';
-        O.update({_id: id}, {$set: {status: 'z'}}, () => {});
+        for(j = 0; j < id.length; j++)
+        {
+            fkOc[i.indexOf(id[j]._id.toString())].status='z';
+            O.update({_id: id[j]._id}, {$set: {status: 'z'}}, () => {});
+        }
     }
 };
 
 var zapOcene = (t, g, k, n, r, login, ns, schema) =>
 {
+    var id, i;
     var O = require(schema);
     var underscore = require('underscore');
     var idS = underscore.find(sedz, (s) => { return s.username === login; })._id;
     var idLS = underscore.find(fkLS, (ls) => { return ls.nrStartowy === ns; })._id;
     O.update({zawodnik: idLS, sedzia: idS}, {$set: {typ: t, glowa: g, kloda: k, nogi: n, ruch: r}}, () => {});
+    id = underscore.find(fkOc, (o) => { return o.zawodnik.toString() === idLS.toString() && o.sedzia.toString() === idS.toString(); })._id;
+    i = underscore.keys(underscore.indexBy(fkOc, "_id"));
+    fkOc[i.indexOf(id.toString())].typ=t;
+    fkOc[i.indexOf(id.toString())].glowa=g;
+    fkOc[i.indexOf(id.toString())].kloda=k;
+    fkOc[i.indexOf(id.toString())].nogi=n;
+    fkOc[i.indexOf(id.toString())].ruch=r;
 };
 
 var sprPlayerOInLogin = (login) =>
@@ -881,4 +1005,119 @@ var pobOcenianegoLS = () =>
     if(pm !== '')
         return underscore.find(fkLS, (ls) => { return ls._id.toString() === pm.zawodnik.toString(); }) || '';
     return '';
+};
+
+var pobNazweIOpisNzNZak = () => {
+    if(zwNZak3 !== '')
+        return {nazwa: zwNZak3.wydarzenie, opis: zwNZak3.opis};
+    else
+        return '';
+};
+
+var pobRanking = () => {
+    var tb, tb2, tb3, uz, i, j, sr=0, srt=0, srg=0, srk=0, srn=0, srr=0, ile=0;
+    var data = [];
+    var f = (t) => { return t.zawodnik.toString() === tb2[i];};
+    var f2 = (ls) => { return ls._id.toString() === tb2[i]; };
+    var underscore = require('underscore');
+    if(zwNZak3 !== '')
+    {
+        tb = underscore.filter(fkOc3, (o3) => { return o3.status.toString() === 'z';});
+        tb2 = underscore.uniq(underscore.keys(underscore.indexBy(tb, "zawodnik")));
+        for(i = 0; i < tb2.length; i++)
+        {
+            sr=0;
+            srt=0;
+            srg=0;
+            srk=0;
+            srn=0;
+            srr=0;
+            ile=0;
+            tb3 = underscore.filter(tb, f);
+            for(j = 0; j < tb3.length; j++)
+            {
+                srt += parseFloat(tb3[j].typ);
+                srg += parseFloat(tb3[j].glowa);
+                srk += parseFloat(tb3[j].kloda);
+                srn += parseFloat(tb3[j].nogi);
+                srr += parseFloat(tb3[j].ruch);
+                ile++;
+            }
+            srt /= ile;
+            srg /= ile;
+            srk /= ile;
+            srn /= ile;
+            srr /= ile;
+            sr = (srt + srg + srk +srn + srr)/5;
+            uz = underscore.find(fkLS3, f2);
+            data.push({miejsce: 0, nazwa: uz.nazwa, hodowca: uz.imie+' '+uz.nazwisko, typ: srt, glowa: srg, kloda: srk, nogi: srn, ruch: srr, wynik: sr});
+        }
+        data = underscore.sortBy(data, 'wynik', 'typ', 'ruch').reverse();
+        for(i = 0; i < data.length; i++)
+            data[i].miejsce=i+1;
+        return data;
+    }
+    else
+        return '';
+};
+
+var pobJeszczeRazRanking = (t,g,k,n,r,ns,l) => {
+    var tb, tb2, tb3, uz, uz1, uz2, i, j, id, sr=0, srt=0, srg=0, srk=0, srn=0, srr=0, ile=0;
+    var data = [];
+    var f = (t) => { return t.zawodnik.toString() === tb2[i];};
+    var f2 = (ls) => { return ls._id.toString() === tb2[i]; };
+    var underscore = require('underscore');
+    uz1 = underscore.find(fkLS3, (ls) => { return ls.nrStartowy.toString() === ns; })._id;
+    uz2 = underscore.find(sedz3, (s) => { return s.username.toString() === l; })._id;
+    id = underscore.find(fkOc3, (o) => { return o.zawodnik.toString() === uz1.toString() && o.sedzia.toString() === uz2.toString(); })._id;
+    i = underscore.keys(underscore.indexBy(fkOc3, "_id"));
+    fkOc3[i.indexOf(id.toString())].typ=t;
+    fkOc3[i.indexOf(id.toString())].glowa=g;
+    fkOc3[i.indexOf(id.toString())].kloda=k;
+    fkOc3[i.indexOf(id.toString())].nogi=n;
+    fkOc3[i.indexOf(id.toString())].ruch=r;
+    if(underscore.every(tb, (t) => { return t.typ !== '';}))
+    {
+        console.log('dziala');     
+    }
+    //fkOc3.push({typ: t, glowa: g, kloda: k, nogi: n, ruch: r, status: '', sedzia: null, zawodnik: uz1._id});
+    /*if(zwNZak3 !== '')
+    {
+        tb = underscore.filter(fkOc3, (o3) => { return o3.status.toString() === 'z';});
+        tb2 = underscore.uniq(underscore.keys(underscore.indexBy(tb, "zawodnik")));
+        for(i = 0; i < tb2.length; i++)
+        {
+            sr=0;
+            srt=0;
+            srg=0;
+            srk=0;
+            srn=0;
+            srr=0;
+            ile=0;
+            tb3 = underscore.filter(tb, f);
+            for(j = 0; j < tb3.length; j++)
+            {
+                srt += parseFloat(tb3[j].typ);
+                srg += parseFloat(tb3[j].glowa);
+                srk += parseFloat(tb3[j].kloda);
+                srn += parseFloat(tb3[j].nogi);
+                srr += parseFloat(tb3[j].ruch);
+                ile++;
+            }
+            srt /= ile;
+            srg /= ile;
+            srk /= ile;
+            srn /= ile;
+            srr /= ile;
+            sr = (srt + srg + srk +srn + srr)/5;
+            uz = underscore.find(fkLS3, f2);
+            data.push({miejsce: 0, nazwa: uz.nazwa, hodowca: uz.imie+' '+uz.nazwisko, typ: srt, glowa: srg, kloda: srk, nogi: srn, ruch: srr, wynik: sr});
+        }
+        data = underscore.sortBy(data, 'wynik', 'typ', 'ruch').reverse();
+        for(i = 0; i < data.length; i++)
+            data[i].miejsce=i+1;
+        return data;
+    }
+    else
+        return '';*/
 };

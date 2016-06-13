@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+   <head>
+        <% include ../partials/head %>
+        <script src="/js/restoration/livescore.js"></script>
+        <script src="/js/ws/socket.io.js"></script>
+        <script src="/js/ws/livescore.js"></script>
+    </head>
+    <body id="body" class="body-show">
+        <% include ../partials/menu %>
+        <div>
+            <h1 class="text-center" id="nazwa"></h1>
+            <p class="text-center" id="opis"></p>
+            <div class="opis">
+                <table id="tabela" class="table table-striped sortable tb-oc">
+                    <tr>
+                        <th>Miejsce</th>
+                        <th>Koń</th>
+                        <th>Hodowca</th>
+                        <th>Typ</th>
+                        <th>Głowa i szyja</th>
+                        <th>Kłoda</th>
+                        <th>Nogi</th>
+                        <th>Ruch</th>
+                        <th>Ogólna ocena</th>
+                    </tr>
+                </table> 
+            </div>
+        </div>
+    </body>
+</html>

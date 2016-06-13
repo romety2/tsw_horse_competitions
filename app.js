@@ -63,6 +63,7 @@ app.get('/kontakt', routes.kontakt);
 app.get('/zgloszenie', routes.zgloszenie);
 app.get('/pobierzZas', routes.pobierzZg);
 app.get('/logowanie', routes.logowanie);
+app.get('/livescore', routes.livescore);
 app.get('/Regulamin', routes.regulamin);
 app.get('/zawody', routes.zawody); //, role.can('access administrator pages')
 app.get('/grupy', routes.grupy); //, role.can('access administrator pages')
@@ -94,6 +95,9 @@ app.get('/pobierzGrNieUzyte', routes.pobierzGrNieUzyte);
 app.get('/pobierzGrWUzyciu', routes.pobierzGrWUzyciu);
 app.get('/pobierzNazweGrZLS/:id', routes.pobierzNazweGrZLS);
 app.get('/pobierzOcenianegoLS', routes.pobierzOcenianegoLS);
+app.get('/pobierzNazweIOpisNzNZak', routes.pobierzNazweIOpisNzNZak);
+app.get('/pobierzRanking', routes.pobierzRanking);
+app.get('/pobierzJeszczeRazRanking/:t/:g/:k/:n/:r/:ns/:l', routes.jeszczeRazRanking);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);
@@ -113,7 +117,7 @@ app.put('/zmienKolNS/:id1/:id2', routes.zmienKolNS);
 app.put('/glosowanie', routes.zmienZawGlos);
 app.put('/zmienStatusWG/:nazwa', routes.zmienStatusWG);
 app.put('/zmienStatusOc/:id', routes.zmienStatusOc);
-app.put('/zmienStatusZak/', routes.zmienStatuZak);
+app.put('/zmienStatusZak/', routes.zmienStatusZak);
 app.put('/zapiszOceny/:t/:g/:k/:n/:r/:sedzia/:ns', routes.zapiszOceny);
 
 app.delete('/usunLS/:id', routes.usunLS);
@@ -170,5 +174,9 @@ io.sockets.on("connection", function (socket) {
     });
     socket.on("brakOcen", function(text, user){
         socket.broadcast.to(user).emit("echoPokazKomunikat", text);
+    });
+    
+    socket.on("ranking", function(t, g, k, n, r, ns, l){
+        socket.broadcast.emit("echoRanking", t, g, k, n, r, ns, l);
     });
 });

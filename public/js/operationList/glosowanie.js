@@ -1,5 +1,5 @@
 /* jshint browser: true, esnext: true, jquery: true, node: true */
-/* globals sendGroup, sendNS, noneVoteError */
+/* globals sendGroup, sendNS, noneVoteError, sendRanking */
 
 $(() => {
     var getPlayer = () =>
@@ -71,6 +71,7 @@ $(() => {
         var tt = $('.temp .typ'), tg = $('.temp .glowa'), tk = $('.temp .kloda'), tn = $('.temp .nogi'), tr = $('.temp .ruch');
         var pm = $(document.getElementById('nZaw')).text().indexOf('.');
         var ns = $(document.getElementById('nZaw')).text().substring(0, pm);
+        var ile = 0;
         if(sprOceny())
         {
             wz.disabled = false;
@@ -85,6 +86,7 @@ $(() => {
                     url:"/zapiszOceny/"+$(tt[i]).text()+"/"+$(tg[i]).text()+"/"+$(tk[i]).text()+"/"+$(tn[i]).text()+"/"+$(tr[i]).text()+"/"+$(t)[i].id+'/'+ns,
                     method: 'PUT',
                 }); 
+                sendRanking($(tt[i]).text(), $(tg[i]).text(), $(tk[i]).text(), $(tn[i]).text(), $(tr[i]).text(), ns, $(t)[i].id);
                 $(tt[i]).text('');
                 $(tg[i]).text('');
                 $(tk[i]).text('');
