@@ -250,6 +250,21 @@ exports.sprCzyNieOceniam = (req, res) => {
     res.json(sprPlayerOInLogin(req.params.login));
 };
 
+exports.pobierzGrNieUzyte = (req, res) => {
+    res.json(pobGrNieUzyte());
+};
+
+exports.pobierzGrWUzyciu = (req, res) => {
+    res.json(pobGrWUzyciu());
+};
+
+exports.pobierzNazweGrZLS = (req, res) => {
+    res.json(pobNazweGrZLS(req.params.id));
+};
+
+exports.pobierzOcenianegoLS = (req, res) => {
+    res.json(pobOcenianegoLS());
+};
 
 var openPDF = (fp, res) => {
     var fs = require('fs');
@@ -819,5 +834,53 @@ var sprPlayerOInLogin = (login) =>
             return {ns: zaw.nrStartowy, grupa: gr.nazwa};
         }
     }
+    return '';
+};
+
+var pobGrNieUzyte = () =>
+{
+    var i;
+    var underscore = require('underscore');
+    var pm = underscore.filter(fkOc, (o) => { return o.status === 'n'; });
+    var f = (ls) => { return pm[i] === ls._id.toString(); };
+    var f2 = (g) => { return gr[i] === g._id.toString(); };
+    var gr = [], data = [];
+    pm = underscore.keys(underscore.indexBy(pm, "zawodnik"));
+    for(i = 0; i < pm.length; i++)
+        gr.push(underscore.find(fkLS, f)._gr.toString());
+    gr = underscore.uniq(gr);
+    for(i = 0; i < gr.length; i++)
+        data.push(underscore.find(fkGr, f2));
+    return underscore.sortBy(data, 'nazwa');
+};
+
+var pobGrWUzyciu = () =>
+{
+    var i;
+    var underscore = require('underscore');
+    var pm = underscore.filter(fkOc, (o) => { return o.status === 'wg'; });
+    var f = (ls) => { return pm[i] === ls._id.toString(); };
+    var data = [];
+    pm = underscore.keys(underscore.indexBy(pm, "zawodnik"));
+    for(i = 0; i < pm.length; i++)
+        data.push(underscore.find(fkLS, f));
+    return underscore.sortBy(data, 'nrStartowe');
+};
+
+var pobNazweGrZLS = (id) =>
+{
+    var i;
+    var underscore = require('underscore');
+    var pm = underscore.find(fkLS, (ls) => { return ls._id.toString() === id.toString() ;});
+    return(underscore.find(fkGr, (gr) => { return gr._id.toString() === pm._gr.toString() ;}));
+};
+
+var pobOcenianegoLS = () =>
+{
+    var i;
+    var underscore = require('underscore');
+    var pm = underscore.find(fkOc, (o) => { return o.status === 'o'; }) || '';
+    if(pm !== '')
+        return underscore.find(fkLS, (ls) => { return ls._id.toString() === pm.zawodnik.toString(); }) || '';
     return '';
 };

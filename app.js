@@ -90,6 +90,10 @@ app.get('/pobierzSedziowWGr/:grupa', routes.pobierzSedziowWGr);
 app.get('/walidacjaGr', routes.walidacjaGr);
 app.get('/pobUst', routes.pobUst);
 app.get('/sprawdzCzyNieOceniam/:login', routes.sprCzyNieOceniam);
+app.get('/pobierzGrNieUzyte', routes.pobierzGrNieUzyte);
+app.get('/pobierzGrWUzyciu', routes.pobierzGrWUzyciu);
+app.get('/pobierzNazweGrZLS/:id', routes.pobierzNazweGrZLS);
+app.get('/pobierzOcenianegoLS', routes.pobierzOcenianegoLS);
 
 app.post('/logowanie', passport.authenticate('local'), routes.zaloguj);
 app.post('/zawodnicy', routes.dodajZaw);

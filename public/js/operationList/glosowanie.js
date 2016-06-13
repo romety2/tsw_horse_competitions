@@ -91,6 +91,7 @@ $(() => {
                 $(tn[i]).text('');
                 $(tr[i]).text('');
             }
+            $(document.getElementById('nZaw')).text('');
             $.ajax({
                 url: "/zmienStatusZak",
                 method: 'PUT',
