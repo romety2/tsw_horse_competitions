@@ -96,7 +96,7 @@ $(() => {
             success: (data) => {
                 if(data === 'dzielenie')
                     document.getElementById('pGr').click();
-                else if(data === 'tworzenie')
+                if(data === 'tworzenie')
                     document.getElementById('pZw').click();
             },
         }); 

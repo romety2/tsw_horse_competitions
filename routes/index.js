@@ -293,8 +293,13 @@ exports.jeszczeRazRanking = (req, res) => {
 exports.koniecZawodow = (req, res) => {
     updateStatusZwNZak('zakonczone', '../models/competition.js');
 };
+
 exports.pobierzStatusZwNZak = (req, res) => {
     res.json(pobStatusZwNZak());
+};
+
+exports.wrocZawody = (req, res) => {
+    updateStatusZwNZak('tworzenie', '../models/competition.js');
 };
 
 var openPDF = (fp, res) => {

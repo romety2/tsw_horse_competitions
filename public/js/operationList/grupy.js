@@ -152,6 +152,21 @@ $(() => {
             }
     };
     
+    var actionBack = () =>
+    {
+        $.ajax({
+            url: "/pobierzStatusZwNZak",
+            method: 'GET',
+            success: () => { 
+                $.ajax({
+                    url: "/wrocZawody",
+                    method: 'PUT',
+                });
+                document.getElementById('pWroc').click();
+            },
+        }); 
+    };
+    
     var ng = 0;
     var lg = document.getElementById('listaGr');
     var wz = document.getElementById('wybZ');
@@ -165,6 +180,7 @@ $(() => {
     var uz = document.getElementById('usunZ-button');
     var ds = document.getElementById('dodajS-button');
     var us = document.getElementById('usunS-button');
+    var wb = document.getElementById('wroc-button');
     dg.addEventListener('click', addGroup, false);
     ug.addEventListener('click', deleteGroup, false);
     pg.addEventListener('click', informationGroup, false);
@@ -177,4 +193,5 @@ $(() => {
     wwz.addEventListener('dblclick', delPlayer, false);
     ws.addEventListener('dblclick', addJudge, false);
     wws.addEventListener('dblclick', delJudge, false);
+    wb.addEventListener('click', actionBack, false);
 });

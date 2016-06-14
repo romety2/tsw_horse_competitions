@@ -16,10 +16,10 @@ $(() => {
             url: "/pobierzStatusZwNZak",
             method: 'GET',
             success: (data) => {
-                if(data === 'rozpoczete')
-                    document.getElementById('pGl').click();
-                else if(data === 'tworzenie')
+                if(data === 'tworzenie')
                     document.getElementById('pZw').click();
+                //else if(data === 'rozpoczete')
+                    //document.getElementById('pGl').click();
             },
         }); 
     }
