@@ -56,7 +56,7 @@ role.use('access administrator pages', roles.administrator);
 
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000);
-app.set('host', process.env.HOST || '127.0.0.1');
+app.set('host', process.env.HOST || '127.0.0.2');
 
 app.get('/', routes.index);
 app.get('/kontakt', routes.kontakt);
